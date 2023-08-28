@@ -10,10 +10,11 @@
    
 - [Section 1](#section-1)
 - [Section 2](#section-2)
+
 ----
 ## Inspiration : Rogue (1980)
 
-![Rogue Game](rogue_screenshot.png)
+![Rogue Game](rogue_screenshot.jpg)
 
 ### Description
 
