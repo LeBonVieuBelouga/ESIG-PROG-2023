@@ -1,20 +1,22 @@
 # README
-*Auteur(s) :* Johan Jaquet, Léo Küttel
-*Version :* V0.1.0
-*Date de mise à jour :* 28.8.2023
-*Date de création :*
-*Description :*
+- Auteur(s) : **Johan Jaquet, Léo Küttel**
+- Version : **V0.1.0**
+- Date de mise à jour : **28.08.2023**
+- Date de création : **28.08.2023**
+- Description :
 
 ----
 ## Table des matières
    
-- [Section 1](#section-1)
-- [Section 2](#section-2)
+- [Inspiration : Rogue (1980)](#inspiration-rogue-1980)
+- [Source](#source)
 
 ----
-## Inspiration : Rogue (1980)
 
-![Rogue Game](rogue_screenshot.jpg)
+## Inspiration : Rogue (1980)
+<a name="inspiration-rogue-1980"></a>
+
+![Rogue Game](https://github.com/LeBonVieuBelouga/ESIG-PROG-2023/blob/main/res/rogue_screenshot.jpg)
 
 ### Description
 
@@ -47,4 +49,5 @@ Le joueur incarne un aventurier qui explore un donjon rempli de monstres, de tr�
 
 Ce chapitre est une version simplifiée et ne couvre pas tous les détails du jeu Rogue. Pour en savoir plus, consultez les ressources historiques et les documentations disponibles.
 
-# Source 
+## Source 
+<a name="source"></a>
