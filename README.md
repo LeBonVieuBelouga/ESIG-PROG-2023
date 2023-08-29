@@ -1,7 +1,7 @@
 # README
 - Auteur(s) : **Johan Jaquet, Léo Küttel**
-- Version : **V0.1.0**
-- Date de mise à jour : **28.08.2023**
+- Version : **V0.1.1**
+- Date de mise à jour : **29.08.2023**
 - Date de création : **28.08.2023**
 - Description :
 
@@ -9,8 +9,9 @@
 ## Table des matières
    
 - [Inspiration : Rogue (1980)](#inspiration-rogue-1980)
+- [Installation](#installation)
 - [Source](#source)
-
+  
 ----
 
 ## Inspiration : Rogue (1980)
@@ -39,15 +40,20 @@ Le joueur incarne un aventurier qui explore un donjon rempli de monstres, de tr�
 2. Trouver l'Amulette de Yendor: L'objectif principal est de localiser l'Amulette légendaire qui se trouve quelque part dans les profondeurs du donjon.
 3. Survivre et prospérer: Amassez des trésors, équipez-vous pour devenir plus puissant et apprenez à utiliser les sorts et les objets à votre avantage.
 
-### Installation
+### Remarque
+
+Ce chapitre est une version simplifiée et ne couvre pas tous les détails du jeu Rogue. Pour en savoir plus, consultez les ressources historiques et les documentations disponibles.
+
+## Installation
+<a name="installation"></a>
 
 1. Clonez ce dépôt : `git clone https://github.com/votre-utilisateur/rogue-1980.git`
 2. Naviguez vers le dossier : `cd rogue-1980`
 3. Compilez et exécutez le jeu : `gcc rogue.c -o rogue && ./rogue`
 
-### Remarque
-
-Ce chapitre est une version simplifiée et ne couvre pas tous les détails du jeu Rogue. Pour en savoir plus, consultez les ressources historiques et les documentations disponibles.
-
 ## Source 
 <a name="source"></a>
+
+- Procedural Landmass Generation (E01: Introduction) : [https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3](https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3)
+- Roguelike UML exemple : [https://app.genmymodel.com/api/repository/thrognuk/Roguelike](https://app.genmymodel.com/api/repository/thrognuk/Roguelike)https://app.genmymodel.com/api/repository/thrognuk/Roguelike
+- Decoded Rogue : [https://www.maizure.org/projects/decoded-rogue/index.html](https://www.maizure.org/projects/decoded-rogue/index.html)https://www.maizure.org/projects/decoded-rogue/index.html
