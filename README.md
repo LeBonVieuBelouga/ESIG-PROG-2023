@@ -51,6 +51,11 @@ Ce chapitre est une version simplifiée et ne couvre pas tous les détails du je
 2. Naviguez vers le dossier : `cd rogue-1980`
 3. Compilez et exécutez le jeu : `gcc rogue.c -o rogue && ./rogue`
 
+### Environement de Developpement 
+Nous avons développé le projet sur Visual Studio avec l'extension  Monogame
+- lien vers la procédure d'installation de l'extension : [https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_windows.html](https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_windows.html)
+- 
+
 ## Source 
 <a name="source"></a>
 
