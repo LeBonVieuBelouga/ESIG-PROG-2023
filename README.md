@@ -55,5 +55,5 @@ Ce chapitre est une version simplifiée et ne couvre pas tous les détails du je
 <a name="source"></a>
 
 - Procedural Landmass Generation (E01: Introduction) : [https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3](https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3)
-- Roguelike UML exemple : [https://app.genmymodel.com/api/repository/thrognuk/Roguelike](https://app.genmymodel.com/api/repository/thrognuk/Roguelike)https://app.genmymodel.com/api/repository/thrognuk/Roguelike
-- Decoded Rogue : [https://www.maizure.org/projects/decoded-rogue/index.html](https://www.maizure.org/projects/decoded-rogue/index.html)https://www.maizure.org/projects/decoded-rogue/index.html
+- Roguelike UML exemple : [https://app.genmymodel.com/api/repository/thrognuk/Roguelike](https://app.genmymodel.com/api/repository/thrognuk/Roguelike)
+- Decoded Rogue : [https://www.maizure.org/projects/decoded-rogue/index.html](https://www.maizure.org/projects/decoded-rogue/index.html)
