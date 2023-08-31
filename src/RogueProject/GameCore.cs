@@ -16,19 +16,23 @@ namespace RogueProject
         Texture2D Tree_Tex;
         Vector2 Tree_Pos;
         float Tree_Speed;
+        
 
         public GameCore()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            //change the screen size
+            
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            Window.Title = ("newgamename");
+            Window.Title = "Abyssal Enigma: Rogue Requiem";
 
             AmongUs_Pos = new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2);

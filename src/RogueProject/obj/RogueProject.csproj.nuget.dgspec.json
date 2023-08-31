@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\srvc03\\eleves_esig\\leo.kuttel\\Documents\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj": {}
+    "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj": {}
   },
   "projects": {
-    "\\\\srvc03\\eleves_esig\\leo.kuttel\\Documents\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj": {
+    "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\srvc03\\eleves_esig\\leo.kuttel\\Documents\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
+        "projectUniqueName": "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
         "projectName": "RogueProject",
-        "projectPath": "\\\\srvc03\\eleves_esig\\leo.kuttel\\Documents\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
+        "projectPath": "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
         "packagesPath": "C:\\Users\\leo.kuttel\\.nuget\\packages\\",
-        "outputPath": "\\\\srvc03\\eleves_esig\\leo.kuttel\\Documents\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\obj\\",
+        "outputPath": "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\leo.kuttel\\AppData\\Roaming\\NuGet\\NuGet.Config",

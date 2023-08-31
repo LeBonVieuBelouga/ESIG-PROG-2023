@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Content"
+    "\\.config",
+    "\\Content",
+    "\\Content\\bin",
+    "\\Content\\bin\\DesktopGL",
+    "\\Content\\bin\\DesktopGL\\Content"
   ],
-  "SelectedNode": "\\Content\\Content.mgcb",
   "PreviewInSolutionExplorer": false
 }
