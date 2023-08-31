@@ -13,6 +13,11 @@ namespace RogueProject
         private Texture2D m_Sprite_Tex2D;
         private Vector2 m_Sprite_Pos;
         private Vector2 m_Sprite_Size;
+        private Color m_Color;
+
+        private SpriteBatch m_SpriteBatch;
+
+        private Rectangle m_SpriteSheet_Size;
 
 
         float m_SpriteVelocity;
@@ -41,7 +46,20 @@ namespace RogueProject
             m_Sprite_Size = _Sprite_Size;
         }
 
+        public void Draw(SpriteBatch _SpriteBatch) {
 
+            _SpriteBatch.Draw(
+                    this.m_Sprite_Tex2D,
+                    this.m_Sprite_Pos,
+                    null,
+                    Color.White,
+                    0f,
+                    new Vector2(this.m_Sprite_Tex2D.Width / 2, this.m_Sprite_Tex2D.Height / 2),
+                    Vector2.One,
+                    SpriteEffects.None,
+                    0f
+                    );
+        }
     }
 }
 

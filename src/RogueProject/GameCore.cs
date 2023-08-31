@@ -17,7 +17,6 @@ namespace RogueProject
         Vector2 Tree_Pos;
         float Tree_Speed;
         
-
         public GameCore()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -51,7 +50,7 @@ namespace RogueProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            AmongUs_Tex = Content.Load<Texture2D>("BasicPoseV4");
+            AmongUs_Tex = Content.Load<Texture2D>("HeroV2");
             Tree_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
         }
 
@@ -119,6 +118,7 @@ namespace RogueProject
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
+            Sprite.draw(_spriteBatch);
             _spriteBatch.Draw(
                 AmongUs_Tex,
                 AmongUs_Pos,
