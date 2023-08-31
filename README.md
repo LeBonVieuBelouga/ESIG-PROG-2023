@@ -14,6 +14,21 @@
   
 ----
 
+## Nomenclature des Variables
+
+Ce tableau présente une nomenclature des variables utilisant des préfixes pour indiquer leur visibilité ou leur rôle.
+
+| Type      | Préfixe   | Exemple            |
+|-----------|-----------|--------------------|
+| Membre    | m_        | m_VariableOne      |
+| Protégée  | pro_      | pro_VariableTwo   |
+| Publique  | pub_      | pub_VariableThree |
+| Constante | -         | VARIABLE_FOUR     |
+| Enuméré   | enum_     | enum_VariableFive |
+| Courante  | curr_     | curr_VariableSix  |
+
+
+
 ## Inspiration : Rogue (1980)
 <a name="inspiration-rogue-1980"></a>
 
