@@ -25,7 +25,7 @@ namespace RogueProject
             IsMouseVisible = true;
 
             //change the screen size
-            
+
             _graphics.ApplyChanges();
         }
 
