@@ -4,17 +4,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RogueProject
 {
-    public class Game1 : Game
+    public class GameCore : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D AmongUsTexture;
+        Texture2D AmongUs_Tex;
         Vector2 AmongUs_Pos;
         float AmongUs_Speed;
 
+        Texture2D Tree_Tex;
+        Vector2 Tree_Pos;
+        float Tree_Speed;
 
-        public Game1()
+        public GameCore()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -24,10 +27,16 @@ namespace RogueProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+
+            Window.Title = ("newgamename");
+
             AmongUs_Pos = new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2);
             AmongUs_Speed = 350f;
+
+            Tree_Pos = new Vector2(200f,
+                _graphics.PreferredBackBufferHeight);
+            Tree_Speed = 350f;
 
             base.Initialize();
         }
@@ -38,7 +47,8 @@ namespace RogueProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            AmongUsTexture = Content.Load<Texture2D>("BasicPoseV4");
+            AmongUs_Tex = Content.Load<Texture2D>("BasicPoseV4");
+            Tree_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,24 +82,30 @@ namespace RogueProject
 
             //Pour ne pas sortir de la zone
 
-            if (AmongUs_Pos.X > _graphics.PreferredBackBufferWidth - AmongUsTexture.Width / 2)
+            if (AmongUs_Pos.X > _graphics.PreferredBackBufferWidth - AmongUs_Tex.Width / 2)
             {
-                AmongUs_Pos.X = _graphics.PreferredBackBufferWidth - AmongUsTexture.Width / 2;
+                AmongUs_Pos.X = _graphics.PreferredBackBufferWidth - AmongUs_Tex.Width / 2;
             }
-            else if (AmongUs_Pos.X < AmongUsTexture.Width / 2)
+            else if (AmongUs_Pos.X < AmongUs_Tex.Width / 2)
             {
-                AmongUs_Pos.X = AmongUsTexture.Width / 2;
-            }
-
-            if (AmongUs_Pos.Y > _graphics.PreferredBackBufferHeight - AmongUsTexture.Height / 2)
-            {
-                AmongUs_Pos.Y = _graphics.PreferredBackBufferHeight - AmongUsTexture.Height / 2;
-            }
-            else if (AmongUs_Pos.Y < AmongUsTexture.Height / 2)
-            {
-                AmongUs_Pos.Y = AmongUsTexture.Height / 2;
+                AmongUs_Pos.X = AmongUs_Tex.Width / 2;
             }
 
+            if (AmongUs_Pos.Y > _graphics.PreferredBackBufferHeight - AmongUs_Tex.Height / 2)
+            {
+                AmongUs_Pos.Y = _graphics.PreferredBackBufferHeight - AmongUs_Tex.Height / 2;
+            }
+            else if (AmongUs_Pos.Y < AmongUs_Tex.Height / 2)
+            {
+                AmongUs_Pos.Y = AmongUs_Tex.Height / 2;
+            }
+
+            Tree_Pos.Y += Tree_Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            if (Tree_Pos.Y > _graphics.PreferredBackBufferHeight - Tree_Tex.Height / 2)
+            {
+                Tree_Pos.Y = 0f;
+            }
             base.Update(gameTime);
         }
 
@@ -100,12 +116,24 @@ namespace RogueProject
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _spriteBatch.Draw(
-                AmongUsTexture,
+                AmongUs_Tex,
                 AmongUs_Pos,
                 null,
                 Color.White,
                 0f,
-                new Vector2(AmongUsTexture.Width / 2, AmongUsTexture.Height / 2),
+                new Vector2(AmongUs_Tex.Width / 2, AmongUs_Tex.Height / 2),
+                Vector2.One,
+                SpriteEffects.None,
+                0f
+            );
+
+            _spriteBatch.Draw(
+                Tree_Tex,
+                Tree_Pos,
+                null,
+                Color.White,
+                0f,
+                new Vector2(Tree_Tex.Width / 2, Tree_Tex.Height / 2),
                 Vector2.One,
                 SpriteEffects.None,
                 0f

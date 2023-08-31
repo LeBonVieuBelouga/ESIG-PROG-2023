@@ -1,3 +1,3 @@
 ﻿
-using var game = new RogueProject.Game1();
+using var game = new RogueProject.GameCore();
 game.Run();
