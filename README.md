@@ -62,4 +62,5 @@ Nous avons développé le projet sur Visual Studio avec l'extension  Monogame
 - Procedural Landmass Generation (E01: Introduction) : [https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3](https://www.youtube.com/watch?v=wbpMiKiSKm8&list=PLFt_AvWsXl0eBW2EiBtl_sxmDtSgZBxB3)
 - Roguelike UML exemple : [https://app.genmymodel.com/api/repository/thrognuk/Roguelike](https://app.genmymodel.com/api/repository/thrognuk/Roguelike)
 - Decoded Rogue : [https://www.maizure.org/projects/decoded-rogue/index.html](https://www.maizure.org/projects/decoded-rogue/index.html)
-- SasConsole :  [https://github.com/Thraka/SadConsole/tree/master](https://github.com/Thraka/SadConsole/tree/master)
+- SadConsole :  [https://github.com/Thraka/SadConsole/tree/master](https://github.com/Thraka/SadConsole/tree/master)
+- Amongus Jumper : [https://github.com/divtec-cejef/2021-JCO-Platformer-31-ProgramationOO](https://github.com/divtec-cejef/2021-JCO-Platformer-31-ProgramationOO)
