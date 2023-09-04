@@ -14,8 +14,9 @@ namespace RogueProject
         private Rectangle m_SpriteSheet_Size;
 
         private Texture2D m_Sprite_Tex2D;// Texture du Sprite
-        private Vector2 m_Sprite_Pos;// Position du Sprite dans l'environement
-        private Rectangle? m_SourceRectangle;
+        public  Vector2 m_Sprite_Pos;// Position du Sprite dans l'environement
+        private Rectangle? m_SourceRectangle; // Taille du Sprite ??
+        //private Vector2 m_Sprite_Size; // Taille du Sprite 
         private Color m_Color; // Filtre appliqué sur le sprite
         private float m_Rotation; // Angle de rotation a appliquer au sprite
         private Vector2 m_Origin; //position d'orgine
@@ -23,7 +24,7 @@ namespace RogueProject
         private SpriteEffects m_Effects;
         private float m_LayerDepth;
 
-        private Vector2 m_Sprite_Size;
+        
    
         //Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth
 
@@ -42,14 +43,26 @@ namespace RogueProject
         float m_SpriteVelocity;
         bool m_IsSpriteSheet;
 
-        public Sprite(Texture2D _Sprite_Tex2D, SpriteBatch _SpriteBatch, Vector2 _Sprite_Pos = new Vector2(),
-            Vector2 _SpriteVelocity = new Vector2(), Vector2 _Sprite_Size = new Vector2(), Color m_Color = new Color()) {
+        public Sprite(
+            Texture2D _Sprite_Tex2D, 
+            SpriteBatch _SpriteBatch, 
+            Vector2 _Sprite_Pos = new Vector2(),
+            Vector2 _SpriteVelocity = new Vector2(),
+            Rectangle? m_SourceRectangle = null,
+            /*Color _Color = Color.White,*/
+            float _Rotation = 0f, 
+            Vector2 _Origin = new Vector2(),
+            Vector2 m_Scale = new Vector2(),
+            SpriteEffects _Effects = SpriteEffects.None,
+            float m_LayerDepth = 0f) {
             
             this.SetTexture(_Sprite_Tex2D);
             this.SetPosition(_Sprite_Pos);
-            this.SetSize(_Sprite_Size);
+            this.SetSourceRectangle();
+            //this.SetSize(_Sprite_Size);
             this.SetSpriteBatch(_SpriteBatch);
-            SpriteBatch m_SpriteBatch;
+            
+
 
         }
 
@@ -63,13 +76,58 @@ namespace RogueProject
             m_Sprite_Pos = _Sprite_Pos;
         }
 
+        /*
         public void SetSize(Vector2 _Sprite_Size)
         {
             this.m_Sprite_Size = _Sprite_Size;
         }
+        */
 
         public void SetSpriteBatch(SpriteBatch _SpriteBatch) { 
             m_SpriteBatch = _SpriteBatch;
+        }
+
+
+        // Setter pour m_SourceRectangle
+        public void SetSourceRectangle(Rectangle? sourceRectangle)
+        {
+            m_SourceRectangle = sourceRectangle;
+        }
+
+        // Setter pour m_Color
+        public void SetColor(Color _Color)
+        {
+            m_Color = _Color;
+        }
+
+        // Setter pour m_Rotation
+        public void SetRotation(float _Rotation)
+        {
+            m_Rotation = _Rotation;
+        }
+
+        // Setter pour m_Origin
+        public void SetOrigin(Vector2 _Origin)
+        {
+            m_Origin = _Origin;
+        }
+
+        // Setter pour m_Scale
+        public void SetSpriteScale(Vector2 _Scale)
+        {
+            m_Scale = _Scale;
+        }
+
+        // Setter pour m_Effects
+        public void SetEffects(SpriteEffects _Effects)
+        {
+            m_Effects = _Effects;
+        }
+
+        // Setter pour m_LayerDepth
+        public void SetLayerDepth(float _layerDepth)
+        {
+            m_LayerDepth = _layerDepth;
         }
 
         /// <summary>

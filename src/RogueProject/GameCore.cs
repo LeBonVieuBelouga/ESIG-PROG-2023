@@ -13,6 +13,8 @@ namespace RogueProject
         Vector2 AmongUs_Pos;
         float AmongUs_Speed;
 
+        Sprite m_AmongUs;
+
         Texture2D Tree_Tex;
         Vector2 Tree_Pos;
         float Tree_Speed;
@@ -36,6 +38,12 @@ namespace RogueProject
             AmongUs_Pos = new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2);
             AmongUs_Speed = 350f;
+
+            m_AmongUs = new Sprite(
+                AmongUs_Tex,
+                _spriteBatch,
+                AmongUs_Pos
+               );
 
             Tree_Pos = new Vector2(200f,
                 _graphics.PreferredBackBufferHeight);
@@ -119,11 +127,7 @@ namespace RogueProject
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            Sprite AmongUs = new Sprite(
-                AmongUs_Tex,
-                _spriteBatch,
-                AmongUs_Pos
-               );
+            
             AmongUs.Draw();
 
             /*_spriteBatch.Draw(
