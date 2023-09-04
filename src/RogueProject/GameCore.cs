@@ -118,8 +118,15 @@ namespace RogueProject
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            Sprite.draw(_spriteBatch);
-            _spriteBatch.Draw(
+
+            Sprite AmongUs = new Sprite(
+                AmongUs_Tex,
+                _spriteBatch,
+                AmongUs_Pos
+               );
+            AmongUs.Draw();
+
+            /*_spriteBatch.Draw(
                 AmongUs_Tex,
                 AmongUs_Pos,
                 null,
@@ -129,7 +136,7 @@ namespace RogueProject
                 Vector2.One,
                 SpriteEffects.None,
                 0f
-            );
+            );*/
 
             _spriteBatch.Draw(
                 Tree_Tex,

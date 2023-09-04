@@ -6,8 +6,10 @@
   <SourceFiles>
     <File>C:/Users/leo.kuttel/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/BasicPoseV4.png</File>
     <File>C:/Users/leo.kuttel/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/bastienbulioBaseV1.png</File>
+    <File>C:/Users/leo.kuttel/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/HeroV2.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>

@@ -18,16 +18,13 @@ namespace RogueProject
         private Rectangle? m_SourceRectangle;
         private Color m_Color; // Filtre appliqué sur le sprite
         private float m_Rotation; // Angle de rotation a appliquer au sprite
-        private Vector2 m_Origin;
+        private Vector2 m_Origin; //position d'orgine
         private Vector2 m_Scale;
         private SpriteEffects m_Effects;
         private float m_LayerDepth;
 
         private Vector2 m_Sprite_Size;
-        
-        
-       
-
+   
         //Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth
 
 
@@ -46,7 +43,7 @@ namespace RogueProject
         bool m_IsSpriteSheet;
 
         public Sprite(Texture2D _Sprite_Tex2D, SpriteBatch _SpriteBatch, Vector2 _Sprite_Pos = new Vector2(),
-            Vector2 _SpriteVelocity = new Vector2(), Vector2 _Sprite_Size = new Vector2(), Vector2 _Sprite_Size = new Vector2(), Color m_Color = new Color()) {
+            Vector2 _SpriteVelocity = new Vector2(), Vector2 _Sprite_Size = new Vector2(), Color m_Color = new Color()) {
             
             this.SetTexture(_Sprite_Tex2D);
             this.SetPosition(_Sprite_Pos);

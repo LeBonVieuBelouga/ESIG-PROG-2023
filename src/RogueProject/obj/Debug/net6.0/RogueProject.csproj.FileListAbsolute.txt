@@ -50,3 +50,4 @@ C:\Users\leo.kuttel\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\obj\Debug\net
 C:\Users\leo.kuttel\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\obj\Debug\net6.0\RogueProject.genruntimeconfig.cache
 C:\Users\leo.kuttel\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\obj\Debug\net6.0\ref\RogueProject.dll
 C:\Users\leo.kuttel\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\bin\Debug\net6.0\Content\bastienbulioBaseV1.xnb
+C:\Users\leo.kuttel\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\bin\Debug\net6.0\Content\HeroV2.xnb
