@@ -1,7 +1,7 @@
 # README
 - Auteur(s) : **Johan Jaquet, Léo Küttel**
-- Version : **V0.1.1**
-- Date de mise à jour : **29.08.2023**
+- Version : **V0.1.2**
+- Date de mise à jour : **04.09.2023**
 - Date de création : **28.08.2023**
 - Description :
 
@@ -58,6 +58,12 @@ Le joueur incarne un aventurier qui explore un donjon rempli de monstres, de tr�
 ### Remarque
 
 Ce chapitre est une version simplifiée et ne couvre pas tous les détails du jeu Rogue. Pour en savoir plus, consultez les ressources historiques et les documentations disponibles.
+
+### Autre référence :
+
+Charte Graphique :
+- **Stone Story RPG :** [https://stonestoryrpg.com/](https://stonestoryrpg.com/)
+- **Dwarf Fortress :** [https://en.wikipedia.org/wiki/Dwarf_Fortress](https://en.wikipedia.org/wiki/Dwarf_Fortress)
 
 ## Installation
 <a name="installation"></a>
