@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +12,7 @@ namespace RogueProject
 {
     public class Sprite
     {
+        //CONSTANTE//
         public const float DEFAULT_VELOCITY = 1f;
         public const float DEFAULT_LAYER_DEPTH = 1f;
 
@@ -31,10 +34,7 @@ namespace RogueProject
 
         //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters. 
 
-
-
         //Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth
-
 
         // Position de l'objet graphique (this.m_Sprite_Pos).
         // Aucun découpage de la texture (null).
@@ -46,6 +46,8 @@ namespace RogueProject
         //
 
         bool m_IsSpriteSheet;
+
+        ContentManager m_Content { get; set; }
 
         public Sprite(
             Texture2D _Texture2D,
@@ -270,14 +272,11 @@ namespace RogueProject
             return this.m_LayerDepth;
         }
 
-
-
         /// <summary>
         /// Permet de dessiner un Sprite en un appel de fonction avec ou sans un SpriteBatch spécifié.
         /// </summary>
         /// <param name="_SpriteBatch"></param>
         public void Draw(SpriteBatch _SpriteBatch) {
-
             //Dessine le Sprite avec ces paramètres 
             _SpriteBatch.Draw(
                     this.m_Tex2D,
@@ -310,14 +309,13 @@ namespace RogueProject
                     this.m_Effect,
                     this.m_LayerDepth
                     );
-     
         }
+
         /// <summary>
         /// Fonction test permettant de dessiner un Sprite en un appel de fonction avec une configuration de base
         /// </summary>
-        public void DefaultDraw()
+        public void DefaultDraw(SpriteBatch _SpriteBatch)
         {
-
             //Dessine le Sprite avec ces paramètres 
             m_SpriteBatch.Draw(
                     this.m_Tex2D,
@@ -331,6 +329,7 @@ namespace RogueProject
                     0f
                     );
         }
+        
     }
 }
 
