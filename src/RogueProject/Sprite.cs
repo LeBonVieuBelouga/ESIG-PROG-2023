@@ -10,7 +10,8 @@ namespace RogueProject
 {
     public class Sprite
     {
-        const float DEFAULT_VELOCITY = 1f;
+        public const float DEFAULT_VELOCITY = 1f;
+        public const float DEFAULT_LAYER_DEPTH = 1f;
 
         private SpriteBatch m_SpriteBatch; // Helper class pour dessiner le sprite dans la fenêtre.
         private Rectangle m_SpriteSheet_Size;
@@ -24,14 +25,14 @@ namespace RogueProject
         private Color m_Color; // Filtre appliqué sur le sprite
         private float m_Rotation; // Angle de rotation a appliquer au sprite
         private Vector2 m_Origin; //position d'orgine
-        private Vector2 m_Scale;
-        private SpriteEffects m_Effect;
-        private float m_LayerDepth;
+        private Vector2 m_Scale; // Mise à l'échelle de ce sprite.
+        private SpriteEffects m_Effect; // Modificateurs pour le dessin (peut être combiné).
+        private float m_LayerDepth; //Profondeur du champ du sprite.
 
         //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters. 
 
-        
-   
+
+
         //Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth
 
 
@@ -297,12 +298,32 @@ namespace RogueProject
         /// <param name="_SpriteBatch"></param>
         public void Draw()
         {
-           //Dessine le Sprite avec ces paramètres 
+           //Dessine le Sprite avec touts ses paramètres 
            this.m_SpriteBatch.Draw(
                     this.m_Tex2D,
                     this.m_Pos,
-                    null,
+                    this.m_SourceRectangle,
                     this.m_Color,
+                    this.m_Rotation,
+                    this.m_Origin,
+                    this.m_Scale,
+                    this.m_Effect,
+                    this.m_LayerDepth
+                    );
+     
+        }
+        /// <summary>
+        /// Fonction test permettant de dessiner un Sprite en un appel de fonction avec une configuration de base
+        /// </summary>
+        public void DefaultDraw()
+        {
+
+            //Dessine le Sprite avec ces paramètres 
+            m_SpriteBatch.Draw(
+                    this.m_Tex2D,
+                    this.m_Pos,
+                    null,
+                    Color.White,
                     0f,
                     new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
                     Vector2.One,
