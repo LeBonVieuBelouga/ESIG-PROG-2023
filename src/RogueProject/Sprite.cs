@@ -73,32 +73,54 @@ namespace RogueProject
 
         }//this.SetSize(_Sprite_Size);
 
-        public void SetTexture(Texture2D _Sprite_Tex2D) {
-            m_Tex2D = _Sprite_Tex2D;
+        /// <summary>
+        /// Setter pour m_Tex2D
+        /// </summary>
+        /// <param name="_Tex2D"></param>
+        public void SetTexture(Texture2D _Tex2D) {
+            this.m_Tex2D = _Tex2D;
 
         }
+        /// <summary>
+        /// Getter pour m_Tex2D
+        /// </summary>
+        /// <returns></returns>
         public Texture2D GetTexture()
         {
-            return m_Tex2D;
+            return this.m_Tex2D;
         }
-
+        /// <summary>
+        /// Setter pour m_Pos
+        /// </summary>
+        /// <param name="_Sprite_Pos"></param>
         public void SetPosition(Vector2 _Sprite_Pos)
         {
             this.m_Pos = _Sprite_Pos;
         }
+        /// <summary>
+        /// Getter pour m_Pos
+        /// </summary>
+        /// <returns></returns>
         public Vector2 GetPosition()
         {
-            return m_Pos;
+            return this.m_Pos;
         }
 
+        /// <summary>
+        /// Setter pour m_Velocity
+        /// </summary>
+        /// <param name="_Velocity"></param>
         public void SetVelocity(float _Velocity)
         {
             this.m_Velocity = _Velocity;
         }
-
+        /// <summary>
+        /// Getter pour m_Velocity
+        /// </summary>
+        /// <returns></returns>
         public float GetVelocity()
         {
-            return m_Velocity;
+            return this.m_Velocity;
         }
 
         /*
@@ -113,7 +135,7 @@ namespace RogueProject
         /// </summary>
         /// <param name="_SpriteBatch"></param>
         public void SetSpriteBatch(SpriteBatch _SpriteBatch) { 
-            m_SpriteBatch = _SpriteBatch;
+            this.m_SpriteBatch = _SpriteBatch;
         }
         /// <summary>
         /// Getter pour m_SpriteBatch
@@ -121,7 +143,7 @@ namespace RogueProject
         /// <returns>m_SpriteBatch</returns>
         public SpriteBatch GetSpriteBatch()
         {
-            return m_SpriteBatch;
+            return this.m_SpriteBatch;
         }
 
         /// <summary>
@@ -130,7 +152,7 @@ namespace RogueProject
         /// <param name="sourceRectangle"></param>
         public void SetSourceRectangle(Rectangle? sourceRectangle)
         {
-            m_SourceRectangle = sourceRectangle;
+            this.m_SourceRectangle = sourceRectangle;
         }
         /// <summary>
         /// Getter pour m_SourceRectangle
@@ -138,7 +160,7 @@ namespace RogueProject
         /// <returns>m_SourceRectangle</returns>
         public Rectangle? GetSourceRectangle()
         {
-            return m_SourceRectangle;
+            return this.m_SourceRectangle;
         }
 
 
@@ -226,7 +248,7 @@ namespace RogueProject
         /// <returns>m_Effect</returns>
         public SpriteEffects GetEffect()
         {
-            return m_Effect;
+            return this.m_Effect;
         }
 
         /// <summary>
@@ -244,7 +266,7 @@ namespace RogueProject
         /// <returns>m_LayerDepth</returns>
         public float GetLayerDepth()
         {
-            return m_LayerDepth;
+            return this.m_LayerDepth;
         }
 
 
@@ -275,13 +297,12 @@ namespace RogueProject
         /// <param name="_SpriteBatch"></param>
         public void Draw()
         {
-
-            //Dessine le Sprite avec ces paramètres 
+           //Dessine le Sprite avec ces paramètres 
            this.m_SpriteBatch.Draw(
                     this.m_Tex2D,
                     this.m_Pos,
                     null,
-                    Color.White,
+                    this.m_Color,
                     0f,
                     new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
                     Vector2.One,
