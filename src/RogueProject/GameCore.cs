@@ -127,8 +127,8 @@ namespace RogueProject
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            
-            AmongUs.Draw();
+
+            m_AmongUs.Draw();
 
             /*_spriteBatch.Draw(
                 AmongUs_Tex,

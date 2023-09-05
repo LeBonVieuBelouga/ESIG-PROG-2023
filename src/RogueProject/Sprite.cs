@@ -13,17 +13,19 @@ namespace RogueProject
         private SpriteBatch m_SpriteBatch; // Helper class pour dessiner le sprite dans la fenêtre.
         private Rectangle m_SpriteSheet_Size;
 
-        private Texture2D m_Sprite_Tex2D;// Texture du Sprite
-        private  Vector2 m_Sprite_Pos;// Position du Sprite dans l'environement
-        float m_Sprite_Velocity; // Vitesse de déplacement du Sprite 
+        private Texture2D m_Tex2D;// Texture du Sprite
+        private  Vector2 m_Pos;// Position du Sprite dans l'environement
+        float m_Velocity; // Vitesse de déplacement du Sprite 
         private Rectangle? m_SourceRectangle; // Taille du Sprite ??
         //private Vector2 m_Sprite_Size; // Taille du Sprite 
         //private Color m_Sprite_Color; // Filtre appliqué sur le sprite
-        private float m_Sprite_Rotation; // Angle de rotation a appliquer au sprite
-        private Vector2 m_Sprite_Origin; //position d'orgine
-        private Vector2 m_Sprite_Scale;
-        private SpriteEffects m_Sprite_Effect;
-        private float m_Sprite_LayerDepth;
+        private float m_Rotation; // Angle de rotation a appliquer au sprite
+        private Vector2 m_Origin; //position d'orgine
+        private Vector2 m_Scale;
+        private SpriteEffects m_Effect;
+        private float m_LayerDepth;
+
+        //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters. 
 
         
    
@@ -66,22 +68,21 @@ namespace RogueProject
             
             this.SetSpriteBatch(_SpriteBatch);
 
-
         }//this.SetSize(_Sprite_Size);
 
         public void SetTexture(Texture2D _Sprite_Tex2D) {
-            m_Sprite_Tex2D = _Sprite_Tex2D;
+            m_Tex2D = _Sprite_Tex2D;
 
         }
 
         public void SetPosition(Vector2 _Sprite_Pos)
         {
-            m_Sprite_Pos = _Sprite_Pos;
+            this.m_Pos = _Sprite_Pos;
         }
 
         public void SetVelocity(Vector2 _Velocity)
         {
-            m_Sprite_Effect = spriteVelocity;
+            m_Effect = spriteVelocity;
         }
 
         /*
@@ -102,41 +103,41 @@ namespace RogueProject
             m_SourceRectangle = sourceRectangle;
         }
 
-        /*
+        
         // Setter pour m_Color
         public void SetColor(Color _Color)
         {
-            m_Color = _Color;
+            _Color = Color.White; 
         }
-        */
+        
         // Setter pour m_Rotation
         public void SetRotation(float _Rotation)
         {
-            m_Rotation = _Rotation;
+            this.m_Rotation = _Rotation;
         }
 
         // Setter pour m_Origin
         public void SetOrigin(Vector2 _Origin)
         {
-            m_Origin = _Origin;
+            this.m_Origin = _Origin;
         }
 
         // Setter pour m_Scale
         public void SetScale(Vector2 _Scale)
         {
-            m_Scale = _Scale;
+            this.m_Scale = _Scale;
         }
 
         // Setter pour m_Effects
-        public void SetEffect(SpriteEffects _Effects)
+        public void SetEffect(SpriteEffects _Effect)
         {
-            m_Effects = _Effects;
+            this.m_Effect = _Effect;
         }
 
         // Setter pour m_LayerDepth
         public void SetLayerDepth(float _layerDepth)
         {
-            m_LayerDepth = _layerDepth;
+            this.m_LayerDepth = _layerDepth;
         }
 
         /// <summary>
@@ -147,12 +148,12 @@ namespace RogueProject
 
             //Dessine le Sprite avec ces paramètres 
             _SpriteBatch.Draw(
-                    this.m_Sprite_Tex2D,
-                    this.m_Sprite_Pos,
+                    this.m_Tex2D,
+                    this.m_Pos,
                     null,
                     Color.White,
                     0f,
-                    new Vector2(this.m_Sprite_Tex2D.Width / 2, this.m_Sprite_Tex2D.Height / 2),
+                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
                     Vector2.One,
                     SpriteEffects.None,
                     0f
@@ -168,12 +169,12 @@ namespace RogueProject
 
             //Dessine le Sprite avec ces paramètres 
            this.m_SpriteBatch.Draw(
-                    this.m_Sprite_Tex2D,
-                    this.m_Sprite_Pos,
+                    this.m_Tex2D,
+                    this.m_Pos,
                     null,
                     Color.White,
                     0f,
-                    new Vector2(this.m_Sprite_Tex2D.Width / 2, this.m_Sprite_Tex2D.Height / 2),
+                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
                     Vector2.One,
                     SpriteEffects.None,
                     0f
