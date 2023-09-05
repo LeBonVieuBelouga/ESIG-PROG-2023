@@ -10,15 +10,18 @@ namespace RogueProject
 {
     public class Sprite
     {
+        const float DEFAULT_VELOCITY = 1f;
+
         private SpriteBatch m_SpriteBatch; // Helper class pour dessiner le sprite dans la fenêtre.
         private Rectangle m_SpriteSheet_Size;
 
         private Texture2D m_Tex2D;// Texture du Sprite
         private  Vector2 m_Pos;// Position du Sprite dans l'environement
-        float m_Velocity; // Vitesse de déplacement du Sprite 
+        float m_Velocity; // Vitesse de déplacement du Sprite
+
         private Rectangle? m_SourceRectangle; // Taille du Sprite ??
-        //private Vector2 m_Sprite_Size; // Taille du Sprite 
-        //private Color m_Sprite_Color; // Filtre appliqué sur le sprite
+        //private Vector2 m_Size; // Taille du Sprite 
+        private Color m_Color; // Filtre appliqué sur le sprite
         private float m_Rotation; // Angle de rotation a appliquer au sprite
         private Vector2 m_Origin; //position d'orgine
         private Vector2 m_Scale;
@@ -44,10 +47,10 @@ namespace RogueProject
         bool m_IsSpriteSheet;
 
         public Sprite(
-            Texture2D _Texture2D, 
-            SpriteBatch _SpriteBatch, 
+            Texture2D _Texture2D,
+            SpriteBatch _SpriteBatch,
             Vector2 _Position = new Vector2(),
-            Vector2 _Velocity = new Vector2(),
+            float _Velocity = DEFAULT_VELOCITY,
             Rectangle? m_SourceRectangle = null,
             /*Color _Color = Color.White,*/
             float _Rotation = 0f, 
@@ -74,15 +77,28 @@ namespace RogueProject
             m_Tex2D = _Sprite_Tex2D;
 
         }
+        public Texture2D GetTexture()
+        {
+            return m_Tex2D;
+        }
 
         public void SetPosition(Vector2 _Sprite_Pos)
         {
             this.m_Pos = _Sprite_Pos;
         }
-
-        public void SetVelocity(Vector2 _Velocity)
+        public Vector2 GetPosition()
         {
-            m_Effect = spriteVelocity;
+            return m_Pos;
+        }
+
+        public void SetVelocity(float _Velocity)
+        {
+            this.m_Velocity = _Velocity;
+        }
+
+        public float GetVelocity()
+        {
+            return m_Velocity;
         }
 
         /*
@@ -92,53 +108,146 @@ namespace RogueProject
         }
         */
 
+        /// <summary>
+        /// Setter pour m_SpriteBatch
+        /// </summary>
+        /// <param name="_SpriteBatch"></param>
         public void SetSpriteBatch(SpriteBatch _SpriteBatch) { 
             m_SpriteBatch = _SpriteBatch;
         }
+        /// <summary>
+        /// Getter pour m_SpriteBatch
+        /// </summary>
+        /// <returns>m_SpriteBatch</returns>
+        public SpriteBatch GetSpriteBatch()
+        {
+            return m_SpriteBatch;
+        }
 
-
-        // Setter pour m_SourceRectangle
+        /// <summary>
+        /// Setter pour m_SourceRectangle
+        /// </summary>
+        /// <param name="sourceRectangle"></param>
         public void SetSourceRectangle(Rectangle? sourceRectangle)
         {
             m_SourceRectangle = sourceRectangle;
         }
+        /// <summary>
+        /// Getter pour m_SourceRectangle
+        /// </summary>
+        /// <returns>m_SourceRectangle</returns>
+        public Rectangle? GetSourceRectangle()
+        {
+            return m_SourceRectangle;
+        }
 
-        
-        // Setter pour m_Color
+
+
+        /// <summary>
+        /// Setter pour m_Color
+        /// </summary>
+        /// <param name="_Color"></param>
         public void SetColor(Color _Color)
         {
-            _Color = Color.White; 
+            this.m_Color = _Color; 
         }
-        
-        // Setter pour m_Rotation
+        /// <summary>
+        /// Getter pour m_Color
+        /// </summary>
+        /// <returns>m_Color</returns>
+        public Color GetColor() {
+            return this.m_Color;
+        }
+
+        /// <summary>
+        /// Setter pour m_Rotation
+        /// </summary>
+        /// <param name="_Rotation"></param>
         public void SetRotation(float _Rotation)
         {
             this.m_Rotation = _Rotation;
         }
+        /// <summary>
+        /// Getter pour m_Rotation
+        /// </summary>
+        /// <returns>m_Rotation</returns>
+        public float GetRotation()
+        {
+            return this.m_Rotation;
+        }
 
-        // Setter pour m_Origin
+        /// <summary>
+        /// Setter pour m_Origin
+        /// </summary>
+        /// <param name="_Origin"></param>
         public void SetOrigin(Vector2 _Origin)
         {
             this.m_Origin = _Origin;
         }
 
-        // Setter pour m_Scale
+        /// <summary>
+        /// Getter pour m_Origin
+        /// </summary>
+        /// <returns>m_Origin</returns>
+        public Vector2 GetOrigin()
+        {
+            return this.m_Origin;
+        }
+
+        /// <summary>
+        /// Setter pour m_Scale
+        /// </summary>
+        /// <param name="_Scale"></param>
         public void SetScale(Vector2 _Scale)
         {
             this.m_Scale = _Scale;
         }
 
-        // Setter pour m_Effects
+        /// <summary>
+        /// Getter pour m_Scale
+        /// </summary>
+        /// <returns>m_Scale</returns>
+        public Vector2 GetScale()
+        {
+            return this.m_Scale;
+        }
+
+        /// <summary>
+        /// Setter pour m_Effect
+        /// </summary>
+        /// <param name="_Effect"></param>
         public void SetEffect(SpriteEffects _Effect)
         {
             this.m_Effect = _Effect;
         }
+        /// <summary>
+        /// Getter pour m_Effect
+        /// </summary>
+        /// <returns>m_Effect</returns>
+        public SpriteEffects GetEffect()
+        {
+            return m_Effect;
+        }
 
-        // Setter pour m_LayerDepth
+        /// <summary>
+        /// Setter pour m_layerDepth
+        /// </summary>
+        /// <param name="_layerDepth"></param>
         public void SetLayerDepth(float _layerDepth)
         {
             this.m_LayerDepth = _layerDepth;
         }
+
+        /// <summary>
+        /// Getter pour m_LayerDepth
+        /// </summary>
+        /// <returns>m_LayerDepth</returns>
+        public float GetLayerDepth()
+        {
+            return m_LayerDepth;
+        }
+
+
 
         /// <summary>
         /// Permet de dessiner un Sprite en un appel de fonction avec ou sans un SpriteBatch spécifié.
