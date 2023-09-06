@@ -40,12 +40,12 @@ namespace RogueProject
             AmongUs_Speed = 350f;
 
             //AmongUs_Tex = Content.Load<Texture2D>("HeroV2");
-            m_AmongUs = new Sprite(
+            /*m_AmongUs = new Sprite(
                 Content.Load<Texture2D>("HeroV2"),
                 _spriteBatch,
                 AmongUs_Pos
                );
-
+            */
             Tree_Pos = new Vector2(200f,
                 _graphics.PreferredBackBufferHeight);
             Tree_Speed = 350f;
@@ -59,7 +59,7 @@ namespace RogueProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            AmongUs_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
+            AmongUs_Tex = Content.Load<Texture2D>("MissingTextureInventory");
             Tree_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
         }
 
@@ -128,9 +128,11 @@ namespace RogueProject
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            AmongUs_Tex = Content.Load<Texture2D>("HeroV2");
-            m_AmongUs.SetTexture(AmongUs_Tex);
-
+            m_AmongUs = new Sprite(
+                AmongUs_Tex,
+                _spriteBatch,
+                AmongUs_Pos
+               );
             m_AmongUs.DefaultDraw(_spriteBatch);
 
             /*_spriteBatch.Draw(

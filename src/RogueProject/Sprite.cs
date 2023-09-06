@@ -63,6 +63,7 @@ namespace RogueProject
             float _LayerDepth = 0f) {
             
             this.SetTexture(_Texture2D);
+            this.SetSpriteBatch(_SpriteBatch);
             this.SetPosition(_Position);
             this.SetVelocity(_Velocity);
             this.SetSourceRectangle(m_SourceRectangle);
@@ -71,10 +72,8 @@ namespace RogueProject
             this.SetScale(_Scale);
             this.SetEffect(_Effect);
             this.SetLayerDepth(_LayerDepth);
-            
-            this.SetSpriteBatch(_SpriteBatch);
-
-        }//this.SetSize(_Sprite_Size);
+            //this.SetSize(_Sprite_Size);
+        }
 
         /// <summary>
         /// Setter pour m_Tex2D
@@ -317,7 +316,7 @@ namespace RogueProject
         public void DefaultDraw(SpriteBatch _SpriteBatch)
         {
             //Dessine le Sprite avec ces paramètres 
-            m_SpriteBatch.Draw(
+            this.m_SpriteBatch.Draw(
                     this.m_Tex2D,
                     this.m_Pos,
                     null,
