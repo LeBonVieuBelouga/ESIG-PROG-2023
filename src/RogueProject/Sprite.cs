@@ -290,6 +290,13 @@ namespace RogueProject
                     );
         }
 
+        public void Update()
+        {
+            // Mettez à jour la logique du sprite ici
+            
+            this.SetPosition(new Vector2((this.m_Pos.Y += this.m_Velocity),(this.m_Pos.X += this.m_Velocity)));
+        }
+
         /// <summary>
         /// Permet de dessiner un Sprite en un appel de fonction avec ou sans un SpriteBatch spécifié.
         /// </summary>
@@ -328,7 +335,22 @@ namespace RogueProject
                     0f
                     );
         }
-        
+
+        public void DefaultDraw(SpriteBatch _SpriteBatch)
+        {
+            //Dessine le Sprite avec ces paramètres 
+            _SpriteBatch.Draw(
+                    this.m_Tex2D,
+                    this.m_Pos,
+                    null,
+                    Color.White,
+                    0f,
+                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
+                    Vector2.One,
+                    SpriteEffects.None,
+                    0f
+                    );
+        }
     }
 }
 

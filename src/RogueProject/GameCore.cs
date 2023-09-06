@@ -11,7 +11,7 @@ namespace RogueProject
 
         Texture2D Player_Tex;
         Vector2 Player_Pos;
-        float AmongUs_Speed;
+        float Player_Velocity;
 
         Sprite m_Player;
 
@@ -26,8 +26,9 @@ namespace RogueProject
             IsMouseVisible = true;
 
             //change the screen size
-
             _graphics.ApplyChanges();
+
+           
         }
 
         protected override void Initialize()
@@ -37,7 +38,7 @@ namespace RogueProject
 
             Player_Pos = new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2);
-            AmongUs_Speed = 350f;
+            Player_Velocity = 350f;
 
             //Player_Tex = Content.Load<Texture2D>("HeroV2");
             /*m_Player = new Sprite(
@@ -50,6 +51,7 @@ namespace RogueProject
                 _graphics.PreferredBackBufferHeight);
             Tree_Speed = 350f;
 
+           
             base.Initialize();
         }
 
@@ -60,6 +62,12 @@ namespace RogueProject
 
             // TODO: use this.Content to load your game content here
             Player_Tex = Content.Load<Texture2D>("MissingTextureInventory");
+            m_Player = new Sprite(
+                Player_Tex,
+                _spriteBatch
+                );
+
+            //m_Player.SetTexture(Player_Tex);
             Bulio_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
         }
 
@@ -74,22 +82,23 @@ namespace RogueProject
 
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
-                Player_Pos.Y -= AmongUs_Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //m_Player.SetPosition(new Vector2 (m_Player.GetPosition().X, (m_Player.GetPosition().Y - Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds)));
             }
 
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
-                Player_Pos.Y += AmongUs_Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Player_Pos.Y += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
             if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
-                Player_Pos.X -= AmongUs_Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Player_Pos.X -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
             if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
             {
-                Player_Pos.X += AmongUs_Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Player_Pos.X += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
             //Pour ne pas sortir de la zone
@@ -118,6 +127,9 @@ namespace RogueProject
             {
                 Bulio_Pos.Y = 0f;
             }
+
+            m_Player.SetPosition(Player_Pos);
+
             base.Update(gameTime);
         }
 
@@ -126,18 +138,14 @@ namespace RogueProject
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // # Initialisation des sprites
-            m_Player = new Sprite(
-                Player_Tex,
-                _spriteBatch,
-                Player_Pos
-               );
+            
 
             _spriteBatch.Begin();
 
             // # Implémentation des sprites dans la fenêtre.
 
             // ## Joueur
-            m_Player.DefaultDraw();
+            m_Player.DefaultDraw(_spriteBatch);
 
             // ## Bulio
             _spriteBatch.Draw(
