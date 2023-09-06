@@ -32,22 +32,7 @@ namespace RogueProject
         private SpriteEffects m_Effect; // Modificateurs pour le dessin (peut être combiné).
         private float m_LayerDepth; //Profondeur du champ du sprite.
 
-        //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters. 
-
-        //Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth
-
-        // Position de l'objet graphique (this.m_Sprite_Pos).
-        // Aucun découpage de la texture (null).
-        // Couleur de dessin (Color.White).
-        // Rotation de l'objet (0 degrés).
-        // Origine de rotation au centre de la texture.
-        // Agrandissement (Vector2.One pour une taille inchangée).
-        // Effets de sprite (SpriteEffects.None pour aucun effet).
-        //
-
-        bool m_IsSpriteSheet;
-
-        ContentManager m_Content { get; set; }
+        //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters ?
 
         public Sprite(
             Texture2D _Texture2D,
@@ -290,12 +275,6 @@ namespace RogueProject
                     );
         }
 
-        public void Update()
-        {
-            // Mettez à jour la logique du sprite ici
-            
-            this.SetPosition(new Vector2((this.m_Pos.Y += this.m_Velocity),(this.m_Pos.X += this.m_Velocity)));
-        }
 
         /// <summary>
         /// Permet de dessiner un Sprite en un appel de fonction avec ou sans un SpriteBatch spécifié.

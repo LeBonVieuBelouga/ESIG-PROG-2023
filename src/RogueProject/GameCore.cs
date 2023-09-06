@@ -9,16 +9,14 @@ namespace RogueProject
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D Player_Tex;
-        Vector2 Player_Pos;
-        float Player_Velocity;
-
-        Sprite m_Player;
-
+        //Variable avec la méthodolgie de base pour créer un sprite
         Texture2D Bulio_Tex;
         Vector2 Bulio_Pos;
-        float Tree_Speed;
-        
+        float Bulio_Velocity;
+
+        //Variable propre à la méthodolgie du projet
+        Sprite m_Player;
+
         public GameCore()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -27,8 +25,6 @@ namespace RogueProject
 
             //change the screen size
             _graphics.ApplyChanges();
-
-           
         }
 
         protected override void Initialize()
@@ -36,22 +32,19 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
-            Player_Pos = new Vector2(_graphics.PreferredBackBufferWidth/2,
-                _graphics.PreferredBackBufferHeight/2);
-            Player_Velocity = 350f;
+            m_Player = new Sprite(
+                Content.Load<Texture2D>("MissingTextureInventory"),
+                _spriteBatch
+                );
 
-            //Player_Tex = Content.Load<Texture2D>("HeroV2");
-            /*m_Player = new Sprite(
-                Content.Load<Texture2D>("HeroV2"),
-                _spriteBatch,
-                Player_Pos
-               );
-            */
+            m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
+                _graphics.PreferredBackBufferHeight/2));
+            m_Player.SetVelocity(350f);
+            
             Bulio_Pos = new Vector2(200f,
                 _graphics.PreferredBackBufferHeight);
-            Tree_Speed = 350f;
+            Bulio_Velocity = 350f;
 
-           
             base.Initialize();
         }
 
@@ -61,11 +54,9 @@ namespace RogueProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            Player_Tex = Content.Load<Texture2D>("MissingTextureInventory");
-            m_Player = new Sprite(
-                Player_Tex,
-                _spriteBatch
-                );
+
+            // Initialisation des Sprites
+            m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
             //m_Player.SetTexture(Player_Tex);
             Bulio_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
@@ -77,6 +68,10 @@ namespace RogueProject
                 Exit();
 
             // TODO: Add your update logic here
+
+            Texture2D Player_Tex = m_Player.GetTexture();
+            Vector2 Player_Pos = m_Player.GetPosition();
+            float Player_Velocity = 350f;
 
             var kstate = Keyboard.GetState();
 
@@ -121,7 +116,7 @@ namespace RogueProject
                 Player_Pos.Y = Player_Tex.Height / 2;
             }
 
-            Bulio_Pos.Y += Tree_Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Bulio_Pos.Y += Bulio_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             
             if (Bulio_Pos.Y > _graphics.PreferredBackBufferHeight - Bulio_Tex.Height / 2)
             {
@@ -136,9 +131,6 @@ namespace RogueProject
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // # Initialisation des sprites
-            
 
             _spriteBatch.Begin();
 
