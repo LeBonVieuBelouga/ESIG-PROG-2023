@@ -313,7 +313,7 @@ namespace RogueProject
         /// <summary>
         /// Fonction test permettant de dessiner un Sprite en un appel de fonction avec une configuration de base
         /// </summary>
-        public void DefaultDraw(SpriteBatch _SpriteBatch)
+        public void DefaultDraw()
         {
             //Dessine le Sprite avec ces paramètres 
             this.m_SpriteBatch.Draw(
