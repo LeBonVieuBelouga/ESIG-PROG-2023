@@ -1,7 +1,7 @@
 # README
 - Auteur(s) : **Johan Jaquet, Léo Küttel**
-- Version : **V0.1.1**
-- Date de mise à jour : **29.08.2023**
+- Version : **V0.1.2**
+- Date de mise à jour : **07.09.2023**
 - Date de création : **28.08.2023**
 - Description :
 
@@ -21,15 +21,15 @@ Ce tableau présente une nomenclature des variables utilisant des préfixes pour
 | Type      | Préfixe   | Exemple              | Description |
 |-----------|-----------|----------------------|-------------|
 | Membre    | m_        | m_VariableOne        | Variables utilisées comme membres internes d'une classe ou d'une structure. |
-| Protégée  | pro_      | pro_VariableTwo      | Variables avec une portée protégée, accessibles dans la classe et ses sous-classes. |
-| Publique  | pub_      | pub_VariableThree    | Variables avec une portée publique, accessibles depuis n'importe où dans le code. |
-| Constante | -         | VARIABLE_FOUR        | Variables contenant des valeurs constantes qui ne changent pas pendant l'exécution. |
+| Constante / Read only | -         | VARIABLE_FOUR        | Variables contenant des valeurs constantes qui ne changent pas pendant l'exécution. |
 | Enuméré   | enum_     | enum_VariableFive    | Variables associées à des énumérations, souvent utilisées pour des options prédéfinies. |
 | Courante  | curr_     | curr_VariableSix     | Variables utilisées dans le contexte actuel, généralement pour améliorer la lisibilité. |
 | Texture 2D| _Tex2D    | VariableSeven_Tex2D  | Variables représentant des textures 2D dans les environnements graphiques. |
 | Position  | _Pos      | VariableSeven_Pos    | Variables décrivant des positions, souvent dans des contextes spatiaux. |
 
-
+## Description du Projet
+Ce projet a pour but de recréer le jeu [Rogue (1980)](#inspiration-rogue-1980) en C# à l'aide des framework [MonoGame](https://www.monogame.net/) et [.NET](https://dotnet.microsoft.com/en-us/). 
+Certaines mécaniques diffère du jeu de base, comme la gestion dynamique de la lumière dans les pièces qui n'est pas pris qui n'est pas présent dans le jeu et la magie qui a été retiré.
 
 ## Inspiration : Rogue (1980)
 <a name="inspiration-rogue-1980"></a>
