@@ -23,7 +23,7 @@ Ce tableau présente une nomenclature des variables utilisant des préfixes pour
 | Membre    | m_        | m_VariableOne        | Variables utilisées comme membres internes d'une classe ou d'une structure. |
 | Protégée  | pro_      | pro_VariableTwo      | Variables avec une portée protégée, accessibles dans la classe et ses sous-classes. |
 | Publique  | pub_      | pub_VariableThree    | Variables avec une portée publique, accessibles depuis n'importe où dans le code. |
-| Constante | -         | VARIABLE_FOUR        | Variables contenant des valeurs constantes qui ne changent pas pendant l'exécution. |
+| Constante/Read only | -         | VARIABLE_FOUR        | Variables ne pouvant pas être modifié elles ne changent pas leur valeur à l'exécution du programme. |
 | Enuméré   | enum_     | enum_VariableFive    | Variables associées à des énumérations, souvent utilisées pour des options prédéfinies. |
 | Courante  | curr_     | curr_VariableSix     | Variables utilisées dans le contexte actuel, généralement pour améliorer la lisibilité. |
 | Texture 2D| _Tex2D    | VariableSeven_Tex2D  | Variables représentant des textures 2D dans les environnements graphiques. |
