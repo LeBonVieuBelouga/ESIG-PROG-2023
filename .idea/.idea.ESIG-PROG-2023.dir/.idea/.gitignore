@@ -11,3 +11,5 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# Dossier propre à l'enviromment du dévloppement
+/src/.vs
