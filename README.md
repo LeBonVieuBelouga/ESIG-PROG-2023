@@ -31,6 +31,23 @@ Ce tableau présente une nomenclature des variables utilisant des préfixes pour
 Ce projet a pour but de recréer le jeu [Rogue (1980)](#inspiration-rogue-1980) en C# à l'aide des framework [MonoGame](https://www.monogame.net/) et [.NET](https://dotnet.microsoft.com/en-us/). 
 Certaines mécaniques diffère du jeu de base, comme la gestion dynamique de la lumière dans les pièces qui n'est pas pris qui n'est pas présent dans le jeu et la magie qui a été retiré.
 
+## Fonctionnement de la lumière
+Pour définir la luminosité d'une case, celle-ci est calculé selon la puissance d'action de l'éméteur qu'elle reçoit, sa distance et la valeur maximal et minimal qu'elle peut avoir.
+
+Exemple :
+```
+LUMINOSITE_MAX = #0000; //
+LUMINOSITE_MINI = #FFFFF; // 
+
+PuissanceEmeteur = 8;
+DistanceCaseEmetteur = 3;
+
+LuminositeCase = PuissanceEmeteur/DistanceCaseEmetteur
+
+```
+
+Emeteur_Puissance = 8;
+Distance 
 ## Inspiration : Rogue (1980)
 <a name="inspiration-rogue-1980"></a>
 
