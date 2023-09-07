@@ -14,23 +14,24 @@ namespace RogueProject
     {
         //CONSTANTE//
         public const float DEFAULT_VELOCITY = 1f;
+        public const float DEFAULT_ROTATION = 0f;
         public const float DEFAULT_LAYER_DEPTH = 1f;
+        public const SpriteEffects DEFAULT_EFFECT = SpriteEffects.None;
+        //public Color DEFAULT_COLOR = default(Color);
 
-        private SpriteBatch m_SpriteBatch; // Helper class pour dessiner le sprite dans la fenêtre.
-        private Rectangle m_SpriteSheet_Size;
+        private SpriteBatch m_SpriteBatch;      // Helper class pour dessiner le sprite dans la fenêtre.
+        //private Rectangle m_SpriteSheet_Size;
 
-        private Texture2D m_Tex2D;// Texture du Sprite
-        private  Vector2 m_Pos;// Position du Sprite dans l'environement
-        float m_Velocity; // Vitesse de déplacement du Sprite
-
-        private Rectangle? m_SourceRectangle; // Taille du Sprite ??
-        //private Vector2 m_Size; // Taille du Sprite 
-        private Color m_Color; // Filtre appliqué sur le sprite
-        private float m_Rotation; // Angle de rotation a appliquer au sprite
-        private Vector2 m_Origin; //position d'orgine
-        private Vector2 m_Scale; // Mise à l'échelle de ce sprite.
-        private SpriteEffects m_Effect; // Modificateurs pour le dessin (peut être combiné).
-        private float m_LayerDepth; //Profondeur du champ du sprite.
+        private Texture2D m_Tex2D;              // Texture du Sprite
+        private  Vector2 m_Pos;                 // Position du Sprite dans l'environement
+        float m_Velocity;                       // Vitesse de déplacement du Sprite
+        private Rectangle? m_SourceRectangle;   // Taille du Sprite ??
+        private Color m_Color;                  // Filtre appliqué sur le sprite
+        private float m_Rotation;               // Angle de rotation a appliquer au sprite
+        private Vector2 m_Origin;               //position d'orgine
+        private Vector2 m_Scale;                // Mise à l'échelle de ce sprite.
+        private SpriteEffects m_Effect;         // Modificateurs pour le dessin (peut être combiné).
+        private float m_LayerDepth;             //Profondeur du champ du sprite.
 
         //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters ?
 
@@ -39,25 +40,25 @@ namespace RogueProject
             SpriteBatch _SpriteBatch,
             Vector2 _Position = new Vector2(),
             float _Velocity = DEFAULT_VELOCITY,
-            Rectangle? m_SourceRectangle = null,
-            /*Color _Color = Color.White,*/
-            float _Rotation = 0f, 
+            Rectangle? _SourceRectangle = null,
+            Color _Color = default(Color),
+            float _Rotation = DEFAULT_ROTATION, 
             Vector2 _Origin = new Vector2(),
             Vector2 _Scale = new Vector2(),
-            SpriteEffects _Effect = SpriteEffects.None,
-            float _LayerDepth = 0f) {
-            
+            SpriteEffects _Effect = DEFAULT_EFFECT,
+            float _LayerDepth = DEFAULT_LAYER_DEPTH) {
+
             this.SetTexture(_Texture2D);
             this.SetSpriteBatch(_SpriteBatch);
             this.SetPosition(_Position);
             this.SetVelocity(_Velocity);
-            this.SetSourceRectangle(m_SourceRectangle);
+            this.SetSourceRectangle(_SourceRectangle);
+            this.SetColor(_Color);
             this.SetRotation(_Rotation);
             this.SetOrigin(_Origin);
             this.SetScale(_Scale);
             this.SetEffect(_Effect);
             this.SetLayerDepth(_LayerDepth);
-            //this.SetSize(_Sprite_Size);
         }
 
         /// <summary>
