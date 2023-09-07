@@ -17,7 +17,7 @@ namespace RogueProject
         public const float DEFAULT_ROTATION = 0f;
         public const float DEFAULT_LAYER_DEPTH = 1f;
         public const SpriteEffects DEFAULT_EFFECT = SpriteEffects.None;
-        //public Color DEFAULT_COLOR = default(Color);
+        public readonly Color DEFAULT_COLOR = Color.White;
 
         private SpriteBatch m_SpriteBatch;      // Helper class pour dessiner le sprite dans la fenêtre.
         //private Rectangle m_SpriteSheet_Size;
@@ -48,6 +48,10 @@ namespace RogueProject
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH) {
 
+            if (_Color == default(Color))
+            {
+                _Color = DEFAULT_COLOR;
+            }
             this.SetTexture(_Texture2D);
             this.SetSpriteBatch(_SpriteBatch);
             this.SetPosition(_Position);
