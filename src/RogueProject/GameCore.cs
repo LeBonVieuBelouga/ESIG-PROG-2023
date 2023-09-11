@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace RogueProject
 {
@@ -8,6 +9,7 @@ namespace RogueProject
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private List<Case> _listCase;
 
         //Variable avec la méthodolgie de base pour créer un sprite
         Texture2D Bulio_Tex;
