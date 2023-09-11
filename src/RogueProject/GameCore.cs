@@ -9,7 +9,8 @@ namespace RogueProject
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Case> _listCase;
+        private List<Case> ListCaseGround;
+        private Texture2D Ground_Texture;
 
         //Variable avec la méthodolgie de base pour créer un sprite
         Texture2D Bulio_Tex;
@@ -58,7 +59,7 @@ namespace RogueProject
             // TODO: use this.Content to load your game content here
 
             // Initialisation des Sprites
-            m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
+            //m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
             //m_Player.SetTexture(Player_Tex);
             Bulio_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
