@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RogueProject
 {
@@ -9,9 +11,8 @@ namespace RogueProject
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Case> ListCaseGround;
-        private Texture2D Ground_Texture;
-
+        private List<Case> ListCaseGround = new List<Case>();
+        Random random = new Random();
         //Variable avec la méthodolgie de base pour créer un sprite
         Texture2D Bulio_Tex;
         Vector2 Bulio_Pos;
@@ -39,6 +40,26 @@ namespace RogueProject
                 Content.Load<Texture2D>("MissingTextureInventory"),
                 _spriteBatch
                 );
+
+            for (int i = 1; i < 24; i++)
+            {
+                for (int j = 1; j < 12; j++)
+                {
+                    // Met des grounds aléatoirement dans le tableau
+                    if (random.Next(1, 3) == 1)
+                    {
+                        ListCaseGround.Add(new Ground(
+                            1,
+                            null,
+                            false,
+                            Content.Load<Texture2D>("square"),
+                            _spriteBatch,
+                            new Vector2(24 * i, 24 * j)
+                        ));
+                    }
+
+                }
+            }
 
             m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2));
@@ -80,6 +101,7 @@ namespace RogueProject
 
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
+                //Debug.WriteLine(ListCaseGround[indexNTM].GetContent().GetType().Name);
                 Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 //m_Player.SetPosition(new Vector2 (m_Player.GetPosition().X, (m_Player.GetPosition().Y - Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds)));
             }
@@ -154,6 +176,11 @@ namespace RogueProject
                 SpriteEffects.None,
                 0f
             );
+            for (int i = 0; i < ListCaseGround.Count; i++)
+            {
+                ListCaseGround[i].DefaultDraw(_spriteBatch);
+            }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

@@ -81,3 +81,4 @@ C:\Users\johan.jacquet\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\obj\Debug\
 C:\Users\johan.jacquet\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\obj\Debug\net6.0\RogueProject.pdb
 C:\Users\johan.jacquet\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\obj\Debug\net6.0\RogueProject.genruntimeconfig.cache
 C:\Users\johan.jacquet\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\obj\Debug\net6.0\ref\RogueProject.dll
+C:\Users\johan.jacquet\Desktop\GitHub\ESIG-PROG-2023\src\RogueProject\bin\Debug\net6.0\Content\square.xnb
