@@ -53,9 +53,9 @@ namespace RogueProject
             float _LayerDepth = DEFAULT_LAYER_DEPTH
             ) : base(_Texture2D, _SpriteBatch, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
-            this.m_IsWalkable = _IsWalkable;
-            this.m_VisibilityLevel = _VisibilityLevel;
-            this.m_Content = _Content;
+            this.SetIsWalkable(_IsWalkable);
+            this.SetVisibilityLevel(_VisibilityLevel);
+            this.SetContent(_Content);
         }
 
         /// <summary>

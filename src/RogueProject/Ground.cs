@@ -44,8 +44,7 @@ namespace RogueProject
             float _LayerDepth = DEFAULT_LAYER_DEPTH
             ) : base(_VisibilityLevel, _Content, _IsWalkable, _Texture2D, _SpriteBatch, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
-            
-
+            // Code lors de la création d'un ground
         }
     }
 }
