@@ -13,7 +13,7 @@ namespace RogueProject
     public class Sprite
     {
         //CONSTANTE//
-        public const float DEFAULT_VELOCITY = 1f;
+        public const float DEFAULT_VELOCITY = 0f;
         public const float DEFAULT_ROTATION = 0f;
         public const float DEFAULT_LAYER_DEPTH = 1f;
         public const SpriteEffects DEFAULT_EFFECT = SpriteEffects.None;
