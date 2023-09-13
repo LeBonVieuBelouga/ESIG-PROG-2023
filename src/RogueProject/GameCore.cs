@@ -6,6 +6,12 @@ namespace RogueProject
 {
     public class GameCore : Game
     {
+
+        public const int WINDOW_WIDTH = 1920;
+        public const int WINDOW_HEIGHT = 1080;
+
+        private bool IsW = false;
+        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -24,6 +30,10 @@ namespace RogueProject
             IsMouseVisible = true;
 
             //change the screen size
+            _graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+            _graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            _graphics.IsFullScreen = true;
+
             _graphics.ApplyChanges();
         }
 
@@ -77,8 +87,10 @@ namespace RogueProject
 
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
-                Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 //m_Player.SetPosition(new Vector2 (m_Player.GetPosition().X, (m_Player.GetPosition().Y - Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds)));
+
+                IsW = true;
             }
 
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
@@ -137,7 +149,10 @@ namespace RogueProject
             // # Implémentation des sprites dans la fenêtre.
 
             // ## Joueur
-            m_Player.DefaultDraw(_spriteBatch);
+            if (IsW == false) {
+                m_Player.DefaultDraw(_spriteBatch);
+            }
+         
 
             // ## Bulio
             _spriteBatch.Draw(
