@@ -100,3 +100,4 @@ Nous avons développé le projet sur Visual Studio avec l'extension  Monogame
 - Decoded Rogue : [https://www.maizure.org/projects/decoded-rogue/index.html](https://www.maizure.org/projects/decoded-rogue/index.html)
 - SadConsole :  [https://github.com/Thraka/SadConsole/tree/master](https://github.com/Thraka/SadConsole/tree/master)
 - Amongus Jumper : [https://github.com/divtec-cejef/2021-JCO-Platformer-31-ProgramationOO](https://github.com/divtec-cejef/2021-JCO-Platformer-31-ProgramationOO)
+- Développement de jeux avec MonoGame - Partie I :[https://franckh.developpez.com/tutoriels/csharp/monogame/part-I/](https://franckh.developpez.com/tutoriels/csharp/monogame/part-I/)
