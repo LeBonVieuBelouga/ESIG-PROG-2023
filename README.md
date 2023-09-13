@@ -35,23 +35,25 @@ Certaines mécaniques diffère du jeu de base, comme la gestion dynamique de la 
 Pour définir la luminosité d'une case, celle-ci est calculé selon la puissance d'action de l'éméteur qu'elle reçoit, sa distance et la valeur maximal et minimal qu'elle peut avoir.
 
 Exemple :
+
 ```
-LUMINOSITE_MAX = #0000; //
-LUMINOSITE_MINI = #FFFFF; // 
+LUMINOSITE_MAX = "#00000"; //
+LUMINOSITE_MINI = "#FFFFF"; // 
 
 PuissanceEmeteur = 8;
 DistanceCaseEmetteur = 3;
 
-LuminositeCase = PuissanceEmeteur/DistanceCaseEmetteur
+LuminositeCase = PuissanceEmeteur / Math.Pow(DistanceCaseEmetteur,2) * (LUMINOSITE_MAX - LUMINOSITE_MINI)
 
 ```
+![Exemple de dégradation de la lumière théorique](https://github.com/LeBonVieuBelouga/ESIG-PROG-2023/blob/main/res/img/ExempleLumiere.png)
 
 Emeteur_Puissance = 8;
 Distance 
 ## Inspiration : Rogue (1980)
 <a name="inspiration-rogue-1980"></a>
 
-![Rogue Game](https://github.com/LeBonVieuBelouga/ESIG-PROG-2023/blob/main/res/rogue_screenshot.jpg)
+![Rogue Game](https://github.com/LeBonVieuBelouga/ESIG-PROG-2023/blob/main/res/img/rogue_screenshot.jpg)
 
 ### Description
 
