@@ -9,6 +9,9 @@ namespace RogueProject
 {
     public class GameCore : Game
     {
+        public const int WINDOW_WIDTH = 1920; // Largeur de la fenêtre
+        public const int WINDOW_HEIGHT = 1080; // Hauteur de la fenêtre
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private List<Case> ListCaseGround = new List<Case>();
@@ -26,6 +29,10 @@ namespace RogueProject
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            //change the screen size
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            Window.IsBorderless = true;
 
             //change the screen size
             _graphics.ApplyChanges();
@@ -162,7 +169,7 @@ namespace RogueProject
             // # Implémentation des sprites dans la fenêtre.
 
             // ## Joueur
-            m_Player.DefaultDraw(_spriteBatch);
+            //m_Player.Draw();
 
             // ## Bulio
             _spriteBatch.Draw(
