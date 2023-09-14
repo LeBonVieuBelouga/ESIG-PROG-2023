@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +15,13 @@ namespace RogueProject
     public class Sprite
     {
         //CONSTANTE//
-        public const float DEFAULT_VELOCITY = 1f;
+        public const float DEFAULT_VELOCITY = 0f;
         public const float DEFAULT_ROTATION = 0f;
         public const float DEFAULT_LAYER_DEPTH = 1f;
         public const SpriteEffects DEFAULT_EFFECT = SpriteEffects.None;
         public readonly Color DEFAULT_COLOR = Color.White;
 
-        private SpriteBatch m_SpriteBatch;      // Helper class pour dessiner le sprite dans la fenêtre.
+        protected SpriteBatch m_SpriteBatch;      // Helper class pour dessiner le sprite dans la fenêtre.
         //private Rectangle m_SpriteSheet_Size;
 
         private Texture2D m_Tex2D;              // Texture du Sprite
@@ -33,6 +35,7 @@ namespace RogueProject
         private SpriteEffects m_Effect;         // Modificateurs pour le dessin (peut être combiné).
         private float m_LayerDepth;             //Profondeur du champ du sprite.
 
+    
         //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters ?
 
         public Sprite(
