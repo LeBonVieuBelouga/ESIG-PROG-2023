@@ -10,12 +10,17 @@ using System.Formats.Asn1;
 
 namespace RogueProject
 {
+    /// <summary>
+    /// Classe représentant une Entity (entité) qui peut s'apparenter à un être vivant
+    /// Cette classe est abstraite donc impossible de créer un objet de ce type
+    /// Cette classe hérite de la classe Sprite
+    /// </summary>
     internal abstract class Entity : Sprite
     {
-        private const uint HEALTH_DEFAULT = 1;
-        private const uint DAMAGE_DEFAULT = 0;
-        private const uint DEFENSE_DEFAULT = 0;
-        private const float DEFAULT_ENTITY_VELOCITY = 1f;
+        protected const uint HEALTH_DEFAULT = 1;
+        protected const uint DAMAGE_DEFAULT = 0;
+        protected const uint DEFENSE_DEFAULT = 0;
+        protected const float DEFAULT_ENTITY_VELOCITY = 1f;
 
         private uint m_HealthPoint;
         private uint m_Damage;
@@ -126,8 +131,18 @@ namespace RogueProject
         }
 
         /// <summary>
-        /// Permet de tuer l'entité.
+        /// Permet de tuer l'Entity.
         /// </summary>
         public abstract void Death();
+
+        /// <summary>
+        /// Permet à l'Entity de bouger.
+        /// </summary>
+        public abstract void Move();
+
+        /// <summary>
+        /// Permet à l'Entity d'attaquer.
+        /// </summary>
+        public abstract void Attack();
     }
 }

@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 
 namespace RogueProject
 {
+    /// <summary>
+    /// Classe permettant l'implementation d'un Sprite (Image) dans le GameCore
+    /// Il est aussi les parents de plusieurs classes lié aux éléments graphique du jeu
+    /// </summary>
     public class Sprite
     {
         //CONSTANTE//

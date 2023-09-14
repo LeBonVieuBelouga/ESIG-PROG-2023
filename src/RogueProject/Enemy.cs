@@ -10,6 +10,9 @@ using System.Formats.Asn1;
 
 namespace RogueProject
 {
+    /// <summary>
+    /// Créer une class permettant au GameCore d'implémenté des ennemis dans le jeu.
+    /// </summary>
     internal class Enemy : Entity
     {
         /// <summary>
@@ -45,7 +48,7 @@ namespace RogueProject
                 Vector2 _Scale = new Vector2(),
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _SpriteBatch, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
+            ) : base(_Texture2D, _SpriteBatch, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
 
             this.SetHealthPoint(_HealthPoint);
@@ -53,9 +56,30 @@ namespace RogueProject
             //this.SetDefense(_Defense);
         }
 
+        /// <summary>
+        /// Permet à l'Ennemie de mourrir.
+        /// </summary>
         public override void Death() {
             Debug.WriteLine("Morbius");
         }
+
+
+        /// <summary>
+        /// Permet à l'Ennemie d'attaquer.
+        /// </summary>
+        public override void Attack()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Permet à l'Ennemie de bouger.
+        /// </summary>
+        public override void Move()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
-}
+
