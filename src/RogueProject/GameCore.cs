@@ -16,8 +16,14 @@ namespace RogueProject
         private List<Case> ListCaseGround = new List<Case>();
         Random random = new Random();
 
+        private bool holdUpKey = false;
+        private bool holdDownKey = false;
+        private bool holdRightKey = false;
+        private bool holdLeftKey = false;
+
+
         //Variable propre à la méthodolgie du projet
-        Sprite m_Player;
+        Player m_Player;
 
         private List<Entity> m_entitiesL;
 
@@ -39,9 +45,13 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
-            m_Player = new Sprite(
-                Content.Load<Texture2D>("MissingTextureInventory"),
-                _spriteBatch
+            m_Player = new Player(
+                Content.Load<Texture2D>("player"),
+                _spriteBatch,
+                1,
+                1,
+                1,
+                new Vector2(24,24)
                 );
 
             for (int i = 1; i < 80; i++)
@@ -49,8 +59,8 @@ namespace RogueProject
                 for (int j = 1; j < 45; j++)
                 {
                     // Met des grounds aléatoirement dans le tableau
-                    if (random.Next(1, 3) == 1)
-                    {
+                    //if (random.Next(1, 3) == 1)
+                    //{
                         ListCaseGround.Add(new Ground(
                             1,
                             null,
@@ -59,14 +69,10 @@ namespace RogueProject
                             _spriteBatch,
                             new Vector2(24 * i, 24 * j)
                         ));
-                    }
+                    //}
 
                 }
             }
-
-            m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
-                _graphics.PreferredBackBufferHeight/2));
-            m_Player.SetVelocity(350f);
 
             base.Initialize();
         }
@@ -96,27 +102,48 @@ namespace RogueProject
 
             var kstate = Keyboard.GetState();
 
-            if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
-            {
-                //Debug.WriteLine(ListCaseGround[indexNTM].GetContent().GetType().Name);
-                Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                //m_Player.SetPosition(new Vector2 (m_Player.GetPosition().X, (m_Player.GetPosition().Y - Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds)));
+            // Permet d'avoir le nom de la classe d'un objet
+            //Debug.WriteLine(ListCaseGround[index].GetContent().GetType().Name);
 
+            if (holdUpKey && holdDownKey && holdLeftKey && holdRightKey)
+            {
+                if (kstate.IsKeyDown(Keys.Up))
+                {
+                    holdUpKey = false;
+                }
+                if (kstate.IsKeyDown(Keys.Down))
+                {
+
+                    holdDownKey = false;
+                }
+
+                if (kstate.IsKeyDown(Keys.Left))
+                {
+
+                    holdLeftKey = false;
+                }
+
+                if (kstate.IsKeyDown(Keys.Right))
+                {
+
+                    holdRightKey = false;
+                }
             }
-
-            if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
+            if (kstate.IsKeyUp(Keys.Up) && !holdUpKey)
             {
-                Player_Pos.Y += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                holdUpKey = true;
             }
-
-            if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
+            if (kstate.IsKeyUp(Keys.Down) && !holdDownKey)
             {
-                Player_Pos.X -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                holdDownKey = true;
             }
-
-            if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
+            if (kstate.IsKeyUp(Keys.Right) && !holdRightKey)
             {
-                Player_Pos.X += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                holdRightKey = true;
+            }
+            if (kstate.IsKeyUp(Keys.Left) && !holdLeftKey)
+            {
+                holdLeftKey = true;
             }
 
             //Pour ne pas sortir de la zone
@@ -139,7 +166,7 @@ namespace RogueProject
                 Player_Pos.Y = Player_Tex.Height / 2;
             }
 
-            m_Player.SetPosition(Player_Pos);
+            //m_Player.SetPosition(Player_Pos);
 
             base.Update(gameTime);
         }
@@ -149,12 +176,11 @@ namespace RogueProject
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-
             for (int i = 0; i < ListCaseGround.Count; i++)
             {
                 ListCaseGround[i].DefaultDraw(_spriteBatch);
             }
-
+            m_Player.DefaultDraw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);

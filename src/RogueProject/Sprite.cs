@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 
 namespace RogueProject
 {
+    /// <summary>
+    /// Classe permettant l'implementation d'un Sprite (Image) dans le GameCore
+    /// Il est aussi les parents de plusieurs classes lié aux éléments graphique du jeu
+    /// </summary>
     public class Sprite
     {
         //CONSTANTE//
@@ -269,18 +273,18 @@ namespace RogueProject
         /// </summary>
         /// <param name="_SpriteBatch"></param>
         public void Draw(SpriteBatch _SpriteBatch) {
-            //Dessine le Sprite avec ces paramètres 
+            //Dessine le Sprite avec touts ses paramètres 
             _SpriteBatch.Draw(
-                    this.m_Tex2D,
-                    this.m_Pos,
-                    null,
-                    Color.White,
-                    0f,
-                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
-                    Vector2.One,
-                    SpriteEffects.None,
-                    0f
-                    );
+                     this.m_Tex2D,
+                     this.m_Pos,
+                     this.m_SourceRectangle,
+                     this.m_Color,
+                     this.m_Rotation,
+                     this.m_Origin,
+                     this.m_Scale,
+                     this.m_Effect,
+                     this.m_LayerDepth
+                     );
         }
 
 

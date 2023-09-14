@@ -8,9 +8,11 @@
     <File>C:/Users/johan.jacquet/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/bastienbulioBaseV1.png</File>
     <File>C:/Users/johan.jacquet/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/HeroV2.png</File>
     <File>C:/Users/johan.jacquet/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/MissingTextureInventory.png</File>
+    <File>C:/Users/johan.jacquet/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/player.png</File>
     <File>C:/Users/johan.jacquet/Desktop/GitHub/ESIG-PROG-2023/src/RogueProject/Content/square.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
