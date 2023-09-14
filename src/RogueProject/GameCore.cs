@@ -4,13 +4,12 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace RogueProject
 {
     public class GameCore : Game
     {
-        public const int WINDOW_WIDTH = 1920; // Largeur de la fenêtre
-        public const int WINDOW_HEIGHT = 1080; // Hauteur de la fenêtre
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -21,8 +20,11 @@ namespace RogueProject
         Vector2 Bulio_Pos;
         float Bulio_Velocity;
 
+
         //Variable propre à la méthodolgie du projet
         Sprite m_Player;
+
+        private List<Entity> m_entitiesL;
 
         public GameCore()
         {
@@ -33,8 +35,7 @@ namespace RogueProject
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             Window.IsBorderless = true;
-
-            //change the screen size
+            
             _graphics.ApplyChanges();
         }
 
@@ -71,10 +72,6 @@ namespace RogueProject
             m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2));
             m_Player.SetVelocity(350f);
-            
-            Bulio_Pos = new Vector2(200f,
-                _graphics.PreferredBackBufferHeight);
-            Bulio_Velocity = 350f;
 
             base.Initialize();
         }
@@ -89,8 +86,6 @@ namespace RogueProject
             // Initialisation des Sprites
             //m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
-            //m_Player.SetTexture(Player_Tex);
-            Bulio_Tex = Content.Load<Texture2D>("bastienbulioBaseV1");
         }
 
         protected override void Update(GameTime gameTime)
@@ -111,6 +106,7 @@ namespace RogueProject
                 //Debug.WriteLine(ListCaseGround[indexNTM].GetContent().GetType().Name);
                 Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 //m_Player.SetPosition(new Vector2 (m_Player.GetPosition().X, (m_Player.GetPosition().Y - Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds)));
+
             }
 
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
@@ -148,13 +144,6 @@ namespace RogueProject
                 Player_Pos.Y = Player_Tex.Height / 2;
             }
 
-            Bulio_Pos.Y += Bulio_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
-            if (Bulio_Pos.Y > _graphics.PreferredBackBufferHeight - Bulio_Tex.Height / 2)
-            {
-                Bulio_Pos.Y = 0f;
-            }
-
             m_Player.SetPosition(Player_Pos);
 
             base.Update(gameTime);
@@ -167,6 +156,7 @@ namespace RogueProject
             _spriteBatch.Begin();
 
             // # Implémentation des sprites dans la fenêtre.
+            m_Player.Draw(_spriteBatch);
 
             // ## Joueur
             //m_Player.Draw();

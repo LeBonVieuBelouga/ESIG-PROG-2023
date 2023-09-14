@@ -1,7 +1,7 @@
 # README
 - Auteur(s) : **Johan Jaquet, Léo Küttel**
 - Version : **V0.1.2**
-- Date de mise à jour : **04.09.2023**
+- Date de mise à jour : **07.09.2023**
 - Date de création : **28.08.2023**
 - Description :
 
@@ -21,20 +21,39 @@ Ce tableau présente une nomenclature des variables utilisant des préfixes pour
 | Type      | Préfixe   | Exemple              | Description |
 |-----------|-----------|----------------------|-------------|
 | Membre    | m_        | m_VariableOne        | Variables utilisées comme membres internes d'une classe ou d'une structure. |
-| Protégée  | pro_      | pro_VariableTwo      | Variables avec une portée protégée, accessibles dans la classe et ses sous-classes. |
-| Publique  | pub_      | pub_VariableThree    | Variables avec une portée publique, accessibles depuis n'importe où dans le code. |
-| Constante | -         | VARIABLE_FOUR        | Variables contenant des valeurs constantes qui ne changent pas pendant l'exécution. |
+| Constante / Read only | -         | VARIABLE_FOUR        | Variables contenant des valeurs constantes qui ne changent pas pendant l'exécution. |
 | Enuméré   | enum_     | enum_VariableFive    | Variables associées à des énumérations, souvent utilisées pour des options prédéfinies. |
 | Courante  | curr_     | curr_VariableSix     | Variables utilisées dans le contexte actuel, généralement pour améliorer la lisibilité. |
 | Texture 2D| _Tex2D    | VariableSeven_Tex2D  | Variables représentant des textures 2D dans les environnements graphiques. |
 | Position  | _Pos      | VariableSeven_Pos    | Variables décrivant des positions, souvent dans des contextes spatiaux. |
 
+## Description du Projet
+Ce projet a pour but de recréer le jeu [Rogue (1980)](#inspiration-rogue-1980) en C# à l'aide des framework [MonoGame](https://www.monogame.net/) et [.NET](https://dotnet.microsoft.com/en-us/). 
+Certaines mécaniques diffère du jeu de base, comme la gestion dynamique de la lumière dans les pièces qui n'est pas pris qui n'est pas présent dans le jeu et la magie qui a été retiré.
 
+## Fonctionnement de la lumière
+Pour définir la luminosité d'une case, celle-ci est calculé selon la puissance d'action de l'éméteur qu'elle reçoit, sa distance et la valeur maximal et minimal qu'elle peut avoir.
 
+Exemple :
+
+```
+LUMINOSITE_MAX = "#00000"; //
+LUMINOSITE_MINI = "#FFFFF"; // 
+
+PuissanceEmeteur = 8;
+DistanceCaseEmetteur = 3;
+
+LuminositeCase = PuissanceEmeteur / Math.Pow(DistanceCaseEmetteur,2) * (LUMINOSITE_MAX - LUMINOSITE_MINI)
+
+```
+![Exemple de dégradation de la lumière théorique](https://github.com/LeBonVieuBelouga/ESIG-PROG-2023/blob/main/res/img/ExempleLumiere.png)
+
+Emeteur_Puissance = 8;
+Distance 
 ## Inspiration : Rogue (1980)
 <a name="inspiration-rogue-1980"></a>
 
-![Rogue Game](https://github.com/LeBonVieuBelouga/ESIG-PROG-2023/blob/main/res/rogue_screenshot.jpg)
+![Rogue Game](https://github.com/LeBonVieuBelouga/ESIG-PROG-2023/blob/main/res/img/rogue_screenshot.jpg)
 
 ### Description
 
@@ -61,12 +80,6 @@ Le joueur incarne un aventurier qui explore un donjon rempli de monstres, de tr�
 
 Ce chapitre est une version simplifiée et ne couvre pas tous les détails du jeu Rogue. Pour en savoir plus, consultez les ressources historiques et les documentations disponibles.
 
-### Autre référence :
-
-Charte Graphique :
-- **Stone Story RPG :** [https://stonestoryrpg.com/](https://stonestoryrpg.com/)
-- **Dwarf Fortress :** [https://en.wikipedia.org/wiki/Dwarf_Fortress](https://en.wikipedia.org/wiki/Dwarf_Fortress)
-
 ## Installation
 <a name="installation"></a>
 
@@ -87,3 +100,4 @@ Nous avons développé le projet sur Visual Studio avec l'extension  Monogame
 - Decoded Rogue : [https://www.maizure.org/projects/decoded-rogue/index.html](https://www.maizure.org/projects/decoded-rogue/index.html)
 - SadConsole :  [https://github.com/Thraka/SadConsole/tree/master](https://github.com/Thraka/SadConsole/tree/master)
 - Amongus Jumper : [https://github.com/divtec-cejef/2021-JCO-Platformer-31-ProgramationOO](https://github.com/divtec-cejef/2021-JCO-Platformer-31-ProgramationOO)
+- Développement de jeux avec MonoGame - Partie I :[https://franckh.developpez.com/tutoriels/csharp/monogame/part-I/](https://franckh.developpez.com/tutoriels/csharp/monogame/part-I/)
