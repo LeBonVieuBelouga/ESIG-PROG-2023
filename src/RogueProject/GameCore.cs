@@ -48,9 +48,9 @@ namespace RogueProject
                 _spriteBatch
                 );
 
-            for (int i = 1; i < 24; i++)
+            for (int i = 1; i < 80; i++)
             {
-                for (int j = 1; j < 12; j++)
+                for (int j = 1; j < 45; j++)
                 {
                     // Met des grounds aléatoirement dans le tableau
                     if (random.Next(1, 3) == 1)
