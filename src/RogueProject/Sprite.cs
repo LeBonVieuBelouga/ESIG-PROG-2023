@@ -10,6 +10,8 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace RogueProject
 {
     public class Sprite
@@ -24,8 +26,9 @@ namespace RogueProject
         protected SpriteBatch m_SpriteBatch;      // Helper class pour dessiner le sprite dans la fenêtre.
         //private Rectangle m_SpriteSheet_Size;
 
+
         private Texture2D m_Tex2D;              // Texture du Sprite
-        private  Vector2 m_Pos;                 // Position du Sprite dans l'environement
+        private Vector2 m_Pos;                 // Position du Sprite dans l'environement
         float m_Velocity;                       // Vitesse de déplacement du Sprite
         private Rectangle? m_SourceRectangle;   // Taille du Sprite ??
         private Color m_Color;                  // Filtre appliqué sur le sprite
@@ -35,7 +38,6 @@ namespace RogueProject
         private SpriteEffects m_Effect;         // Modificateurs pour le dessin (peut être combiné).
         private float m_LayerDepth;             //Profondeur du champ du sprite.
 
-    
         //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters ?
 
         public Sprite(
@@ -45,11 +47,12 @@ namespace RogueProject
             float _Velocity = DEFAULT_VELOCITY,
             Rectangle? _SourceRectangle = null,
             Color _Color = default(Color),
-            float _Rotation = DEFAULT_ROTATION, 
+            float _Rotation = DEFAULT_ROTATION,
             Vector2 _Origin = new Vector2(),
             Vector2 _Scale = new Vector2(),
             SpriteEffects _Effect = DEFAULT_EFFECT,
-            float _LayerDepth = DEFAULT_LAYER_DEPTH) {
+            float _LayerDepth = DEFAULT_LAYER_DEPTH)
+        {
 
             if (_Color == default(Color))
             {
@@ -72,10 +75,12 @@ namespace RogueProject
         /// Setter pour m_Tex2D
         /// </summary>
         /// <param name="_Tex2D"></param>
-        public void SetTexture(Texture2D _Tex2D) {
+        public void SetTexture(Texture2D _Tex2D)
+        {
             this.m_Tex2D = _Tex2D;
 
         }
+
         /// <summary>
         /// Getter pour m_Tex2D
         /// </summary>
@@ -109,6 +114,7 @@ namespace RogueProject
         {
             this.m_Velocity = _Velocity;
         }
+
         /// <summary>
         /// Getter pour m_Velocity
         /// </summary>
@@ -129,9 +135,11 @@ namespace RogueProject
         /// Setter pour m_SpriteBatch
         /// </summary>
         /// <param name="_SpriteBatch"></param>
-        public void SetSpriteBatch(SpriteBatch _SpriteBatch) { 
+        public void SetSpriteBatch(SpriteBatch _SpriteBatch)
+        {
             this.m_SpriteBatch = _SpriteBatch;
         }
+
         /// <summary>
         /// Getter pour m_SpriteBatch
         /// </summary>
@@ -149,6 +157,7 @@ namespace RogueProject
         {
             this.m_SourceRectangle = sourceRectangle;
         }
+
         /// <summary>
         /// Getter pour m_SourceRectangle
         /// </summary>
@@ -158,21 +167,21 @@ namespace RogueProject
             return this.m_SourceRectangle;
         }
 
-
-
         /// <summary>
         /// Setter pour m_Color
         /// </summary>
         /// <param name="_Color"></param>
         public void SetColor(Color _Color)
         {
-            this.m_Color = _Color; 
+            this.m_Color = _Color;
         }
+
         /// <summary>
         /// Getter pour m_Color
         /// </summary>
         /// <returns>m_Color</returns>
-        public Color GetColor() {
+        public Color GetColor()
+        {
             return this.m_Color;
         }
 
@@ -184,6 +193,7 @@ namespace RogueProject
         {
             this.m_Rotation = _Rotation;
         }
+
         /// <summary>
         /// Getter pour m_Rotation
         /// </summary>
@@ -237,6 +247,7 @@ namespace RogueProject
         {
             this.m_Effect = _Effect;
         }
+
         /// <summary>
         /// Getter pour m_Effect
         /// </summary>
@@ -268,21 +279,21 @@ namespace RogueProject
         /// Permet de dessiner un Sprite en un appel de fonction avec ou sans un SpriteBatch spécifié.
         /// </summary>
         /// <param name="_SpriteBatch"></param>
-        public void Draw(SpriteBatch _SpriteBatch) {
-            //Dessine le Sprite avec ces paramètres 
-            _SpriteBatch.Draw(
-                    this.m_Tex2D,
-                    this.m_Pos,
-                    null,
-                    Color.White,
-                    0f,
-                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
-                    Vector2.One,
-                    SpriteEffects.None,
-                    0f
-                    );
+        public void Draw(SpriteBatch _SpriteBatch)
+        {
+            //Dessine le Sprite avec touts ses paramètres 
+            this.m_SpriteBatch.Draw(
+                     this.m_Tex2D,
+                     this.m_Pos,
+                     this.m_SourceRectangle,
+                     this.m_Color,
+                     this.m_Rotation,
+                     this.m_Origin,
+                     this.m_Scale,
+                     this.m_Effect,
+                     this.m_LayerDepth
+                     );
         }
-
 
         /// <summary>
         /// Permet de dessiner un Sprite en un appel de fonction avec ou sans un SpriteBatch spécifié.
@@ -290,18 +301,18 @@ namespace RogueProject
         /// <param name="_SpriteBatch"></param>
         public void Draw()
         {
-           //Dessine le Sprite avec touts ses paramètres 
-           this.m_SpriteBatch.Draw(
-                    this.m_Tex2D,
-                    this.m_Pos,
-                    this.m_SourceRectangle,
-                    this.m_Color,
-                    this.m_Rotation,
-                    this.m_Origin,
-                    this.m_Scale,
-                    this.m_Effect,
-                    this.m_LayerDepth
-                    );
+            //Dessine le Sprite avec touts ses paramètres 
+            this.m_SpriteBatch.Draw(
+                     this.m_Tex2D,
+                     this.m_Pos,
+                     this.m_SourceRectangle,
+                     this.m_Color,
+                     this.m_Rotation,
+                     this.m_Origin,
+                     this.m_Scale,
+                     this.m_Effect,
+                     this.m_LayerDepth
+                     );
         }
 
         /// <summary>
@@ -340,8 +351,3 @@ namespace RogueProject
         }
     }
 }
-
-
-
-
-

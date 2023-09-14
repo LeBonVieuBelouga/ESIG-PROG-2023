@@ -59,7 +59,7 @@ namespace RogueProject
 
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
-            //this.SetDefense(_Defense);
+            this.SetDefense(_Defense);
 
         }
         /// <summary>

@@ -1,0 +1,8 @@
+
+# Dossier propre à l'enviromment du dévloppement
+/.vs
+/src/.vs
+/src/RogueProject/.vs
+/src/RogueProject/bin/
+/src/RogueProject/obj/Debug
+
