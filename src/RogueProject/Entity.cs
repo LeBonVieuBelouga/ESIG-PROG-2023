@@ -126,7 +126,7 @@ namespace RogueProject
         }
 
         /// <summary>
-        /// Permet de tué l'entité instantanément
+        /// Permet de tuer l'entité.
         /// </summary>
         public abstract void Death();
     }
