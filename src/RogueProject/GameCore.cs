@@ -15,11 +15,6 @@ namespace RogueProject
         private SpriteBatch _spriteBatch;
         private List<Case> ListCaseGround = new List<Case>();
         Random random = new Random();
-        //Variable avec la méthodolgie de base pour créer un sprite
-        Texture2D Bulio_Tex;
-        Vector2 Bulio_Pos;
-        float Bulio_Velocity;
-
 
         //Variable propre à la méthodolgie du projet
         Sprite m_Player;
@@ -155,24 +150,6 @@ namespace RogueProject
 
             _spriteBatch.Begin();
 
-            // # Implémentation des sprites dans la fenêtre.
-            m_Player.Draw(_spriteBatch);
-
-            // ## Joueur
-            //m_Player.Draw();
-
-            // ## Bulio
-            _spriteBatch.Draw(
-                Bulio_Tex,
-                Bulio_Pos,
-                null,
-                Color.White,
-                0f,
-                new Vector2(Bulio_Tex.Width / 2, Bulio_Tex.Height / 2),
-                Vector2.One,
-                SpriteEffects.None,
-                0f
-            );
             for (int i = 0; i < ListCaseGround.Count; i++)
             {
                 ListCaseGround[i].DefaultDraw(_spriteBatch);
