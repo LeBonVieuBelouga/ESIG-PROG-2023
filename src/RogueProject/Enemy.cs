@@ -15,13 +15,17 @@ namespace RogueProject
     /// </summary>
     internal class Enemy : Entity
     {
+
+        private uint EXPERIENCE_POINT_DEFAULT = 15;
+        private uint ACTION_POINT_DEFAULT = 1;
+
+        private uint m_ExperienceGiven;
+        private uint m_actionPoint;
+
         /// <summary>
         /// Créer un objet de type Entity et instencie toutes ces propriétés.
         /// Permet de généré des créatures,joueur etc.. pouvant bouger, attaquer, mourrir, etc..
         /// </summary>
-        /// <param name="_VisibilityLevel">Niveau de lumière du Ground</param>
-        /// <param name="_Content">Contenu du Ground (joueur, monstre, objet,...)</param>
-        /// <param name="_IsWalkable">Définit si c'est possible de marcher sur le Ground</param>
         /// <param name="_Texture2D">Texture de le Ground</param>
         /// <param name="_SpriteBatch">SpriteBatch du GameCore permettant de dessiner la Texture sur la fenêtre</param>
         /// <param name="_Position">Position X et Y (Vecteur 2d) du Ground</param>
@@ -36,6 +40,7 @@ namespace RogueProject
         public Enemy(
                 Texture2D _Texture2D,
                 SpriteBatch _SpriteBatch,
+
                 uint _HealthPoint = HEALTH_DEFAULT,
                 uint _Damage = DAMAGE_DEFAULT,
                 uint _Defense = DEFENSE_DEFAULT,
@@ -48,12 +53,13 @@ namespace RogueProject
                 Vector2 _Scale = new Vector2(),
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _SpriteBatch, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
+            ) : base(_Texture2D, _SpriteBatch, _HealthPoint, _Damage, _Defense, _Position, _Velocity, 
+                _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
 
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
-            //this.SetDefense(_Defense);
+            this.SetDefense(_Defense);
         }
 
         /// <summary>
@@ -67,9 +73,20 @@ namespace RogueProject
         /// <summary>
         /// Permet à l'Ennemie d'attaquer.
         /// </summary>
-        public override void Attack()
+        public override void Attack(Entity _entity)
         {
-            throw new NotImplementedException();
+            uint entityHeathPoint = _entity.GetHealthPoint();
+            uint entityDamage = _entity.GetDamage();
+            uint entityDefense = _entity.GetDefense();
+
+
+
+            if (m_Damage) { 
+            
+            }
+
+
+            _entity.SetHealthPoint();
         }
 
         /// <summary>
