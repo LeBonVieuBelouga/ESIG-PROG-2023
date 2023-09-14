@@ -13,3 +13,4 @@
 /dataSources.local.xml
 # Dossier propre à l'enviromment du dévloppement
 /src/.vs
+/src/RogueProject/.vs
