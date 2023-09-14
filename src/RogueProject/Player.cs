@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace RogueProject
 {
@@ -54,15 +55,16 @@ namespace RogueProject
         /// Permet au joueur de bouger
         /// A réecrire une fois fonction fini
         /// </summary>
-        public override void Move()
+        public void Move(DIRECTION _Direction, List<Case> _ListCase)
         {
+
         }
 
         /// <summary>
         /// Permet au joueur d'attaquer
         /// A réecrire une fois fonction fini
         /// </summary>
-        public override void Attack()
+        public void Attack()
         {
         }
 
@@ -75,7 +77,8 @@ namespace RogueProject
 
         }
 
-
+        ///
+        // FAIRE CLASSE UPDATE QUI RENVOIE VRAI SI LES MONSTRES PEUVENT JOUER 
 
     }
 }

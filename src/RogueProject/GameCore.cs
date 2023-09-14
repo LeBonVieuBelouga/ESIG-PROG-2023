@@ -8,18 +8,28 @@ using System.Collections.Generic;
 
 namespace RogueProject
 {
+    public enum DIRECTION
+    {
+        UP,     // 0
+        DOWN,   // 1
+        RIGHT,  // 2
+        LEFT    // 3
+    }
+
     public class GameCore : Game
     {
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Case> ListCaseGround = new List<Case>();
+        private List<Case> m_ListCaseGround = new List<Case>();
         Random random = new Random();
 
-        private bool holdUpKey = false;
-        private bool holdDownKey = false;
-        private bool holdRightKey = false;
-        private bool holdLeftKey = false;
+
+
+        private bool releaseUpKey = false;
+        private bool releaseDownKey = false;
+        private bool releaseRightKey = false;
+        private bool releaseLeftKey = false;
 
 
         //Variable propre à la méthodolgie du projet
@@ -61,7 +71,7 @@ namespace RogueProject
                     // Met des grounds aléatoirement dans le tableau
                     //if (random.Next(1, 3) == 1)
                     //{
-                        ListCaseGround.Add(new Ground(
+                        m_ListCaseGround.Add(new Ground(
                             1,
                             null,
                             false,
@@ -102,48 +112,56 @@ namespace RogueProject
 
             var kstate = Keyboard.GetState();
 
-            // Permet d'avoir le nom de la classe d'un objet
-            //Debug.WriteLine(ListCaseGround[index].GetContent().GetType().Name);
 
-            if (holdUpKey && holdDownKey && holdLeftKey && holdRightKey)
+
+
+
+
+
+            // Permet d'avoir le nom de la classe d'un objet
+            //Debug.WriteLine(m_ListCaseGround[index].GetContent().GetType().Name);
+
+            if (releaseUpKey && releaseDownKey && releaseLeftKey && releaseRightKey)
             {
                 if (kstate.IsKeyDown(Keys.Up))
                 {
-                    holdUpKey = false;
+                    m_Player.Move(DIRECTION.UP, m_ListCaseGround);
+
+                    releaseUpKey = false;
                 }
                 if (kstate.IsKeyDown(Keys.Down))
                 {
-
-                    holdDownKey = false;
+                    m_Player.Move(DIRECTION.DOWN, m_ListCaseGround);
+                    releaseDownKey = false;
                 }
 
                 if (kstate.IsKeyDown(Keys.Left))
                 {
-
-                    holdLeftKey = false;
+                    m_Player.Move(DIRECTION.LEFT, m_ListCaseGround);
+                    releaseLeftKey = false;
                 }
 
                 if (kstate.IsKeyDown(Keys.Right))
                 {
-
-                    holdRightKey = false;
+                    m_Player.Move(DIRECTION.RIGHT, m_ListCaseGround);
+                    releaseRightKey = false;
                 }
             }
-            if (kstate.IsKeyUp(Keys.Up) && !holdUpKey)
+            if (kstate.IsKeyUp(Keys.Up) && !releaseUpKey)
             {
-                holdUpKey = true;
+                releaseUpKey = true;
             }
-            if (kstate.IsKeyUp(Keys.Down) && !holdDownKey)
+            if (kstate.IsKeyUp(Keys.Down) && !releaseDownKey)
             {
-                holdDownKey = true;
+                releaseDownKey = true;
             }
-            if (kstate.IsKeyUp(Keys.Right) && !holdRightKey)
+            if (kstate.IsKeyUp(Keys.Right) && !releaseRightKey)
             {
-                holdRightKey = true;
+                releaseRightKey = true;
             }
-            if (kstate.IsKeyUp(Keys.Left) && !holdLeftKey)
+            if (kstate.IsKeyUp(Keys.Left) && !releaseLeftKey)
             {
-                holdLeftKey = true;
+                releaseLeftKey = true;
             }
 
             //Pour ne pas sortir de la zone
@@ -171,14 +189,16 @@ namespace RogueProject
             base.Update(gameTime);
         }
 
+
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            for (int i = 0; i < ListCaseGround.Count; i++)
+            for (int i = 0; i < m_ListCaseGround.Count; i++)
             {
-                ListCaseGround[i].DefaultDraw(_spriteBatch);
+                m_ListCaseGround[i].DefaultDraw(_spriteBatch);
             }
             m_Player.DefaultDraw(_spriteBatch);
             _spriteBatch.End();

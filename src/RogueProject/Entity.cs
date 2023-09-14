@@ -134,13 +134,6 @@ namespace RogueProject
         /// Permet de tuer l'Entity.
         /// </summary>
         public abstract void Death();
-        /// <summary>
-        /// Permet à l'Entity de bouger.
-        /// </summary>
-        public abstract void Move();
-        /// <summary>
-        /// Permet à l'Entity d'attaquer.
-        /// </summary>
-        public abstract void Attack();
+
     }
 }
