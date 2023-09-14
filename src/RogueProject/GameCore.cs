@@ -129,6 +129,7 @@ namespace RogueProject
             _spriteBatch.Begin();
 
             // # Implémentation des sprites dans la fenêtre.
+            m_Player.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
