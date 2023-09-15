@@ -79,10 +79,10 @@ namespace RogueProject
             uint entityDamage = _entity.GetDamage();
             uint entityDefense = _entity.GetDefense();
 
+            uint curr_damage = entityDamage - entityDefense;
 
+            entityHeathPoint -= curr_damage;
 
-            if (m_Damage) { 
-            
             }
 
 
