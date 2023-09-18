@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace RogueProject
@@ -8,11 +11,10 @@ namespace RogueProject
     public class GameCore : Game
     {
 
-        public const int WINDOW_WIDTH = 1920; // Largeur de la fenêtre
-        public const int WINDOW_HEIGHT = 1080; // Hauteur de la fenêtre
-        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private List<Case> ListCaseGround = new List<Case>();
+        Random random = new Random();
 
         //Variable propre à la méthodolgie du projet
         Sprite m_Player;
@@ -24,12 +26,11 @@ namespace RogueProject
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
             //change the screen size
-            _graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
-            _graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
-            _graphics.IsFullScreen = true;
-
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            Window.IsBorderless = true;
+            
             _graphics.ApplyChanges();
         }
 
@@ -42,6 +43,26 @@ namespace RogueProject
                 Content.Load<Texture2D>("MissingTextureInventory"),
                 _spriteBatch
                 );
+
+            for (int i = 1; i < 80; i++)
+            {
+                for (int j = 1; j < 45; j++)
+                {
+                    // Met des grounds aléatoirement dans le tableau
+                    if (random.Next(1, 3) == 1)
+                    {
+                        ListCaseGround.Add(new Ground(
+                            1,
+                            null,
+                            false,
+                            Content.Load<Texture2D>("square"),
+                            _spriteBatch,
+                            new Vector2(24 * i, 24 * j)
+                        ));
+                    }
+
+                }
+            }
 
             m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2));
@@ -58,7 +79,7 @@ namespace RogueProject
             // TODO: use this.Content to load your game content here
 
             // Initialisation des Sprites
-            m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
+            //m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
         }
 
@@ -77,6 +98,7 @@ namespace RogueProject
 
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
+                //Debug.WriteLine(ListCaseGround[indexNTM].GetContent().GetType().Name);
                 Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 //m_Player.SetPosition(new Vector2 (m_Player.GetPosition().X, (m_Player.GetPosition().Y - Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds)));
 
@@ -128,8 +150,10 @@ namespace RogueProject
 
             _spriteBatch.Begin();
 
-            // # Implémentation des sprites dans la fenêtre.
-            m_Player.Draw(_spriteBatch);
+            for (int i = 0; i < ListCaseGround.Count; i++)
+            {
+                ListCaseGround[i].DefaultDraw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 
