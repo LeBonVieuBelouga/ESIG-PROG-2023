@@ -5,4 +5,6 @@
 /src/RogueProject/.vs
 /src/RogueProject/bin/
 /src/RogueProject/obj/Debug
-/src/RogueProject/obj/Release/
+/src/RogueProject/obj/Release
+/src/RogueProject/bin/Debug/
+/src/RogueProject/bin/Release/

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -286,7 +287,7 @@ namespace RogueProject
         public void Draw(SpriteBatch _SpriteBatch)
         {
             //Dessine le Sprite avec touts ses paramètres 
-            this.m_SpriteBatch.Draw(
+            _SpriteBatch.Draw(
                      this.m_Tex2D,
                      this.m_Pos,
                      this.m_SourceRectangle,
@@ -352,6 +353,22 @@ namespace RogueProject
                     SpriteEffects.None,
                     0f
                     );
+        }
+
+        public void DefaultValue()
+        {
+            this.SetTexture(this.m_Tex2D);
+            //this.SetSpriteBatch(_SpriteBatch);
+            this.SetPosition(this.m_Pos);
+            this.SetSourceRectangle(null);
+            this.SetColor(Color.White);
+            this.SetRotation(0f);
+            this.SetOrigin(new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2));
+            this.SetScale(Vector2.One);
+            this.SetEffect(SpriteEffects.None);
+            this.SetLayerDepth(0f);
+
+            this.SetVelocity(1f);
         }
     }
 }

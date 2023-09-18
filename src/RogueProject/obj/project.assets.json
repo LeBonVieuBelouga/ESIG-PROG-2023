@@ -102,19 +102,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\johan.jacquet\\.nuget\\packages\\": {}
+    "C:\\Users\\leo.kuttel\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\johan.jacquet\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
+      "projectUniqueName": "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
       "projectName": "RogueProject",
-      "projectPath": "C:\\Users\\johan.jacquet\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
-      "packagesPath": "C:\\Users\\johan.jacquet\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\johan.jacquet\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\obj\\",
+      "projectPath": "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
+      "packagesPath": "C:\\Users\\leo.kuttel\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\johan.jacquet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\leo.kuttel\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

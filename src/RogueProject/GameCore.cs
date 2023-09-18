@@ -39,18 +39,21 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
+            Texture2D Player_Tex2D = Content.Load<Texture2D>("MissingTextureInventory");
+
             m_Player = new Sprite(
-                Content.Load<Texture2D>("MissingTextureInventory"),
+                Player_Tex2D,
                 _spriteBatch
                 );
+            m_Player.DefaultValue();
 
             for (int i = 1; i < 80; i++)
             {
                 for (int j = 1; j < 45; j++)
                 {
                     // Met des grounds aléatoirement dans le tableau
-                    if (random.Next(1, 3) == 1)
-                    {
+                    /*if (random.Next(1, 3) == 1)
+                    {*/
                         ListCaseGround.Add(new Ground(
                             1,
                             null,
@@ -59,7 +62,7 @@ namespace RogueProject
                             _spriteBatch,
                             new Vector2(24 * i, 24 * j)
                         ));
-                    }
+                    /*}*/
 
                 }
             }
@@ -79,7 +82,7 @@ namespace RogueProject
             // TODO: use this.Content to load your game content here
 
             // Initialisation des Sprites
-            //m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
+            m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
         }
 
@@ -92,7 +95,7 @@ namespace RogueProject
 
             Texture2D Player_Tex = m_Player.GetTexture();
             Vector2 Player_Pos = m_Player.GetPosition();
-            float Player_Velocity = 350f;
+            float Player_Velocity = 500f;
 
             var kstate = Keyboard.GetState();
 
@@ -150,11 +153,15 @@ namespace RogueProject
 
             _spriteBatch.Begin();
 
+           
             for (int i = 0; i < ListCaseGround.Count; i++)
             {
                 ListCaseGround[i].DefaultDraw(_spriteBatch);
             }
 
+            //m_Player.SetOrigin(new Vector2(0.5f,0.5f));
+
+            m_Player.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
