@@ -1,8 +1,8 @@
-
-# Dossier propre à l'enviromment du dévloppement
+ï»¿
+# Dossier propre ï¿½ l'enviromment du dï¿½vloppement
 /.vs
 /src/.vs
 /src/RogueProject/.vs
 /src/RogueProject/bin/
 /src/RogueProject/obj/Debug
-
+/src/RogueProject/obj/Release/

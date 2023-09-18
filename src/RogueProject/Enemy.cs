@@ -69,7 +69,6 @@ namespace RogueProject
             Debug.WriteLine("Morbius");
         }
 
-
         /// <summary>
         /// Permet à l'Ennemie d'attaquer.
         /// </summary>
@@ -79,15 +78,14 @@ namespace RogueProject
             uint entityDamage = _entity.GetDamage();
             uint entityDefense = _entity.GetDefense();
 
-            uint curr_damage = entityDamage - entityDefense;
+            uint curr_damage = this.m_Damage - entityDefense;
 
             entityHeathPoint -= curr_damage;
 
-            }
-
-
-            _entity.SetHealthPoint();
+            _entity.SetHealthPoint(entityHeathPoint);
         }
+
+
 
         /// <summary>
         /// Permet à l'Ennemie de bouger.
@@ -97,6 +95,11 @@ namespace RogueProject
             throw new NotImplementedException();
         }
 
+
+        public void Update(GameTime gameTime) {
+
+            Move();
+        }
     }
 }
 
