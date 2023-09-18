@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.IO;
+using Microsoft.Xna.Framework.Input.Touch;
+using Microsoft.Xna.Framework.Content;
+
 
 namespace RogueProject
 {
@@ -11,6 +17,12 @@ namespace RogueProject
     /// </summary>
     internal class Player : Entity
     {
+
+        private bool releaseUpKey = false;
+        private bool releaseDownKey = false;
+        private bool releaseRightKey = false;
+        private bool releaseLeftKey = false;
+
         /// <summary>
         /// Créer un objet de type Player et instencie toutes ces propriétés.
         /// Permet de généré des créatures,joueur etc.. pouvant bouger, attaquer, mourrir, etc..
@@ -55,9 +67,37 @@ namespace RogueProject
         /// Permet au joueur de bouger
         /// A réecrire une fois fonction fini
         /// </summary>
-        public void Move(DIRECTION _Direction, List<Case> _ListCase)
+        public void Move(DIRECTION _Direction, List<Case> _ListCase, GameTime _GameTime, KeyboardState _Kstate)
         {
+            switch (_Direction)
+            {
+                case DIRECTION.LEFT:
+                    if (this.m_Pos.X - _ListCase[0].GetTexture().Width >= _ListCase[0].GetPosition().X)
+                    {
+                        this.m_Pos.X -= _ListCase[0].GetTexture().Width;
+                    }
+                    break;
+                case DIRECTION.RIGHT:
+                    if (this.m_Pos.X + _ListCase[_ListCase.Count - 1].GetTexture().Width <= _ListCase[_ListCase.Count - 1].GetPosition().X)
+                    {
+                        this.m_Pos.X += _ListCase[_ListCase.Count - 1].GetTexture().Width;
+                    }
+                    break;
+                case DIRECTION.UP:
 
+                    if (this.m_Pos.Y - _ListCase[0].GetTexture().Width >= _ListCase[0].GetPosition().Y)
+                    {
+                        this.m_Pos.Y -= _ListCase[0].GetTexture().Width;
+                    }
+                    break;
+                case DIRECTION.DOWN:
+
+                    if (this.m_Pos.Y + _ListCase[_ListCase.Count - 1].GetTexture().Width <= _ListCase[_ListCase.Count - 1].GetPosition().Y)
+                    {
+                        this.m_Pos.Y += _ListCase[_ListCase.Count - 1].GetTexture().Width;
+                    }
+                    break;
+            }
         }
 
         /// <summary>
@@ -77,6 +117,61 @@ namespace RogueProject
 
         }
 
+
+        public bool Update(
+            GameTime _GameTime,
+            KeyboardState _Kstate,
+            List<Case> _ListCase
+            )
+        {
+
+
+            if (releaseUpKey && releaseDownKey && releaseLeftKey && releaseRightKey)
+            {
+                if (_Kstate.IsKeyDown(Keys.Up))
+                {
+                    this.Move(DIRECTION.UP, _ListCase, _GameTime, _Kstate);
+
+                    releaseUpKey = false;
+                }
+                if (_Kstate.IsKeyDown(Keys.Down))
+                {
+                    this.Move(DIRECTION.DOWN, _ListCase, _GameTime, _Kstate);
+                    releaseDownKey = false;
+                }
+
+                if (_Kstate.IsKeyDown(Keys.Left))
+                {
+                    this.Move(DIRECTION.LEFT, _ListCase, _GameTime, _Kstate);
+                    releaseLeftKey = false;
+                }
+
+                if (_Kstate.IsKeyDown(Keys.Right))
+                {
+                    this.Move(DIRECTION.RIGHT, _ListCase, _GameTime, _Kstate);
+                    releaseRightKey = false;
+                }
+            }
+            if (_Kstate.IsKeyUp(Keys.Up) && !releaseUpKey)
+            {
+                releaseUpKey = true;
+            }
+            if (_Kstate.IsKeyUp(Keys.Down) && !releaseDownKey)
+            {
+                releaseDownKey = true;
+            }
+            if (_Kstate.IsKeyUp(Keys.Right) && !releaseRightKey)
+            {
+                releaseRightKey = true;
+            }
+            if (_Kstate.IsKeyUp(Keys.Left) && !releaseLeftKey)
+            {
+                releaseLeftKey = true;
+            }
+
+
+            return true;
+        }
         ///
         // FAIRE CLASSE UPDATE QUI RENVOIE VRAI SI LES MONSTRES PEUVENT JOUER 
 

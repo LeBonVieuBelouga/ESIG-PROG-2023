@@ -71,6 +71,7 @@ namespace RogueProject
                     // Met des grounds aléatoirement dans le tableau
                     //if (random.Next(1, 3) == 1)
                     //{
+                    // tableau(1-> CASE, [i,j], 2->Case, [i,j+1])
                         m_ListCaseGround.Add(new Ground(
                             1,
                             null,
@@ -112,57 +113,15 @@ namespace RogueProject
 
             var kstate = Keyboard.GetState();
 
+            m_Player.Update(gameTime, kstate, m_ListCaseGround);
 
-
-
-
+            //Debug.WriteLine(m_Player.GetTexture().Width);
+            //Debug.WriteLine(m_ListCaseGround[1].GetTexture().Width);
 
 
             // Permet d'avoir le nom de la classe d'un objet
             //Debug.WriteLine(m_ListCaseGround[index].GetContent().GetType().Name);
 
-            if (releaseUpKey && releaseDownKey && releaseLeftKey && releaseRightKey)
-            {
-                if (kstate.IsKeyDown(Keys.Up))
-                {
-                    m_Player.Move(DIRECTION.UP, m_ListCaseGround);
-
-                    releaseUpKey = false;
-                }
-                if (kstate.IsKeyDown(Keys.Down))
-                {
-                    m_Player.Move(DIRECTION.DOWN, m_ListCaseGround);
-                    releaseDownKey = false;
-                }
-
-                if (kstate.IsKeyDown(Keys.Left))
-                {
-                    m_Player.Move(DIRECTION.LEFT, m_ListCaseGround);
-                    releaseLeftKey = false;
-                }
-
-                if (kstate.IsKeyDown(Keys.Right))
-                {
-                    m_Player.Move(DIRECTION.RIGHT, m_ListCaseGround);
-                    releaseRightKey = false;
-                }
-            }
-            if (kstate.IsKeyUp(Keys.Up) && !releaseUpKey)
-            {
-                releaseUpKey = true;
-            }
-            if (kstate.IsKeyUp(Keys.Down) && !releaseDownKey)
-            {
-                releaseDownKey = true;
-            }
-            if (kstate.IsKeyUp(Keys.Right) && !releaseRightKey)
-            {
-                releaseRightKey = true;
-            }
-            if (kstate.IsKeyUp(Keys.Left) && !releaseLeftKey)
-            {
-                releaseLeftKey = true;
-            }
 
             //Pour ne pas sortir de la zone
 

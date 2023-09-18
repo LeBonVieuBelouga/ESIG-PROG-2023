@@ -29,7 +29,7 @@ namespace RogueProject
         //private Rectangle m_SpriteSheet_Size;
 
         private Texture2D m_Tex2D;              // Texture du Sprite
-        private  Vector2 m_Pos;                 // Position du Sprite dans l'environement
+        protected  Vector2 m_Pos;                 // Position du Sprite dans l'environement
         float m_Velocity;                       // Vitesse de déplacement du Sprite
         private Rectangle? m_SourceRectangle;   // Taille du Sprite ??
         private Color m_Color;                  // Filtre appliqué sur le sprite
