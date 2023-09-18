@@ -159,8 +159,6 @@ namespace RogueProject
                 ListCaseGround[i].DefaultDraw(_spriteBatch);
             }
 
-            //m_Player.SetOrigin(new Vector2(0.5f,0.5f));
-
             m_Player.Draw(_spriteBatch);
             _spriteBatch.End();
 
