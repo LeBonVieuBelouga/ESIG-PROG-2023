@@ -17,11 +17,13 @@ namespace RogueProject
     /// </summary>
     internal class Player : Entity
     {
+        
+        private bool m_ReleaseUpKey = false;
+        private bool m_ReleaseDownKey = false;
+        private bool m_ReleaseRightKey = false;
+        private bool m_ReleaseLeftKey = false;
 
-        private bool releaseUpKey = false;
-        private bool releaseDownKey = false;
-        private bool releaseRightKey = false;
-        private bool releaseLeftKey = false;
+        private Vector2 m_PlayerIndex = new Vector2(0, 0);
 
         /// <summary>
         /// Créer un objet de type Player et instencie toutes ces propriétés.
@@ -42,6 +44,7 @@ namespace RogueProject
         /// <param name="_Effect">Modificateurs pour le dessin (peut être combiné)</param>
         /// <param name="_LayerDepth">Profondeur du champ du Player/param>
         public Player(
+            Vector2 _PlayerIndex,
             Texture2D _Texture2D,
             SpriteBatch _SpriteBatch,
             uint _HealthPoint = HEALTH_DEFAULT,
@@ -61,6 +64,12 @@ namespace RogueProject
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
+        }
+
+        public void SetIndexPlayer(Vector2 _indexPlayer, List<Case> _ListCase)
+        {
+            this.m_PlayerIndex = _indexPlayer;
+
         }
 
         /// <summary>
@@ -126,47 +135,47 @@ namespace RogueProject
         {
 
 
-            if (releaseUpKey && releaseDownKey && releaseLeftKey && releaseRightKey)
+            if (m_ReleaseUpKey && m_ReleaseDownKey && m_ReleaseLeftKey && m_ReleaseRightKey)
             {
                 if (_Kstate.IsKeyDown(Keys.Up))
                 {
                     this.Move(DIRECTION.UP, _ListCase, _GameTime, _Kstate);
 
-                    releaseUpKey = false;
+                    m_ReleaseUpKey = false;
                 }
                 if (_Kstate.IsKeyDown(Keys.Down))
                 {
                     this.Move(DIRECTION.DOWN, _ListCase, _GameTime, _Kstate);
-                    releaseDownKey = false;
+                    m_ReleaseDownKey = false;
                 }
 
                 if (_Kstate.IsKeyDown(Keys.Left))
                 {
                     this.Move(DIRECTION.LEFT, _ListCase, _GameTime, _Kstate);
-                    releaseLeftKey = false;
+                    m_ReleaseLeftKey = false;
                 }
 
                 if (_Kstate.IsKeyDown(Keys.Right))
                 {
                     this.Move(DIRECTION.RIGHT, _ListCase, _GameTime, _Kstate);
-                    releaseRightKey = false;
+                    m_ReleaseRightKey = false;
                 }
             }
-            if (_Kstate.IsKeyUp(Keys.Up) && !releaseUpKey)
+            if (_Kstate.IsKeyUp(Keys.Up) && !m_ReleaseUpKey)
             {
-                releaseUpKey = true;
+                m_ReleaseUpKey = true;
             }
-            if (_Kstate.IsKeyUp(Keys.Down) && !releaseDownKey)
+            if (_Kstate.IsKeyUp(Keys.Down) && !m_ReleaseDownKey)
             {
-                releaseDownKey = true;
+                m_ReleaseDownKey = true;
             }
-            if (_Kstate.IsKeyUp(Keys.Right) && !releaseRightKey)
+            if (_Kstate.IsKeyUp(Keys.Right) && !m_ReleaseRightKey)
             {
-                releaseRightKey = true;
+                m_ReleaseRightKey = true;
             }
-            if (_Kstate.IsKeyUp(Keys.Left) && !releaseLeftKey)
+            if (_Kstate.IsKeyUp(Keys.Left) && !m_ReleaseLeftKey)
             {
-                releaseLeftKey = true;
+                m_ReleaseLeftKey = true;
             }
 
 

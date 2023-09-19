@@ -24,6 +24,7 @@ namespace RogueProject
         private List<Case> m_ListCaseGround = new List<Case>();
         Random random = new Random();
 
+        private Case[][] cases = new Case[80][];   
 
 
         private bool releaseUpKey = false;
@@ -56,6 +57,7 @@ namespace RogueProject
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
             m_Player = new Player(
+                new Vector2(0,0),
                 Content.Load<Texture2D>("player"),
                 _spriteBatch,
                 1,
@@ -64,26 +66,6 @@ namespace RogueProject
                 new Vector2(24,24)
                 );
 
-            for (int i = 1; i < 80; i++)
-            {
-                for (int j = 1; j < 45; j++)
-                {
-                    // Met des grounds aléatoirement dans le tableau
-                    //if (random.Next(1, 3) == 1)
-                    //{
-                    // tableau(1-> CASE, [i,j], 2->Case, [i,j+1])
-                        m_ListCaseGround.Add(new Ground(
-                            1,
-                            null,
-                            false,
-                            Content.Load<Texture2D>("square"),
-                            _spriteBatch,
-                            new Vector2(24 * i, 24 * j)
-                        ));
-                    //}
-
-                }
-            }
 
             base.Initialize();
         }
@@ -155,10 +137,8 @@ namespace RogueProject
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            for (int i = 0; i < m_ListCaseGround.Count; i++)
-            {
-                m_ListCaseGround[i].DefaultDraw(_spriteBatch);
-            }
+
+
             m_Player.DefaultDraw(_spriteBatch);
             _spriteBatch.End();
 
