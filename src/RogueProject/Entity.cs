@@ -22,10 +22,10 @@ namespace RogueProject
         protected const uint DEFENSE_DEFAULT = 0;
         protected const float DEFAULT_ENTITY_VELOCITY = 1f;
 
-        private uint m_HealthPoint;
-        private uint m_Damage;
-        private uint m_Defense;
-        private bool m_IsDead = false;
+        protected uint m_HealthPoint;
+        protected uint m_Damage;
+        protected uint m_Defense;
+        protected bool m_IsDead = false;
 
         /// <summary>
         /// Créer un objet de type Entity et instencie toutes ces propriétés.
@@ -118,8 +118,7 @@ namespace RogueProject
             this.m_Defense = _Defense;
 
         }
-
-
+        
         /// <summary>
         /// Getter pour m_Defense
         /// </summary>
@@ -135,5 +134,9 @@ namespace RogueProject
         /// </summary>
         public abstract void Death();
 
+        /// <summary>
+        /// Permet à l'Entity d'attaquer.
+        /// </summary>
+        public abstract void Attack(Entity _entity);
     }
 }

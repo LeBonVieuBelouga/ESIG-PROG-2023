@@ -7,7 +7,7 @@
 
 ----
 ## Table des matières
-   
+
 - [Inspiration : Rogue (1980)](#inspiration-rogue-1980)
 - [Installation](#installation)
 - [Source](#source)

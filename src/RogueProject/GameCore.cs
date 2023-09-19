@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RogueProject
 {
@@ -18,10 +19,16 @@ namespace RogueProject
 
     public class GameCore : Game
     {
+        // Constantes
+        const int TAB2D_WIDTH = 80;
+        const int TAB2D_HEIGHT = 45;
+
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Case> m_ListCaseGround = new List<Case>();
+
+        private Case[][] Tab2DCaseGround = new Case[TAB2D_WIDTH][];
+
         Random random = new Random();
 
         private Case[][] cases = new Case[80][];   
@@ -65,7 +72,31 @@ namespace RogueProject
                 1,
                 new Vector2(24,24)
                 );
+            m_Player.DefaultValue();
 
+            //Parcourt les colonnes du tableau2D
+            for (int i = 0; i < Tab2DCaseGround.Length - 1; i++)
+            {
+                //Définit la hauteur maximal du tableau      
+                Tab2DCaseGround[i] = new Case[TAB2D_HEIGHT];
+
+                //Parcourt les lignes du tableau2D
+                for (int j = 0; j < Tab2DCaseGround[i].Length - 1; j++)
+                {
+                    Tab2DCaseGround[i][j] = new Ground(
+                            1,
+                            null,
+                            false,
+                            Content.Load<Texture2D>("square"),
+                            _spriteBatch,
+                            new Vector2(24 * i, 24 * j)
+                        );
+                }
+            }
+
+            m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
+                _graphics.PreferredBackBufferHeight/2));
+            m_Player.SetVelocity(800f);
 
             base.Initialize();
         }
@@ -78,7 +109,7 @@ namespace RogueProject
             // TODO: use this.Content to load your game content here
 
             // Initialisation des Sprites
-            //m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
+            m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
         }
 
@@ -91,22 +122,21 @@ namespace RogueProject
 
             Texture2D Player_Tex = m_Player.GetTexture();
             Vector2 Player_Pos = m_Player.GetPosition();
-            float Player_Velocity = 350f;
+            float Player_Velocity = m_Player .GetVelocity();
 
             var kstate = Keyboard.GetState();
+
 
             m_Player.Update(gameTime, kstate, m_ListCaseGround);
 
             //Debug.WriteLine(m_Player.GetTexture().Width);
             //Debug.WriteLine(m_ListCaseGround[1].GetTexture().Width);
 
-
             // Permet d'avoir le nom de la classe d'un objet
             //Debug.WriteLine(m_ListCaseGround[index].GetContent().GetType().Name);
 
 
             //Pour ne pas sortir de la zone
-
             if (Player_Pos.X > _graphics.PreferredBackBufferWidth - Player_Tex.Width / 2)
             {
                 Player_Pos.X = _graphics.PreferredBackBufferWidth - Player_Tex.Width / 2;
@@ -130,16 +160,23 @@ namespace RogueProject
             base.Update(gameTime);
         }
 
-
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
 
+            //Dessine le quadrillage du niveau
+            for (int i = 0; i < Tab2DCaseGround.Length-1; i++)
+            {
+                for (int j = 0; j < Tab2DCaseGround[i].Length-1; j++)
+                {
+                    Tab2DCaseGround[i][j].DefaultDraw(_spriteBatch); 
+                }
+            }
 
-            m_Player.DefaultDraw(_spriteBatch);
+            m_Player.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
