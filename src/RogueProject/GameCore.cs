@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RogueProject
 {
@@ -14,6 +15,11 @@ namespace RogueProject
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private List<Case> ListCaseGround = new List<Case>();
+        private Case[][] Tab2DCaseGround = new Case[TabSizeH][];
+
+        const int TabSizeH = 200;
+        const int TabSizeW = 200;
+
         Random random = new Random();
 
         //Variable propre à la méthodolgie du projet
@@ -47,13 +53,15 @@ namespace RogueProject
                 );
             m_Player.DefaultValue();
 
-            for (int i = 1; i < 80; i++)
+            for (int i = 0; i <= TabSizeW-1; i++)
             {
-                for (int j = 1; j < 45; j++)
+
+                Tab2DCaseGround[i] = new Case[TabSizeH];
+                for (int j = 0; j <= TabSizeH-1; j++)
                 {
                     // Met des grounds aléatoirement dans le tableau
-                    /*if (random.Next(1, 3) == 1)
-                    {*/
+                   /* if (random.Next(1, 3) == 1)
+                    {
                         ListCaseGround.Add(new Ground(
                             1,
                             null,
@@ -62,7 +70,17 @@ namespace RogueProject
                             _spriteBatch,
                             new Vector2(24 * i, 24 * j)
                         ));
-                    /*}*/
+                    }*/
+
+                    //Tab2DCaseGround
+                    Tab2DCaseGround[i][j] = new Ground(
+                            1,
+                            null,
+                            false,
+                            Content.Load<Texture2D>("square"),
+                            _spriteBatch,
+                            new Vector2(24 * i, 24 * j)
+                        );
 
                 }
             }
@@ -95,7 +113,7 @@ namespace RogueProject
 
             Texture2D Player_Tex = m_Player.GetTexture();
             Vector2 Player_Pos = m_Player.GetPosition();
-            float Player_Velocity = 500f;
+            float Player_Velocity = 800f;
 
             var kstate = Keyboard.GetState();
 
@@ -154,9 +172,16 @@ namespace RogueProject
             _spriteBatch.Begin();
 
            
-            for (int i = 0; i < ListCaseGround.Count; i++)
+            for (int i = 0; i < TabSizeH; i++)
             {
-                ListCaseGround[i].DefaultDraw(_spriteBatch);
+                //ListCaseGround[i].DefaultDraw(_spriteBatch);
+                //Debug.WriteLine(Tab2DCaseGround);
+
+                for (int j = 0; j < TabSizeW; j++)
+                {
+                    Tab2DCaseGround[i][j].DefaultDraw(_spriteBatch); 
+                
+                }
             }
 
             m_Player.Draw(_spriteBatch);

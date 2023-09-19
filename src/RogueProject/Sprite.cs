@@ -367,7 +367,6 @@ namespace RogueProject
             this.SetScale(Vector2.One);
             this.SetEffect(SpriteEffects.None);
             this.SetLayerDepth(0f);
-
             this.SetVelocity(1f);
         }
     }
