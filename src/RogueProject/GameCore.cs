@@ -130,7 +130,6 @@ namespace RogueProject
             }
 
             //Pour ne pas sortir de la zone
-
             if (Player_Pos.X > _graphics.PreferredBackBufferWidth - Player_Tex.Width / 2)
             {
                 Player_Pos.X = _graphics.PreferredBackBufferWidth - Player_Tex.Width / 2;

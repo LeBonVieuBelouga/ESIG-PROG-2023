@@ -85,8 +85,6 @@ namespace RogueProject
             _entity.SetHealthPoint(entityHeathPoint);
         }
 
-
-
         /// <summary>
         /// Permet à l'Ennemie de bouger.
         /// </summary>
