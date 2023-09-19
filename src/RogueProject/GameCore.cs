@@ -11,15 +11,17 @@ namespace RogueProject
 {
     public class GameCore : Game
     {
+        // Constantes
+        const int TAB2D_WIDTH = 80;
+        const int TAB2D_HEIGHT = 45;
+
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<Case> ListCaseGround = new List<Case>();
-        private Case[][] Tab2DCaseGround = new Case[TabSizeH][];
 
-        const int TabSizeH = 200;
-        const int TabSizeW = 200;
+        private Case[][] Tab2DCaseGround = new Case[TAB2D_WIDTH][];
 
+        
         Random random = new Random();
 
         //Variable propre à la méthodolgie du projet
@@ -53,26 +55,15 @@ namespace RogueProject
                 );
             m_Player.DefaultValue();
 
-            for (int i = 0; i <= TabSizeW-1; i++)
+            //Parcourt les colonnes du tableau2D
+            for (int i = 0; i < Tab2DCaseGround.Length - 1; i++)
             {
+                //Définit la hauteur maximal du tableau      
+                Tab2DCaseGround[i] = new Case[TAB2D_HEIGHT];
 
-                Tab2DCaseGround[i] = new Case[TabSizeH];
-                for (int j = 0; j <= TabSizeH-1; j++)
+                //Parcourt les lignes du tableau2D
+                for (int j = 0; j < Tab2DCaseGround[i].Length - 1; j++)
                 {
-                    // Met des grounds aléatoirement dans le tableau
-                   /* if (random.Next(1, 3) == 1)
-                    {
-                        ListCaseGround.Add(new Ground(
-                            1,
-                            null,
-                            false,
-                            Content.Load<Texture2D>("square"),
-                            _spriteBatch,
-                            new Vector2(24 * i, 24 * j)
-                        ));
-                    }*/
-
-                    //Tab2DCaseGround
                     Tab2DCaseGround[i][j] = new Ground(
                             1,
                             null,
@@ -81,13 +72,12 @@ namespace RogueProject
                             _spriteBatch,
                             new Vector2(24 * i, 24 * j)
                         );
-
                 }
             }
 
             m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
                 _graphics.PreferredBackBufferHeight/2));
-            m_Player.SetVelocity(350f);
+            m_Player.SetVelocity(800f);
 
             base.Initialize();
         }
@@ -113,7 +103,7 @@ namespace RogueProject
 
             Texture2D Player_Tex = m_Player.GetTexture();
             Vector2 Player_Pos = m_Player.GetPosition();
-            float Player_Velocity = 800f;
+            float Player_Velocity = m_Player .GetVelocity();
 
             var kstate = Keyboard.GetState();
 
@@ -121,8 +111,7 @@ namespace RogueProject
             {
                 //Debug.WriteLine(ListCaseGround[indexNTM].GetContent().GetType().Name);
                 Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                //m_Player.SetPosition(new Vector2 (m_Player.GetPosition().X, (m_Player.GetPosition().Y - Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds)));
-
+                
             }
 
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
@@ -171,16 +160,12 @@ namespace RogueProject
 
             _spriteBatch.Begin();
 
-           
-            for (int i = 0; i < TabSizeH; i++)
+            //Dessine le quadrillage du niveau
+            for (int i = 0; i < Tab2DCaseGround.Length-1; i++)
             {
-                //ListCaseGround[i].DefaultDraw(_spriteBatch);
-                //Debug.WriteLine(Tab2DCaseGround);
-
-                for (int j = 0; j < TabSizeW; j++)
+                for (int j = 0; j < Tab2DCaseGround[i].Length-1; j++)
                 {
                     Tab2DCaseGround[i][j].DefaultDraw(_spriteBatch); 
-                
                 }
             }
 
