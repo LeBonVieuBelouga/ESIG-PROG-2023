@@ -29,11 +29,8 @@ namespace RogueProject
         public readonly Color DEFAULT_COLOR = Color.White;
 
         protected SpriteBatch m_SpriteBatch;      // Helper class pour dessiner le sprite dans la fenêtre.
-        //private Rectangle m_SpriteSheet_Size;
-
-
         private Texture2D m_Tex2D;              // Texture du Sprite
-        private Vector2 m_Pos;                 // Position du Sprite dans l'environement
+        protected Vector2 m_Pos;                // Position du Sprite dans l'environement
         float m_Velocity;                       // Vitesse de déplacement du Sprite
         private Rectangle? m_SourceRectangle;   // Taille du Sprite ??
         private Color m_Color;                  // Filtre appliqué sur le sprite
@@ -42,6 +39,7 @@ namespace RogueProject
         private Vector2 m_Scale;                // Mise à l'échelle de ce sprite.
         private SpriteEffects m_Effect;         // Modificateurs pour le dessin (peut être combiné).
         private float m_LayerDepth;             //Profondeur du champ du sprite.
+      //private Rectangle m_SpriteSheet_Size;
 
         //private int m_Sprite_Index { get; set; } // <-- Créer des setters et des getters ?
 

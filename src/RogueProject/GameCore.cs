@@ -9,6 +9,14 @@ using System.Linq;
 
 namespace RogueProject
 {
+    public enum DIRECTION
+    {
+        UP,     // 0
+        DOWN,   // 1
+        RIGHT,  // 2
+        LEFT    // 3
+    }
+
     public class GameCore : Game
     {
         // Constantes
@@ -21,11 +29,19 @@ namespace RogueProject
 
         private Case[][] Tab2DCaseGround = new Case[TAB2D_WIDTH][];
 
-        
         Random random = new Random();
 
+        private Case[][] cases = new Case[80][];   
+
+
+        private bool releaseUpKey = false;
+        private bool releaseDownKey = false;
+        private bool releaseRightKey = false;
+        private bool releaseLeftKey = false;
+
+
         //Variable propre à la méthodolgie du projet
-        Sprite m_Player;
+        Player m_Player;
 
         private List<Entity> m_entitiesL;
 
@@ -47,11 +63,14 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
-            Texture2D Player_Tex2D = Content.Load<Texture2D>("MissingTextureInventory");
-
-            m_Player = new Sprite(
-                Player_Tex2D,
-                _spriteBatch
+            m_Player = new Player(
+                new Vector2(0,0),
+                Content.Load<Texture2D>("player"),
+                _spriteBatch,
+                1,
+                1,
+                1,
+                new Vector2(24,24)
                 );
             m_Player.DefaultValue();
 
@@ -107,27 +126,15 @@ namespace RogueProject
 
             var kstate = Keyboard.GetState();
 
-            if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
-            {
-                //Debug.WriteLine(ListCaseGround[indexNTM].GetContent().GetType().Name);
-                Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                
-            }
 
-            if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
-            {
-                Player_Pos.Y += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+            m_Player.Update(gameTime, kstate, m_ListCaseGround);
 
-            if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
-            {
-                Player_Pos.X -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+            //Debug.WriteLine(m_Player.GetTexture().Width);
+            //Debug.WriteLine(m_ListCaseGround[1].GetTexture().Width);
 
-            if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
-            {
-                Player_Pos.X += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+            // Permet d'avoir le nom de la classe d'un objet
+            //Debug.WriteLine(m_ListCaseGround[index].GetContent().GetType().Name);
+
 
             //Pour ne pas sortir de la zone
             if (Player_Pos.X > _graphics.PreferredBackBufferWidth - Player_Tex.Width / 2)
@@ -148,7 +155,7 @@ namespace RogueProject
                 Player_Pos.Y = Player_Tex.Height / 2;
             }
 
-            m_Player.SetPosition(Player_Pos);
+            //m_Player.SetPosition(Player_Pos);
 
             base.Update(gameTime);
         }
@@ -169,6 +176,7 @@ namespace RogueProject
             }
 
             m_Player.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

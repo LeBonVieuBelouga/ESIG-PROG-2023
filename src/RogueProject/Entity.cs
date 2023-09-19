@@ -31,20 +31,20 @@ namespace RogueProject
         /// Créer un objet de type Entity et instencie toutes ces propriétés.
         /// Permet de généré des créatures,joueur etc.. pouvant bouger, attaquer, mourrir, etc..
         /// </summary>
-        /// <param name="_VisibilityLevel">Niveau de lumière du Ground</param>
-        /// <param name="_Content">Contenu du Ground (joueur, monstre, objet,...)</param>
-        /// <param name="_IsWalkable">Définit si c'est possible de marcher sur le Ground</param>
-        /// <param name="_Texture2D">Texture de le Ground</param>
+        /// <param name="_VisibilityLevel">Niveau de lumière du Entity</param>
+        /// <param name="_Content">Contenu du Entity (joueur, monstre, objet,...)</param>
+        /// <param name="_IsWalkable">Définit si c'est possible de marcher sur le Entity</param>
+        /// <param name="_Texture2D">Texture de le Entity</param>
         /// <param name="_SpriteBatch">SpriteBatch du GameCore permettant de dessiner la Texture sur la fenêtre</param>
-        /// <param name="_Position">Position X et Y (Vecteur 2d) du Ground</param>
-        /// <param name="_Velocity">vitesse du Ground</param>
-        /// <param name="_SourceRectangle">Taille du Ground</param>
-        /// <param name="_Color">Couleur du Ground</param>
-        /// <param name="_Rotation">Orientation du Ground</param>
-        /// <param name="_Origin">Position d'origin du Ground</param>
-        /// <param name="_Scale">Mise à l'échelle du Ground</param>
+        /// <param name="_Position">Position X et Y (Vecteur 2d) du Entity</param>
+        /// <param name="_Velocity">vitesse du Entity</param>
+        /// <param name="_SourceRectangle">Taille du Entity</param>
+        /// <param name="_Color">Couleur du Entity</param>
+        /// <param name="_Rotation">Orientation du Entity</param>
+        /// <param name="_Origin">Position d'origin du Entity</param>
+        /// <param name="_Scale">Mise à l'échelle du Entity</param>
         /// <param name="_Effect">Modificateurs pour le dessin (peut être combiné)</param>
-        /// <param name="_LayerDepth">Profondeur du champ du Ground/param>
+        /// <param name="_LayerDepth">Profondeur du champ du Entity/param>
         public Entity(
             Texture2D _Texture2D,
             SpriteBatch _SpriteBatch,
@@ -118,8 +118,7 @@ namespace RogueProject
             this.m_Defense = _Defense;
 
         }
-
-
+        
         /// <summary>
         /// Getter pour m_Defense
         /// </summary>
@@ -134,11 +133,6 @@ namespace RogueProject
         /// Permet de tuer l'Entity.
         /// </summary>
         public abstract void Death();
-
-        /// <summary>
-        /// Permet à l'Entity de bouger.
-        /// </summary>
-        public abstract void Move();
 
         /// <summary>
         /// Permet à l'Entity d'attaquer.
