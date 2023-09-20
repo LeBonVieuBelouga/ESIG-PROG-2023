@@ -363,7 +363,7 @@ namespace RogueProject
             this.SetSourceRectangle(null);
             this.SetColor(Color.White);
             this.SetRotation(0f);
-            this.SetOrigin(new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2));
+            //this.SetOrigin(new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2));
             this.SetScale(Vector2.One);
             this.SetEffect(SpriteEffects.None);
             this.SetLayerDepth(0f);

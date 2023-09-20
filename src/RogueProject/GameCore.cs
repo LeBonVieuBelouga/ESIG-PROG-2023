@@ -12,8 +12,8 @@ namespace RogueProject
     public class GameCore : Game
     {
         // Constantes
-        const int COL_GRID = 40;
-        const int RAW_GRID = 40;
+        const int COL_GRID = 50;
+        const int RAW_GRID = 30;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -62,7 +62,7 @@ namespace RogueProject
                 );
             m_Player.DefaultValue();
 
-            Texture2D CaseTex = Content.Load<Texture2D>("square");
+            Texture2D CaseTex = Content.Load<Texture2D>("MissingTexture32x32");
 
             int GridSizeWidth = COL_GRID * CaseTex.Width;
             int GridSizeHeight = RAW_GRID * CaseTex.Height;
@@ -87,6 +87,7 @@ namespace RogueProject
                             _spriteBatch,
                             new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
                         );
+                    GridOfCase[i][j].DefaultValue();
                 }
             }
 
@@ -178,7 +179,7 @@ namespace RogueProject
             {
                 for (int j = 0; j <= GridOfCase[i].Length-1; j++)
                 {
-                    GridOfCase[i][j].DefaultDraw(_spriteBatch); 
+                    GridOfCase[i][j].Draw(_spriteBatch); 
                 }
             }
             m_Player.Draw(_spriteBatch);
