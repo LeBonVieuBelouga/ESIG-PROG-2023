@@ -85,19 +85,6 @@ namespace RogueProject
             _entity.SetHealthPoint(entityHeathPoint);
         }
 
-        /// <summary>
-        /// Permet à l'Ennemie de bouger.
-        /// </summary>
-        public override void Move()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void Update(GameTime gameTime) {
-
-            Move();
-        }
     }
 }
 

@@ -29,11 +29,6 @@ namespace RogueProject
 
         private Case[][] Tab2DCaseGround = new Case[TAB2D_WIDTH][];
 
-        Random random = new Random();
-
-        private Case[][] cases = new Case[80][];   
-
-
         private bool releaseUpKey = false;
         private bool releaseDownKey = false;
         private bool releaseRightKey = false;
@@ -63,25 +58,14 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
-            m_Player = new Player(
-                new Vector2(0,0),
-                Content.Load<Texture2D>("player"),
-                _spriteBatch,
-                1,
-                1,
-                1,
-                new Vector2(24,24)
-                );
-            m_Player.DefaultValue();
-
             //Parcourt les colonnes du tableau2D
-            for (int i = 0; i < Tab2DCaseGround.Length - 1; i++)
+            for (int i = 0; i <= Tab2DCaseGround.Length - 1; i++)
             {
                 //Définit la hauteur maximal du tableau      
                 Tab2DCaseGround[i] = new Case[TAB2D_HEIGHT];
 
                 //Parcourt les lignes du tableau2D
-                for (int j = 0; j < Tab2DCaseGround[i].Length - 1; j++)
+                for (int j = 0; j <= Tab2DCaseGround[i].Length - 1; j++)
                 {
                     Tab2DCaseGround[i][j] = new Ground(
                             1,
@@ -94,9 +78,15 @@ namespace RogueProject
                 }
             }
 
-            m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
-                _graphics.PreferredBackBufferHeight/2));
-            m_Player.SetVelocity(800f);
+            m_Player = new Player(
+                new Vector2(0, 0),
+                Content.Load<Texture2D>("player"),
+                _spriteBatch,
+                1,
+                1,
+                1,
+                Tab2DCaseGround[0][0].GetPosition()
+            );
 
             base.Initialize();
         }
@@ -109,7 +99,6 @@ namespace RogueProject
             // TODO: use this.Content to load your game content here
 
             // Initialisation des Sprites
-            m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
         }
 
@@ -127,7 +116,7 @@ namespace RogueProject
             var kstate = Keyboard.GetState();
 
 
-            m_Player.Update(gameTime, kstate, m_ListCaseGround);
+            m_Player.Update(gameTime, kstate, Tab2DCaseGround);
 
             //Debug.WriteLine(m_Player.GetTexture().Width);
             //Debug.WriteLine(m_ListCaseGround[1].GetTexture().Width);
@@ -175,7 +164,7 @@ namespace RogueProject
                 }
             }
 
-            m_Player.Draw(_spriteBatch);
+            m_Player.DefaultDraw(_spriteBatch);
 
             _spriteBatch.End();
 
