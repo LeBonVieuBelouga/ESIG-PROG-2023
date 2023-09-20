@@ -1,6 +1,11 @@
+<<<<<<< Updated upstream
 
 # Dossier propre a l'enviromment du devloppement
 
+=======
+﻿
+# Dossier propre � l'enviromment du d�vloppement
+>>>>>>> Stashed changes
 .vs/
 src/.vs/
 src/RogueProject/.vs/
@@ -10,5 +15,9 @@ src/RogueProject/obj/Release/
 src/RogueProject/bin/Debug/
 src/RogueProject/bin/Release/
 src/RogueProject/Content/obj/
+<<<<<<< Updated upstream
 src/RogueProject/Content/bin/
 
+=======
+src/RogueProject/Content/bin/
+>>>>>>> Stashed changes

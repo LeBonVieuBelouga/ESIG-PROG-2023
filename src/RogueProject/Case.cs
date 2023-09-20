@@ -5,7 +5,7 @@ namespace RogueProject
 {
     /// <summary>
     /// Classe représentant une case qui peut s'apparenter à une case d'un cadrillage (grid en anglais)
-    /// Cette classe est abstraite donc impossible de créer un objet de ce type
+    /// Cette classe est abstraite donc au
     /// Cette classe hérite de la classe Sprite
     /// </summary>
     abstract class Case : Sprite
