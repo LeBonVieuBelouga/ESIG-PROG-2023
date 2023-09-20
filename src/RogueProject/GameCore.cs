@@ -71,27 +71,21 @@ namespace RogueProject
             int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
 
             //Parcourt les colonnes du tableau2D
-            for (int i = 0; i <= GridOfCase.Length - 1; i++)
+            for (int i = 0; i <= COL_GRID-1; i++)
             {
-                //Définit la hauteur maximal du tableau      
+                //Définit la hauteur maximal du tableau2D      
                 GridOfCase[i] = new Case[RAW_GRID];
 
                 //Parcourt les lignes du tableau2D
-                for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                for (int j = 0; j <= RAW_GRID-1; j++)
                 {
-
-                    //Espacement X
-                    int espaceX = 50;
-                    //Espacement Y
-                    int espaceY = 50;
-
                     GridOfCase[i][j] = new Ground(
                             1,
                             null,
                             false,
                             CaseTex,
                             _spriteBatch,
-                            new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)// comment tu fais pour le centré ?
+                            new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
                         );
                 }
             }
@@ -175,7 +169,7 @@ namespace RogueProject
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);// Couleur de la fenetre
+            GraphicsDevice.Clear(Color.Firebrick);// Couleur de la fenetre
 
             _spriteBatch.Begin();
 
