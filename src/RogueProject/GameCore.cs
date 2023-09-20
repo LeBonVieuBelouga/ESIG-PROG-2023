@@ -12,9 +12,8 @@ namespace RogueProject
     public class GameCore : Game
     {
         // Constantes
-        const int TAB2D_WIDTH = 80;
-        const int TAB2D_HEIGHT = 45;
-
+        const int TAB2D_WIDTH = 60;
+        const int TAB2D_HEIGHT = 30;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -55,22 +54,34 @@ namespace RogueProject
                 );
             m_Player.DefaultValue();
 
+            int tableau2DWidth = TAB2D_WIDTH * 24;
+            int tableau2DHeight = TAB2D_HEIGHT * 24;
+
+            int startX = (_graphics.PreferredBackBufferWidth - tableau2DWidth) / 2;
+            int startY = (_graphics.PreferredBackBufferHeight - tableau2DHeight) / 2;
+
             //Parcourt les colonnes du tableau2D
-            for (int i = 0; i < Tab2DCaseGround.Length - 1; i++)
+            for (int i = 0; i <= Tab2DCaseGround.Length - 1; i++)
             {
                 //Définit la hauteur maximal du tableau      
                 Tab2DCaseGround[i] = new Case[TAB2D_HEIGHT];
 
                 //Parcourt les lignes du tableau2D
-                for (int j = 0; j < Tab2DCaseGround[i].Length - 1; j++)
+                for (int j = 0; j <= Tab2DCaseGround[i].Length - 1; j++)
                 {
+
+                    //Espacement X
+                    int espaceX = 24;
+                    //Espacement Y
+                    int espaceY = 24;
+
                     Tab2DCaseGround[i][j] = new Ground(
                             1,
                             null,
                             false,
                             Content.Load<Texture2D>("square"),
                             _spriteBatch,
-                            new Vector2(24 * i, 24 * j)
+                            new Vector2(startX + espaceX * i, startY+ espaceY * j)// comment tu fais pour le centré ?
                         );
                 }
             }
