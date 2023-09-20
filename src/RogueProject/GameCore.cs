@@ -13,7 +13,7 @@ namespace RogueProject
     {
         // Constantes
         const int COL_GRID = 40;
-        const int RAW_GRID = 30;
+        const int RAW_GRID = 40;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -62,7 +62,7 @@ namespace RogueProject
                 );
             m_Player.DefaultValue();
 
-            Texture2D CaseTex = Content.Load<Texture2D>("MissingTexture32x32");
+            Texture2D CaseTex = Content.Load<Texture2D>("square");
 
             int GridSizeWidth = COL_GRID * CaseTex.Width;
             int GridSizeHeight = RAW_GRID * CaseTex.Height;
@@ -174,9 +174,9 @@ namespace RogueProject
             _spriteBatch.Begin();
 
             //Dessine le quadrillage du niveau
-            for (int i = 0; i < GridOfCase.Length-1; i++)
+            for (int i = 0; i <= GridOfCase.Length-1; i++)
             {
-                for (int j = 0; j < GridOfCase[i].Length-1; j++)
+                for (int j = 0; j <= GridOfCase[i].Length-1; j++)
                 {
                     GridOfCase[i][j].DefaultDraw(_spriteBatch); 
                 }
