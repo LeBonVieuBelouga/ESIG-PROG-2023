@@ -20,7 +20,6 @@ namespace RogueProject
 
         private Case[][] Tab2DCaseGround = new Case[TAB2D_WIDTH][];
 
-<<<<<<< Updated upstream
         Random random = new Random();
 
         private Case[][] cases = new Case[80][];   
@@ -30,11 +29,6 @@ namespace RogueProject
         private bool releaseDownKey = false;
         private bool releaseRightKey = false;
         private bool releaseLeftKey = false;
-
-=======
-        
-        Random random = new Random();
->>>>>>> Stashed changes
 
         //Variable propre à la méthodolgie du projet
         Sprite m_Player;
@@ -59,22 +53,11 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
-<<<<<<< Updated upstream
-            m_Player = new Player(
-                new Vector2(0,0),
-                Content.Load<Texture2D>("player"),
-                _spriteBatch,
-                1,
-                1,
-                1,
-                new Vector2(24,24)
-=======
             Texture2D Player_Tex2D = Content.Load<Texture2D>("MissingTextureInventory");
 
             m_Player = new Sprite(
                 Player_Tex2D,
                 _spriteBatch
->>>>>>> Stashed changes
                 );
             m_Player.DefaultValue();
 
@@ -148,15 +131,10 @@ namespace RogueProject
                 Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 
             }
-
-<<<<<<< Updated upstream
-            m_Player.Update(gameTime, kstate, m_ListCaseGround);
-=======
             if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
                 Player_Pos.Y += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
->>>>>>> Stashed changes
 
             if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
@@ -206,12 +184,8 @@ namespace RogueProject
                     Tab2DCaseGround[i][j].DefaultDraw(_spriteBatch); 
                 }
             }
-
             m_Player.Draw(_spriteBatch);
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);
