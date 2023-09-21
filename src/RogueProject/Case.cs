@@ -26,7 +26,6 @@ namespace RogueProject
         /// <param name="_Content">Contenu de la case (joueur, monstre, objet,...)</param>
         /// <param name="_IsWalkable">Définit si c'est possible de marcher sur la case</param>
         /// <param name="_Texture2D">Texture de la case</param>
-        /// <param name="_SpriteBatch">SpriteBatch du GameCore permettant de dessiner la Texture sur la fenêtre</param>
         /// <param name="_Position">Position X et Y (Vecteur 2d) de la case</param>
         /// <param name="_Velocity">vitesse de la case</param>
         /// <param name="_SourceRectangle">Taille de la case</param>
@@ -41,7 +40,6 @@ namespace RogueProject
             Sprite _Content,
             bool _IsWalkable,
             Texture2D _Texture2D,
-            SpriteBatch _SpriteBatch,
             Vector2 _Position = new Vector2(),
             float _Velocity = DEFAULT_CASE_VELOCITY,
             Rectangle? _SourceRectangle = null,
@@ -51,7 +49,7 @@ namespace RogueProject
             Vector2 _Scale = new Vector2(),
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _SpriteBatch, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
+            ) : base(_Texture2D, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
             this.SetIsWalkable(_IsWalkable);
             this.SetVisibilityLevel(_VisibilityLevel);

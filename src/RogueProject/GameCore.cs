@@ -73,7 +73,6 @@ namespace RogueProject
                             null,
                             false,
                             CaseTex,
-                            _spriteBatch,
                             new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
                         );
                     GridOfCase[i][j].DefaultValue();

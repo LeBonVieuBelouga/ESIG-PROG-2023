@@ -17,7 +17,6 @@ namespace RogueProject
         /// <param name="_Content">Contenu du Ground (joueur, monstre, objet,...)</param>
         /// <param name="_IsWalkable">Définit si c'est possible de marcher sur le Ground</param>
         /// <param name="_Texture2D">Texture de le Ground</param>
-        /// <param name="_SpriteBatch">SpriteBatch du GameCore permettant de dessiner la Texture sur la fenêtre</param>
         /// <param name="_Position">Position X et Y (Vecteur 2d) du Ground</param>
         /// <param name="_Velocity">vitesse du Ground</param>
         /// <param name="_SourceRectangle">Taille du Ground</param>
@@ -32,7 +31,6 @@ namespace RogueProject
             Sprite _Content,
             bool _IsWalkable,
             Texture2D _Texture2D,
-            SpriteBatch _SpriteBatch,
             Vector2 _Position = new Vector2(),
             float _Velocity = DEFAULT_GROUND_VELOCITY,
             Rectangle? _SourceRectangle = null,
@@ -42,7 +40,7 @@ namespace RogueProject
             Vector2 _Scale = new Vector2(),
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_VisibilityLevel, _Content, _IsWalkable, _Texture2D, _SpriteBatch, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
+            ) : base(_VisibilityLevel, _Content, _IsWalkable, _Texture2D, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
             // Code lors de la création d'un ground
         }

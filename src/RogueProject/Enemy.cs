@@ -27,7 +27,6 @@ namespace RogueProject
         /// Permet de généré des créatures,joueur etc.. pouvant bouger, attaquer, mourrir, etc..
         /// </summary>
         /// <param name="_Texture2D">Texture de le Ground</param>
-        /// <param name="_SpriteBatch">SpriteBatch du GameCore permettant de dessiner la Texture sur la fenêtre</param>
         /// <param name="_Position">Position X et Y (Vecteur 2d) du Ground</param>
         /// <param name="_Velocity">vitesse du Ground</param>
         /// <param name="_SourceRectangle">Taille du Ground</param>
@@ -39,8 +38,6 @@ namespace RogueProject
         /// <param name="_LayerDepth">Profondeur du champ du Ground/param>
         public Enemy(
                 Texture2D _Texture2D,
-                SpriteBatch _SpriteBatch,
-
                 uint _HealthPoint = HEALTH_DEFAULT,
                 uint _Damage = DAMAGE_DEFAULT,
                 uint _Defense = DEFENSE_DEFAULT,
@@ -53,7 +50,7 @@ namespace RogueProject
                 Vector2 _Scale = new Vector2(),
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _SpriteBatch, _HealthPoint, _Damage, _Defense, _Position, _Velocity, 
+            ) : base(_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, 
                 _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
 
@@ -90,7 +87,7 @@ namespace RogueProject
         /// </summary>
         public void Move(Case[][] _GridOfCase)
         {
-            //CurrentGrid[this.GetPosition][this.GetPosition];
+            
         }
 
 
