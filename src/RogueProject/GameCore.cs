@@ -11,6 +11,13 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace RogueProject
 {
+    public enum DIRECTION
+    {
+        UP,     // 0
+        DOWN,   // 1
+        RIGHT,  // 2
+        LEFT    // 3
+    }
     public class GameCore : Game
     {
         // Constantes
@@ -21,11 +28,11 @@ namespace RogueProject
         private SpriteBatch _spriteBatch;
 
         private Case[][] GridOfCase = new Case[COL_GRID][];
-
+        private bool EnterKeyHold = false;
         Random random = new Random(); 
 
         //Variable propre à la méthodolgie du projet
-        Sprite m_Player;
+        Player m_Player;
 
         private List<Entity> m_entitiesL;
 
@@ -46,14 +53,14 @@ namespace RogueProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Window.Title = "Abyssal Enigma: Rogue Requiem";
+            Window.Title = "Abyssal Enigma: Rogue Requiem";        
 
             Texture2D Player_Tex2D = Content.Load<Texture2D>("PlayerV1");
 
             m_Player = new Sprite(Player_Tex2D);
-         
 
-            Texture2D CaseTex = Content.Load<Texture2D>("GroundCaseV1");
+            Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
+
 
             int GridSizeWidth = COL_GRID * CaseTex.Width;
             int GridSizeHeight = RAW_GRID * CaseTex.Height;
@@ -83,9 +90,23 @@ namespace RogueProject
                 }
             }
 
-            m_Player.SetPosition(new Vector2(_graphics.PreferredBackBufferWidth/2,
-                _graphics.PreferredBackBufferHeight/2));
-            m_Player.SetVelocity(800f);
+            Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
+
+            // Calcule la position du joueur pour le centrer dans les cases
+            float centerPosX = GridOfCase[0][0].GetPosition().X - Player_Tex2D.Width / 2;
+            float centerPosY = GridOfCase[0][0].GetPosition().Y - Player_Tex2D.Height / 2;
+
+
+            // Création du joueur
+            m_Player = new Player(
+                new Vector2(0, 0),
+                GridOfCase,
+                Player_Tex2D,
+                1,
+                1,
+                1,
+                new Vector2(centerPosX, centerPosY)
+            );
 
             base.Initialize();
         }
@@ -106,26 +127,36 @@ namespace RogueProject
 
             // TODO: Add your update logic here
 
-            Texture2D Player_Tex = m_Player.GetTexture();
-            Vector2 Player_Pos = m_Player.GetPosition();
-            float Player_Velocity = m_Player .GetVelocity();
-
+            // Récupère les inputs clavier
             var kstate = Keyboard.GetState();
 
-            if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
+            // Utilise la fonction Update du joueur,
+            // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
+            m_Player.Update(gameTime, kstate, GridOfCase);
+
+            // Permet de récupérer tous les entité sur une case et d'avoir leur position
+            if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
             {
-                //Debug.WriteLine(ListCaseGround[indexNTM].GetContent().GetType().Name);
-                Player_Pos.Y -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
+                EnterKeyHold = true;
                 
-            }
-            if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
-            {
-                Player_Pos.Y += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                for (int i = 0; i <= GridOfCase.Length - 1; i++)
+                {
+                    for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                    {
+                        Sprite currentContent = GridOfCase[i][j].GetContent();
+                        if (currentContent != null)
+                        {
+                            Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + GridOfCase[i][j].GetContent().GetType().Name);
+                        }
+                    }
+                }
             }
 
-            if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
+            // Si la touche Enter est relâcher, permet de refaire le code de vérification des entités
+            if (kstate.IsKeyUp(Keys.Enter))
             {
-                Player_Pos.X -= Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                EnterKeyHold = false;
             }
 
             if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
