@@ -29,6 +29,8 @@ namespace RogueProject
 
         private Case[][] GridOfCase = new Case[COL_GRID][];
         private bool EnterKeyHold = false;
+        private bool SpaceKeyHold = false;
+        private bool NightClubMode = false;
         Random random = new Random(); 
 
         //Variable propre à la méthodolgie du projet
@@ -149,20 +151,37 @@ namespace RogueProject
                 }
             }
 
+            // Night club mode
+            if (NightClubMode) 
+            {
+                for (int i = 0; i <= GridOfCase.Length - 1; i++)
+                {
+
+                    for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                    {
+                        Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
+                        GridOfCase[i][j].SetColor(RandBow);
+                    }
+                }
+            }
+
+            if (kstate.IsKeyDown(Keys.Space) && !SpaceKeyHold) 
+            {
+                NightClubMode = !NightClubMode;
+                SpaceKeyHold = true;
+
+            }
+
             // Si la touche Enter est relâcher, permet de refaire le code de vérification des entités
             if (kstate.IsKeyUp(Keys.Enter))
             {
                 EnterKeyHold = false;
             }
 
-            for (int i = 0; i <= GridOfCase.Length - 1; i++)
+            // Si la touche Espace est relâcher, permet de mettre le mode discoooooooooooooooooooooo
+            if (kstate.IsKeyUp(Keys.Space))
             {
-               
-                for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
-                {
-                    Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
-                    GridOfCase[i][j].SetColor(RandBow);
-                }
+                SpaceKeyHold = false;
             }
 
             base.Update(gameTime);
