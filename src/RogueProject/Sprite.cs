@@ -330,7 +330,8 @@ namespace RogueProject
                     null,
                     Color.White,
                     0f,
-                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
+                    //new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
+                    new Vector2(0, 0),
                     Vector2.One,
                     SpriteEffects.None,
                     0f
@@ -346,25 +347,29 @@ namespace RogueProject
                     null,
                     Color.White,
                     0f,
-                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
+                    //new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
+                    new Vector2(0, 0),
                     Vector2.One,
                     SpriteEffects.None,
                     0f
                     );
         }
 
+        /// <summary>
+        /// Définit des valeur par défaut pour le sprite géré
+        /// </summary>
         public void DefaultValue()
         {
             this.SetTexture(this.m_Tex2D);
             //this.SetSpriteBatch(_SpriteBatch);
             this.SetPosition(this.m_Pos);
             this.SetSourceRectangle(null);
-            this.SetColor(Color.White);
-            this.SetRotation(0f);
+            //this.SetColor(Color.White); <- pas obli
+            //this.SetRotation(0f); // pas obli
             this.SetOrigin(new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2));
             this.SetScale(Vector2.One);
-            this.SetEffect(SpriteEffects.None);
-            this.SetLayerDepth(0f);
+            //this.SetEffect(SpriteEffects.None);
+            //this.SetLayerDepth(0f);
             this.SetVelocity(1f);
         }
     }

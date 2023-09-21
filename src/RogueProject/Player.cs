@@ -66,7 +66,7 @@ namespace RogueProject
             this.SetDefense(_Defense);
         }
 
-        public void SetIndexPlayer(Vector2 _indexPlayer, List<Case> _ListCase)
+        public void SetIndexPlayer(Vector2 _indexPlayer, List<Case> _GridOfCase)
         {
             this.m_PlayerIndex = _indexPlayer;
 
@@ -76,34 +76,34 @@ namespace RogueProject
         /// Permet au joueur de bouger
         /// A réecrire une fois fonction fini
         /// </summary>
-        public void Move(DIRECTION _Direction, Case[][] _ListCase, GameTime _GameTime, KeyboardState _Kstate)
+        public void Move(DIRECTION _Direction, Case[][] _GridOfCase)
         {
             switch (_Direction)
             {
                 case DIRECTION.LEFT:
-                    if (this.m_Pos.X - _ListCase[0][0].GetTexture().Width >= _ListCase[0][0].GetPosition().X)
+                    if (this.m_Pos.X - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().X)
                     {
-                        this.m_Pos.X -= _ListCase[0][0].GetTexture().Width;
+                        this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
                     }
                     break;
                 case DIRECTION.RIGHT:
-                    if (this.m_Pos.X + _ListCase[0][_ListCase[_ListCase.Length - 1].Length - 1].GetTexture().Width <= _ListCase[0][_ListCase[_ListCase.Length - 1].Length - 1].GetPosition().X)
+                    if (this.m_Pos.X + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().X)
                     {
-                        this.m_Pos.X += _ListCase[0][_ListCase[_ListCase.Length - 1].Length - 1].GetTexture().Width;
+                        this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
                     }
                     break;
                 case DIRECTION.UP:
 
-                    if (this.m_Pos.Y - _ListCase[0][0].GetTexture().Width >= _ListCase[0][0].GetPosition().Y)
+                    if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y)
                     {
-                        this.m_Pos.Y -= _ListCase[0][0].GetTexture().Width;
+                        this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
                     }
                     break;
                 case DIRECTION.DOWN:
 
-                    if (this.m_Pos.Y + _ListCase[0][_ListCase[_ListCase.Length - 1].Length - 1].GetTexture().Width <= _ListCase[0][_ListCase[_ListCase.Length - 1].Length - 1].GetPosition().Y)
+                    if (this.m_Pos.Y + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().Y)
                     {
-                        this.m_Pos.Y += _ListCase[0][_ListCase[_ListCase.Length - 1].Length - 1].GetTexture().Width;
+                        this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
                     }
                     break;
             }
@@ -130,7 +130,7 @@ namespace RogueProject
         public bool Update(
             GameTime _GameTime,
             KeyboardState _Kstate,
-            Case[][] _ListCase
+            Case[][] _GridOfCase
             )
         {
 
@@ -139,25 +139,25 @@ namespace RogueProject
             {
                 if (_Kstate.IsKeyDown(Keys.Up))
                 {
-                    this.Move(DIRECTION.UP, _ListCase, _GameTime, _Kstate);
+                    this.Move(DIRECTION.UP, _GridOfCase);
 
                     m_ReleaseUpKey = false;
                 }
                 if (_Kstate.IsKeyDown(Keys.Down))
                 {
-                    this.Move(DIRECTION.DOWN, _ListCase, _GameTime, _Kstate);
+                    this.Move(DIRECTION.DOWN, _GridOfCase);
                     m_ReleaseDownKey = false;
                 }
 
                 if (_Kstate.IsKeyDown(Keys.Left))
                 {
-                    this.Move(DIRECTION.LEFT, _ListCase, _GameTime, _Kstate);
+                    this.Move(DIRECTION.LEFT, _GridOfCase);
                     m_ReleaseLeftKey = false;
                 }
 
                 if (_Kstate.IsKeyDown(Keys.Right))
                 {
-                    this.Move(DIRECTION.RIGHT, _ListCase, _GameTime, _Kstate);
+                    this.Move(DIRECTION.RIGHT, _GridOfCase);
                     m_ReleaseRightKey = false;
                 }
             }

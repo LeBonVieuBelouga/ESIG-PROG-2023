@@ -20,20 +20,13 @@ namespace RogueProject
     public class GameCore : Game
     {
         // Constantes
-        const int TAB2D_WIDTH = 80;
-        const int TAB2D_HEIGHT = 45;
-
+        const int COL_GRID = 50;
+        const int RAW_GRID = 30;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Case[][] Tab2DCaseGround = new Case[TAB2D_WIDTH][];
-
-        private bool releaseUpKey = false;
-        private bool releaseDownKey = false;
-        private bool releaseRightKey = false;
-        private bool releaseLeftKey = false;
-
+        private Case[][] GridOfCase = new Case[COL_GRID][];
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
@@ -58,35 +51,53 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
+
+            Texture2D CaseTex = Content.Load<Texture2D>("square");
+
+            int GridSizeWidth = COL_GRID * CaseTex.Width;
+            int GridSizeHeight = RAW_GRID * CaseTex.Height;
+
+            int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
+            int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
+
+
             //Parcourt les colonnes du tableau2D
-            for (int i = 0; i <= Tab2DCaseGround.Length - 1; i++)
+            for (int i = 0; i <= COL_GRID - 1; i++)
             {
-                //Définit la hauteur maximal du tableau      
-                Tab2DCaseGround[i] = new Case[TAB2D_HEIGHT];
+                //Définit la hauteur maximal du tableau2D      
+                GridOfCase[i] = new Case[RAW_GRID];
 
                 //Parcourt les lignes du tableau2D
-                for (int j = 0; j <= Tab2DCaseGround[i].Length - 1; j++)
+                for (int j = 0; j <= RAW_GRID - 1; j++)
                 {
-                    Tab2DCaseGround[i][j] = new Ground(
+                    GridOfCase[i][j] = new Ground(
                             1,
                             null,
                             false,
-                            Content.Load<Texture2D>("square"),
+                            CaseTex,
                             _spriteBatch,
-                            new Vector2(24 * i, 24 * j)
+                            new Vector2(startX + CaseTex.Width * i, startY + CaseTex.Height * j)
                         );
+                    GridOfCase[i][j].DefaultValue();
                 }
             }
 
             m_Player = new Player(
-                new Vector2(0, 0),
+                new Vector2(0,0),
                 Content.Load<Texture2D>("player"),
                 _spriteBatch,
                 1,
+                0,
+                0,
+                GridOfCase[0][0].GetPosition(),
                 1,
-                1,
-                Tab2DCaseGround[0][0].GetPosition()
-            );
+                null,
+                default,
+                0,
+                new Vector2(Content.Load<Texture2D>("player").Width / 2, Content.Load<Texture2D>("player").Height / 2)
+                );
+            m_Player.DefaultValue();
+
 
             base.Initialize();
         }
@@ -116,7 +127,7 @@ namespace RogueProject
             var kstate = Keyboard.GetState();
 
 
-            m_Player.Update(gameTime, kstate, Tab2DCaseGround);
+            m_Player.Update(gameTime, kstate, GridOfCase);
 
             //Debug.WriteLine(m_Player.GetTexture().Width);
             //Debug.WriteLine(m_ListCaseGround[1].GetTexture().Width);
@@ -156,15 +167,15 @@ namespace RogueProject
             _spriteBatch.Begin();
 
             //Dessine le quadrillage du niveau
-            for (int i = 0; i < Tab2DCaseGround.Length-1; i++)
+            for (int i = 0; i <= GridOfCase.Length - 1; i++)
             {
-                for (int j = 0; j < Tab2DCaseGround[i].Length-1; j++)
+                for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
                 {
-                    Tab2DCaseGround[i][j].DefaultDraw(_spriteBatch); 
+                    GridOfCase[i][j].Draw(_spriteBatch);
                 }
             }
 
-            m_Player.DefaultDraw(_spriteBatch);
+            m_Player.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
