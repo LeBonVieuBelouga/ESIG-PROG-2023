@@ -55,10 +55,6 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";        
 
-            Texture2D Player_Tex2D = Content.Load<Texture2D>("PlayerV1");
-
-            m_Player = new Sprite(Player_Tex2D);
-
             Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
 
 
@@ -159,37 +155,6 @@ namespace RogueProject
                 EnterKeyHold = false;
             }
 
-            if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
-            {
-                Player_Pos.X += Player_Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            //Pour ne pas sortir de la zone
-            if (Player_Pos.X > _graphics.PreferredBackBufferWidth - Player_Tex.Width / 2)
-            {
-                Player_Pos.X = _graphics.PreferredBackBufferWidth - Player_Tex.Width / 2;
-            }
-            else if (Player_Pos.X < Player_Tex.Width / 2)
-            {
-                Player_Pos.X = Player_Tex.Width / 2;
-            }
-
-            if (Player_Pos.Y > _graphics.PreferredBackBufferHeight - Player_Tex.Height / 2)
-            {
-                Player_Pos.Y = _graphics.PreferredBackBufferHeight - Player_Tex.Height / 2;
-            }
-            else if (Player_Pos.Y < Player_Tex.Height / 2)
-            {
-                Player_Pos.Y = Player_Tex.Height / 2;
-            }
-
-            
-
-            m_Player.SetPosition(Player_Pos);
-            
-            m_Player.SetColor(RandBow);
-
-            /*
             for (int i = 0; i <= GridOfCase.Length - 1; i++)
             {
                
@@ -198,7 +163,7 @@ namespace RogueProject
                     Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
                     GridOfCase[i][j].SetColor(RandBow);
                 }
-            }*/
+            }
 
             base.Update(gameTime);
         }

@@ -242,7 +242,7 @@ namespace RogueProject
             return turnIsOver;
         }
 
-        public override void Attack(Entity _entity)
+        public override void Attack(ref Entity _entity)
         {
 
         }
