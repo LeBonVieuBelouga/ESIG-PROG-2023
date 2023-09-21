@@ -31,11 +31,7 @@ namespace RogueProject
         /// Créer un objet de type Entity et instencie toutes ces propriétés.
         /// Permet de généré des créatures,joueur etc.. pouvant bouger, attaquer, mourrir, etc..
         /// </summary>
-        /// <param name="_VisibilityLevel">Niveau de lumière du Ground</param>
-        /// <param name="_Content">Contenu du Ground (joueur, monstre, objet,...)</param>
-        /// <param name="_IsWalkable">Définit si c'est possible de marcher sur le Ground</param>
         /// <param name="_Texture2D">Texture de le Ground</param>
-        /// <param name="_SpriteBatch">SpriteBatch du GameCore permettant de dessiner la Texture sur la fenêtre</param>
         /// <param name="_Position">Position X et Y (Vecteur 2d) du Ground</param>
         /// <param name="_Velocity">vitesse du Ground</param>
         /// <param name="_SourceRectangle">Taille du Ground</param>
@@ -47,7 +43,6 @@ namespace RogueProject
         /// <param name="_LayerDepth">Profondeur du champ du Ground/param>
         public Entity(
             Texture2D _Texture2D,
-            SpriteBatch _SpriteBatch,
             uint _HealthPoint = HEALTH_DEFAULT,
             uint _Damage = DAMAGE_DEFAULT,
             uint _Defense = DEFENSE_DEFAULT,
@@ -60,7 +55,7 @@ namespace RogueProject
             Vector2 _Scale = new Vector2(),
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base (_Texture2D, _SpriteBatch, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth) {
+            ) : base (_Texture2D, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth) {
 
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
@@ -135,9 +130,10 @@ namespace RogueProject
         /// </summary>
         public abstract void Death();
 
+
         /// <summary>
         /// Permet à l'Entity d'attaquer.
         /// </summary>
-        public abstract void Attack(Entity _entity);
+        public abstract void Attack(ref Entity _entity);
     }
 }
