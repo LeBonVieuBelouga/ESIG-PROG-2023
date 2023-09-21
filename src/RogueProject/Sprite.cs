@@ -27,13 +27,10 @@ namespace RogueProject
         public const float DEFAULT_LAYER_DEPTH = 1f;
         public const SpriteEffects DEFAULT_EFFECT = SpriteEffects.None;
         public readonly Color DEFAULT_COLOR = Color.White;
-
-        protected SpriteBatch m_SpriteBatch;      // Helper class pour dessiner le sprite dans la fenêtre.
-        //private Rectangle m_SpriteSheet_Size;
-
+        public readonly Vector2 DEFAULT_SCALE = Vector2.One;
 
         private Texture2D m_Tex2D;              // Texture du Sprite
-        private Vector2 m_Pos;                 // Position du Sprite dans l'environement
+        private Vector2 m_Pos;                  // Position du Sprite dans l'environement
         float m_Velocity;                       // Vitesse de déplacement du Sprite
         private Rectangle? m_SourceRectangle;   // Taille du Sprite ??
         private Color m_Color;                  // Filtre appliqué sur le sprite
@@ -47,14 +44,13 @@ namespace RogueProject
 
         public Sprite(
             Texture2D _Texture2D,
-            SpriteBatch _SpriteBatch,
             Vector2 _Position = new Vector2(),
             float _Velocity = DEFAULT_VELOCITY,
             Rectangle? _SourceRectangle = null,
             Color _Color = default(Color),
             float _Rotation = DEFAULT_ROTATION,
             Vector2 _Origin = new Vector2(),
-            Vector2 _Scale = new Vector2(),
+            Vector2 _Scale = default(Vector2),
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH)
         {
@@ -63,8 +59,12 @@ namespace RogueProject
             {
                 _Color = DEFAULT_COLOR;
             }
+
+            if (_Scale == default(Vector2)) {
+                _Scale = DEFAULT_SCALE;
+            }
+
             this.SetTexture(_Texture2D);
-            this.SetSpriteBatch(_SpriteBatch);
             this.SetPosition(_Position);
             this.SetVelocity(_Velocity);
             this.SetSourceRectangle(_SourceRectangle);
@@ -127,31 +127,6 @@ namespace RogueProject
         public float GetVelocity()
         {
             return this.m_Velocity;
-        }
-
-        /*
-        public void SetSize(Vector2 _Sprite_Size)
-        {
-            this.m_Sprite_Size = _Sprite_Size;
-        }
-        */
-
-        /// <summary>
-        /// Setter pour m_SpriteBatch
-        /// </summary>
-        /// <param name="_SpriteBatch"></param>
-        public void SetSpriteBatch(SpriteBatch _SpriteBatch)
-        {
-            this.m_SpriteBatch = _SpriteBatch;
-        }
-
-        /// <summary>
-        /// Getter pour m_SpriteBatch
-        /// </summary>
-        /// <returns>m_SpriteBatch</returns>
-        public SpriteBatch GetSpriteBatch()
-        {
-            return this.m_SpriteBatch;
         }
 
         /// <summary>
@@ -300,45 +275,6 @@ namespace RogueProject
                      );
         }
 
-        /// <summary>
-        /// Permet de dessiner un Sprite en un appel de fonction avec ou sans un SpriteBatch spécifié.
-        /// </summary>
-        /// <param name="_SpriteBatch"></param>
-        public void Draw()
-        {
-            //Dessine le Sprite avec touts ses paramètres 
-            this.m_SpriteBatch.Draw(
-                     this.m_Tex2D,
-                     this.m_Pos,
-                     this.m_SourceRectangle,
-                     this.m_Color,
-                     this.m_Rotation,
-                     this.m_Origin,
-                     this.m_Scale,
-                     this.m_Effect,
-                     this.m_LayerDepth
-                     );
-        }
-
-        /// <summary>
-        /// Fonction test permettant de dessiner un Sprite en un appel de fonction avec une configuration de base
-        /// </summary>
-        public void DefaultDraw()
-        {
-            //Dessine le Sprite avec ces paramètres 
-            this.m_SpriteBatch.Draw(
-                    this.m_Tex2D,
-                    this.m_Pos,
-                    null,
-                    Color.White,
-                    0f,
-                    new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2),
-                    Vector2.One,
-                    SpriteEffects.None,
-                    0f
-                    );
-        }
-
         public void DefaultDraw(SpriteBatch _SpriteBatch)
         {
             //Dessine le Sprite avec ces paramètres 
@@ -355,15 +291,17 @@ namespace RogueProject
                     );
         }
 
+        /// <summary>
+        /// Définit des valeur par défaut pour le sprite géré
+        /// </summary>
         public void DefaultValue()
         {
             this.SetTexture(this.m_Tex2D);
-            //this.SetSpriteBatch(_SpriteBatch);
             this.SetPosition(this.m_Pos);
             this.SetSourceRectangle(null);
             this.SetColor(Color.White);
             this.SetRotation(0f);
-            //this.SetOrigin(new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2));
+            this.SetOrigin(new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2));
             this.SetScale(Vector2.One);
             this.SetEffect(SpriteEffects.None);
             this.SetLayerDepth(0f);

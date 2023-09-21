@@ -88,15 +88,15 @@ namespace RogueProject
         /// <summary>
         /// Permet à l'Ennemie de bouger.
         /// </summary>
-        public override void Move()
+        public void Move(Case[][] _GridOfCase)
         {
-            throw new NotImplementedException();
+            //CurrentGrid[this.GetPosition][this.GetPosition];
         }
 
 
         public void Update(GameTime gameTime) {
 
-            Move();
+            //this.Move();
         }
     }
 }

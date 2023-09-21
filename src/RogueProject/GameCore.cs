@@ -20,15 +20,7 @@ namespace RogueProject
 
         private Case[][] GridOfCase = new Case[COL_GRID][];
 
-        Random random = new Random();
-
-        private Case[][] cases = new Case[80][];   
-
-
-        private bool releaseUpKey = false;
-        private bool releaseDownKey = false;
-        private bool releaseRightKey = false;
-        private bool releaseLeftKey = false;
+        Random random = new Random(); 
 
         //Variable propre à la méthodolgie du projet
         Sprite m_Player;
@@ -56,11 +48,8 @@ namespace RogueProject
 
             Texture2D Player_Tex2D = Content.Load<Texture2D>("MissingTextureInventory");
 
-            m_Player = new Sprite(
-                Player_Tex2D,
-                _spriteBatch
-                );
-            m_Player.DefaultValue();
+            m_Player = new Sprite(Player_Tex2D);
+         
 
             Texture2D CaseTex = Content.Load<Texture2D>("MissingTexture32x32");
 
