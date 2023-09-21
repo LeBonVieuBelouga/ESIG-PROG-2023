@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace RogueProject
 {
@@ -46,12 +48,12 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
 
-            Texture2D Player_Tex2D = Content.Load<Texture2D>("MissingTextureInventory");
+            Texture2D Player_Tex2D = Content.Load<Texture2D>("PlayerV1");
 
             m_Player = new Sprite(Player_Tex2D);
          
 
-            Texture2D CaseTex = Content.Load<Texture2D>("MissingTexture32x32");
+            Texture2D CaseTex = Content.Load<Texture2D>("GroundCaseV1");
 
             int GridSizeWidth = COL_GRID * CaseTex.Width;
             int GridSizeHeight = RAW_GRID * CaseTex.Height;
@@ -76,6 +78,8 @@ namespace RogueProject
                             new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
                         );
                     GridOfCase[i][j].DefaultValue();
+                    Color color = new Color(255, 0, 255);
+                    GridOfCase[i][j].SetColor(color);
                 }
             }
 
@@ -92,9 +96,6 @@ namespace RogueProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
-            // Initialisation des Sprites
-            m_Player.SetTexture(Content.Load<Texture2D>("MissingTextureInventory"));
 
         }
 
@@ -151,14 +152,29 @@ namespace RogueProject
                 Player_Pos.Y = Player_Tex.Height / 2;
             }
 
+            
+
             m_Player.SetPosition(Player_Pos);
+            
+            m_Player.SetColor(RandBow);
+
+            /*
+            for (int i = 0; i <= GridOfCase.Length - 1; i++)
+            {
+               
+                for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                {
+                    Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
+                    GridOfCase[i][j].SetColor(RandBow);
+                }
+            }*/
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Firebrick);// Couleur de la fenetre
+            GraphicsDevice.Clear(Color.Black);// Couleur de la fenetre
 
             _spriteBatch.Begin();
 

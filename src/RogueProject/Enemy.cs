@@ -16,8 +16,8 @@ namespace RogueProject
     internal class Enemy : Entity
     {
 
-        private uint EXPERIENCE_POINT_DEFAULT = 15;
-        private uint ACTION_POINT_DEFAULT = 1;
+        private const uint EXPERIENCE_POINT_DEFAULT = 15;
+        private const uint ACTION_POINT_DEFAULT = 1;
 
         private uint m_ExperienceGiven;
         private uint m_actionPoint;
@@ -38,10 +38,11 @@ namespace RogueProject
         /// <param name="_LayerDepth">Profondeur du champ du Ground/param>
         public Enemy(
                 Texture2D _Texture2D,
+                Vector2 _Position = new Vector2(),
                 uint _HealthPoint = HEALTH_DEFAULT,
                 uint _Damage = DAMAGE_DEFAULT,
                 uint _Defense = DEFENSE_DEFAULT,
-                Vector2 _Position = new Vector2(),
+                uint _ExpericenGiven = EXPERIENCE_POINT_DEFAULT,
                 float _Velocity = DEFAULT_ENTITY_VELOCITY,
                 Rectangle? _SourceRectangle = null,
                 Color _Color = default(Color),
@@ -50,13 +51,30 @@ namespace RogueProject
                 Vector2 _Scale = new Vector2(),
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, 
+            ) : base(_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
                 _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
 
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
+            this.SetExperienceGiven(_ExpericenGiven);
+        }
+
+        /// <summary>
+        /// Définit le total d'XP que l'ennemie après sa mort.
+        /// </summary>
+        /// <param name="_ExpericenGiven"></param>
+        void SetExperienceGiven(uint _ExpericenGiven) {
+            this.m_ExperienceGiven = _ExpericenGiven;
+        }
+
+        /// <summary>
+        /// Renvoit le total d'XP que l'ennemie donne après sa mort
+        /// </summary>
+        /// <returns>this.m_ExperienceGiven</returns>
+        uint GetExpericenGiven(){
+            return this.m_ExperienceGiven;
         }
 
         /// <summary>
@@ -64,22 +82,23 @@ namespace RogueProject
         /// </summary>
         public override void Death() {
             Debug.WriteLine("Morbius");
+
+
         }
 
         /// <summary>
         /// Permet à l'Ennemie d'attaquer.
         /// </summary>
-        public override void Attack(Entity _entity)
+        public override void Attack(ref Entity _entity)
         {
-            uint entityHeathPoint = _entity.GetHealthPoint();
-            uint entityDamage = _entity.GetDamage();
-            uint entityDefense = _entity.GetDefense();
+            uint curr_entityHeathPoint = _entity.GetHealthPoint();
+            
+            //Retire une partie des dégats fait par l'enemy sur 
+            uint curr_damage = this.m_Damage - _entity.GetDefense();
 
-            uint curr_damage = this.m_Damage - entityDefense;
+            curr_entityHeathPoint -= curr_damage;
 
-            entityHeathPoint -= curr_damage;
-
-            _entity.SetHealthPoint(entityHeathPoint);
+            _entity.SetHealthPoint(curr_entityHeathPoint);
         }
 
         /// <summary>

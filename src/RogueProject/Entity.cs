@@ -134,6 +134,6 @@ namespace RogueProject
         /// <summary>
         /// Permet à l'Entity d'attaquer.
         /// </summary>
-        public abstract void Attack(Entity _entity);
+        public abstract void Attack(ref Entity _entity);
     }
 }

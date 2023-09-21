@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:bastienbulioBaseV1.png
 
+#begin GroundCaseV1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GroundCaseV1.png
+
 #begin HeroV2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,6 +84,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:MissingTextureInventory.png
+
+#begin PlayerV1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayerV1.png
 
 #begin square.png
 /importer:TextureImporter
