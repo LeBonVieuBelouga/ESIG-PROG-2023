@@ -11,8 +11,3 @@ src/RogueProject/bin/Release/
 src/RogueProject/Content/obj/
 src/RogueProject/Content/bin/
 src/RogueProject/obj/
-
-src/RogueProject/obj/project.nuget.cache
-src/RogueProject/obj/project.nuget.cache
-src/RogueProject/obj/RogueProject.csproj.nuget.dgspec.json
-src/RogueProject/obj/RogueProject.csproj.nuget.g.props
