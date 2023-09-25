@@ -18,6 +18,14 @@ namespace RogueProject
         RIGHT,  // 2
         LEFT    // 3
     }
+    public enum ROOM_TYPE
+    {
+        EMPTY,      // 0
+        HOSTILE,    // 1
+        ITEM,       // 2
+        START,      // 3
+        END         // 4
+    }
     public class GameCore : Game
     {
         // Constantes
@@ -35,7 +43,7 @@ namespace RogueProject
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
-
+   
         private List<Entity> m_entitiesL;
 
         public GameCore()
