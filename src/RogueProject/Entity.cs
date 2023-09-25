@@ -151,7 +151,6 @@ namespace RogueProject
 
         }
 
-
         /// <summary>
         /// Getter pour m_Defense
         /// </summary>

@@ -24,6 +24,9 @@ namespace RogueProject
         const int COL_GRID = 50;
         const int RAW_GRID = 30;
 
+        float interval = 0.5f;
+        float timer = 0f;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -90,11 +93,8 @@ namespace RogueProject
                 }
             }
 
-            Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
-
-            
-
             // Création du joueur
+            Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
             m_Player = new Player(
                 new Vector2(0, 0),
                 GridOfCase,
@@ -106,15 +106,15 @@ namespace RogueProject
             float centerPosY = GridOfCase[(int)m_Player.GetIndex().X][(int)m_Player.GetIndex().Y].GetPosition().Y - Player_Tex2D.Height / 2;
             m_Player.SetPosition(new Vector2 (centerPosX, centerPosY));
 
+            //Création de l'enemy
             Texture2D Enemy_Tex2D = Content.Load<Texture2D>("enemyV1");
-
             m_Enemy = new Enemy(
                 new Vector2(10, 10),
                 GridOfCase,
                 Enemy_Tex2D
             );
 
-            // Calcule la position du joueur pour le centrer dans les cases
+            // Calcule la position de l'enemy pour le centrer dans les cases
             centerPosX = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().X - Enemy_Tex2D.Width / 2;
             centerPosY = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().Y - Enemy_Tex2D.Height / 2;
             m_Enemy.SetPosition(new Vector2(centerPosX, centerPosY));
@@ -164,18 +164,30 @@ namespace RogueProject
                 }
             }
 
+            
+
+            
+
             // Night club mode
             if (NightClubMode) 
             {
-                for (int i = 0; i <= GridOfCase.Length - 1; i++)
+                // Mettez à jour le compteur de temps
+                timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                // Vérifiez si le temps écoulé est supérieur à l'intervalle
+                if (timer >= interval)
                 {
-
-                    for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                    for (int i = 0; i <= GridOfCase.Length - 1; i++)
                     {
-                        Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
-                        GridOfCase[i][j].SetColor(RandBow);
+
+                        for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                        {
+                            Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
+                            GridOfCase[i][j].SetColor(RandBow);
+                        }
                     }
+                    timer = 0f;
                 }
+                
             }
 
             if (kstate.IsKeyDown(Keys.Space) && !SpaceKeyHold) 

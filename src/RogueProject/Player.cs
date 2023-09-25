@@ -56,39 +56,9 @@ namespace RogueProject
             float _LayerDepth = DEFAULT_LAYER_DEPTH
             ) : base(_EntityIndex, _GridOfCase,_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
-            //this.SetIndex(_EntityIndex, _GridOfCase);
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
-        }
-
-        /// <summary>
-        /// Change l'index (emplacement dans le tableau des cases) du joueur
-        /// </summary>
-        /// <param name="_indexPlayer">Nouvelle index dans le tableau des cases</param>
-        /// <param name="_GridOfCase">Le tableau de cases</param>
-        public void SetIndex(Vector2 _indexPlayer, Case[][] _GridOfCase)
-        {
-            // Vérifie si le nouvel index est valide sinon empêche sa modification
-            if (_indexPlayer.X < 0 || _indexPlayer.Y < 0)
-            {
-                return;
-            }
-
-            // Affiche son ancienne index
-            //Debug.WriteLine("Content supprimé à : " + m_EntityIndex.X + ";" + m_EntityIndex.Y);
-
-            // Retire la préscence du joueur dans sa case précédente
-            _GridOfCase[(int)m_EntityIndex.X][(int)m_EntityIndex.Y].SetContent(null);
-
-            this.m_EntityIndex = _indexPlayer;
-
-            // Affiche son nouvelle index
-            //Debug.WriteLine("Content ajouté à : " + _indexPlayer.X + ";" + _indexPlayer.Y);
-
-            // Ajoute la préscence du joueur dans la nouvelle case
-            _GridOfCase[(int)m_EntityIndex.X][(int)m_EntityIndex.Y].SetContent(this);
-
         }
     
         /// <summary>
