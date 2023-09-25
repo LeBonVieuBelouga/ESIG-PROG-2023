@@ -22,6 +22,7 @@ namespace RogueProject
         protected const uint DEFENSE_DEFAULT = 0;
         protected const float DEFAULT_ENTITY_VELOCITY = 1f;
 
+        protected Vector2 m_EntityIndex = new Vector2(0, 0);
         protected uint m_HealthPoint;
         protected uint m_Damage;
         protected uint m_Defense;
@@ -42,6 +43,8 @@ namespace RogueProject
         /// <param name="_Effect">Modificateurs pour le dessin (peut être combiné)</param>
         /// <param name="_LayerDepth">Profondeur du champ du Ground/param>
         public Entity(
+            Vector2 _EntityIndex,
+            Case[][] _GridOfCase,
             Texture2D _Texture2D,
             uint _HealthPoint = HEALTH_DEFAULT,
             uint _Damage = DAMAGE_DEFAULT,
@@ -57,11 +60,45 @@ namespace RogueProject
             float _LayerDepth = DEFAULT_LAYER_DEPTH
             ) : base (_Texture2D, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth) {
 
+
+            this.SetIndex(_EntityIndex, _GridOfCase);
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
 
         }
+
+        /// <summary>
+        /// Change l'index (emplacement dans le tableau des cases) du joueur
+        /// </summary>
+        /// <param name="_CurrIndex">Nouvelle index dans le tableau des cases</param>
+        /// <param name="_GridOfCase">Le tableau de cases</param>
+        public void SetIndex(Vector2 _CurrIndex, Case[][] _GridOfCase)
+        {
+            // Vérifie si le nouvel index est valide sinon empêche sa modification
+            if (_CurrIndex.X < 0 || _CurrIndex.Y < 0)
+            {
+                Debug.WriteLine("WELCOME TO THE BACKROOM");
+                //GameCore.SetBackRoomMode();
+                return;
+            }
+
+            // Affiche son ancienne index
+            //Debug.WriteLine("Content supprimé à : " + m_EntityIndex.X + ";" + m_EntityIndex.Y);
+
+            // Retire la préscence du joueur dans sa case précédente
+            _GridOfCase[(int)m_EntityIndex.X][(int)m_EntityIndex.Y].SetContent(null);
+
+            this.m_EntityIndex = _CurrIndex;
+
+            // Affiche son nouvelle index
+            //Debug.WriteLine("Content ajouté à : " + _CurrIndex.X + ";" + _CurrIndex.Y);
+
+            // Ajoute la préscence du joueur dans la nouvelle case
+            _GridOfCase[(int)m_EntityIndex.X][(int)m_EntityIndex.Y].SetContent(this);
+
+        }
+
         /// <summary>
         /// Setter pour m_HealthPoint
         /// </summary>
@@ -122,6 +159,16 @@ namespace RogueProject
         public uint GetDefense()
         {
             return this.m_Defense;
+
+        }
+
+        /// <summary>
+        /// Getter pour m_Defense
+        /// </summary>
+        /// <returns></returns>
+        public Vector2 GetIndex()
+        {
+            return this.m_EntityIndex;
 
         }
 

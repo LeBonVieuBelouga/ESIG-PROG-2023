@@ -18,12 +18,12 @@ namespace RogueProject
         private bool m_ReleaseDownKey = false;
         private bool m_ReleaseRightKey = false;
         private bool m_ReleaseLeftKey = false;
-        private Vector2 m_PlayerIndex = new Vector2(0, 0);
+        private Vector2 m_EntityIndex = new Vector2(0, 0);
 
         /// <summary>
         /// Constructeur d'un joueur avec toutes ses informations
         /// </summary>
-        /// <param name="_PlayerIndex">Index du joueur dans le tableau de case</param>
+        /// <param name="_EntityIndex">Index du joueur dans le tableau de case</param>
         /// <param name="_GridOfCase">Tableau de toutes les cases</param>
         /// <param name="_Texture2D">Texture de le Player</param>
         /// <param name="_HealthPoint">Point de vie du joueur</param>
@@ -39,7 +39,7 @@ namespace RogueProject
         /// <param name="_Effect">Modificateurs pour le dessin (peut être combiné)</param>
         /// <param name="_LayerDepth">Profondeur du champ du Player/param>
         public Player(
-            Vector2 _PlayerIndex,
+            Vector2 _EntityIndex,
             Case[][] _GridOfCase,
             Texture2D _Texture2D,
             uint _HealthPoint = HEALTH_DEFAULT,
@@ -54,9 +54,9 @@ namespace RogueProject
             Vector2 _Scale = new Vector2(),
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
+            ) : base(_EntityIndex, _GridOfCase,_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
-            this.SetIndexPlayer(_PlayerIndex, _GridOfCase);
+            //this.SetIndex(_EntityIndex, _GridOfCase);
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
@@ -67,7 +67,7 @@ namespace RogueProject
         /// </summary>
         /// <param name="_indexPlayer">Nouvelle index dans le tableau des cases</param>
         /// <param name="_GridOfCase">Le tableau de cases</param>
-        public void SetIndexPlayer(Vector2 _indexPlayer, Case[][] _GridOfCase)
+        public void SetIndex(Vector2 _indexPlayer, Case[][] _GridOfCase)
         {
             // Vérifie si le nouvel index est valide sinon empêche sa modification
             if (_indexPlayer.X < 0 || _indexPlayer.Y < 0)
@@ -76,18 +76,18 @@ namespace RogueProject
             }
 
             // Affiche son ancienne index
-            //Debug.WriteLine("Content supprimé à : " + m_PlayerIndex.X + ";" + m_PlayerIndex.Y);
+            //Debug.WriteLine("Content supprimé à : " + m_EntityIndex.X + ";" + m_EntityIndex.Y);
 
             // Retire la préscence du joueur dans sa case précédente
-            _GridOfCase[(int)m_PlayerIndex.X][(int)m_PlayerIndex.Y].SetContent(null);
+            _GridOfCase[(int)m_EntityIndex.X][(int)m_EntityIndex.Y].SetContent(null);
 
-            this.m_PlayerIndex = _indexPlayer;
+            this.m_EntityIndex = _indexPlayer;
 
             // Affiche son nouvelle index
             //Debug.WriteLine("Content ajouté à : " + _indexPlayer.X + ";" + _indexPlayer.Y);
 
             // Ajoute la préscence du joueur dans la nouvelle case
-            _GridOfCase[(int)m_PlayerIndex.X][(int)m_PlayerIndex.Y].SetContent(this);
+            _GridOfCase[(int)m_EntityIndex.X][(int)m_EntityIndex.Y].SetContent(this);
 
         }
     
@@ -110,7 +110,7 @@ namespace RogueProject
                     {
                         // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
                         this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X - 1,this.m_PlayerIndex.Y), _GridOfCase);
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X - 1,this.m_EntityIndex.Y), _GridOfCase);
                     }
                     break;
                 // Droite
@@ -121,7 +121,7 @@ namespace RogueProject
                     {
                         // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
                         this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X + 1, this.m_PlayerIndex.Y), _GridOfCase);
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X + 1, this.m_EntityIndex.Y), _GridOfCase);
                     }
                     break;
                 // Haut
@@ -132,7 +132,7 @@ namespace RogueProject
                     {
                         // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
                         this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y - 1), _GridOfCase);
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y - 1), _GridOfCase);
                     }
                     break;
                 // Bas
@@ -143,7 +143,7 @@ namespace RogueProject
                     {
                         // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
                         this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y + 1), _GridOfCase);
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y + 1), _GridOfCase);
                     }
                     break;
             }

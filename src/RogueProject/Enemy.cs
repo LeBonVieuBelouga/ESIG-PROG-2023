@@ -37,11 +37,13 @@ namespace RogueProject
         /// <param name="_Effect">Modificateurs pour le dessin (peut être combiné)</param>
         /// <param name="_LayerDepth">Profondeur du champ du Ground/param>
         public Enemy(
+                Vector2 _EntityIndex,
+                Case[][] _GridOfCase,
                 Texture2D _Texture2D,
-                Vector2 _Position = new Vector2(),
                 uint _HealthPoint = HEALTH_DEFAULT,
                 uint _Damage = DAMAGE_DEFAULT,
                 uint _Defense = DEFENSE_DEFAULT,
+                Vector2 _Position = new Vector2(),
                 uint _ExpericenGiven = EXPERIENCE_POINT_DEFAULT,
                 float _Velocity = DEFAULT_ENTITY_VELOCITY,
                 Rectangle? _SourceRectangle = null,
@@ -51,7 +53,7 @@ namespace RogueProject
                 Vector2 _Scale = new Vector2(),
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
+            ) : base(_EntityIndex, _GridOfCase,_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
                 _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
 

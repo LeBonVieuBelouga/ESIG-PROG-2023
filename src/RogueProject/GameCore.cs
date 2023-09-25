@@ -36,6 +36,8 @@ namespace RogueProject
         //Variable propre à la méthodolgie du projet
         Player m_Player;
 
+        Enemy m_Enemy;
+
         private List<Entity> m_entitiesL;
 
         public GameCore()
@@ -90,21 +92,32 @@ namespace RogueProject
 
             Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
 
-            // Calcule la position du joueur pour le centrer dans les cases
-            float centerPosX = GridOfCase[0][0].GetPosition().X - Player_Tex2D.Width / 2;
-            float centerPosY = GridOfCase[0][0].GetPosition().Y - Player_Tex2D.Height / 2;
-
+            
 
             // Création du joueur
             m_Player = new Player(
                 new Vector2(0, 0),
                 GridOfCase,
-                Player_Tex2D,
-                1,
-                1,
-                1,
-                new Vector2(centerPosX, centerPosY)
+                Player_Tex2D
             );
+
+            // Calcule la position du joueur pour le centrer dans les cases
+            float centerPosX = GridOfCase[(int)m_Player.GetIndex().X][(int)m_Player.GetIndex().Y].GetPosition().X - Player_Tex2D.Width / 2;
+            float centerPosY = GridOfCase[(int)m_Player.GetIndex().X][(int)m_Player.GetIndex().Y].GetPosition().Y - Player_Tex2D.Height / 2;
+            m_Player.SetPosition(new Vector2 (centerPosX, centerPosY));
+
+            Texture2D Enemy_Tex2D = Content.Load<Texture2D>("enemyV1");
+
+            m_Enemy = new Enemy(
+                new Vector2(10, 10),
+                GridOfCase,
+                Enemy_Tex2D
+            );
+
+            // Calcule la position du joueur pour le centrer dans les cases
+            centerPosX = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().X - Enemy_Tex2D.Width / 2;
+            centerPosY = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().Y - Enemy_Tex2D.Height / 2;
+            m_Enemy.SetPosition(new Vector2(centerPosX, centerPosY));
 
             base.Initialize();
         }
@@ -202,6 +215,7 @@ namespace RogueProject
                 }
             }
             m_Player.Draw(_spriteBatch);
+            m_Enemy.Draw(_spriteBatch);
             
             _spriteBatch.End();
 
