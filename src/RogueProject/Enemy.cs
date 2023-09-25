@@ -108,7 +108,24 @@ namespace RogueProject
         /// </summary>
         public void Move(Case[][] _GridOfCase)
         {
-            
+            Vector2 vision = this.GetIndex() + new Vector2(5f,5f);
+
+            for (int i = 0; i <= (int)vision.X -  1 ; i++)
+            {
+                 
+                for (int j = 0; j <= vision.Y - 1; j++)
+                {
+                    //if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetLight > 0) {
+                        if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetContent().GetType().Name == "Player")
+                        {
+                            
+                        }
+                    //}
+                    
+                }
+            }
+           
+
         }
 
 

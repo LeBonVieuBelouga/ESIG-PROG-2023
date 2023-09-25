@@ -164,10 +164,6 @@ namespace RogueProject
                 }
             }
 
-            
-
-            
-
             // Night club mode
             if (NightClubMode) 
             {
