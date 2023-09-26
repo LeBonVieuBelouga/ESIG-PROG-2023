@@ -16,7 +16,8 @@ namespace RogueProject
         UP,     // 0
         DOWN,   // 1
         RIGHT,  // 2
-        LEFT    // 3
+        LEFT,   // 3
+        NONE    // 4
     }
     public class GameCore : Game
     {
@@ -144,6 +145,7 @@ namespace RogueProject
             // Utilise la fonction Update du joueur,
             // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
             m_Player.Update(gameTime, kstate, GridOfCase);
+            m_Enemy.Update(gameTime,GridOfCase);
 
             // Permet de récupérer tous les entité sur une case et d'avoir leur position
             if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
@@ -183,7 +185,6 @@ namespace RogueProject
                     }
                     timer = 0f;
                 }
-                
             }
 
             if (kstate.IsKeyDown(Keys.Space) && !SpaceKeyHold) 

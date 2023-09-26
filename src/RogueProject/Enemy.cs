@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using System.Formats.Asn1;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.Xna.Framework.Input;
 
 namespace RogueProject
 {
@@ -53,7 +55,7 @@ namespace RogueProject
                 Vector2 _Scale = new Vector2(),
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_EntityIndex, _GridOfCase,_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
+            ) : base(_EntityIndex, _GridOfCase, _Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
                 _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
 
@@ -67,7 +69,8 @@ namespace RogueProject
         /// Définit le total d'XP que l'ennemie après sa mort.
         /// </summary>
         /// <param name="_ExpericenGiven"></param>
-        void SetExperienceGiven(uint _ExpericenGiven) {
+        void SetExperienceGiven(uint _ExpericenGiven)
+        {
             this.m_ExperienceGiven = _ExpericenGiven;
         }
 
@@ -75,14 +78,16 @@ namespace RogueProject
         /// Renvoit le total d'XP que l'ennemie donne après sa mort
         /// </summary>
         /// <returns>this.m_ExperienceGiven</returns>
-        uint GetExpericenGiven(){
+        uint GetExpericenGiven()
+        {
             return this.m_ExperienceGiven;
         }
 
         /// <summary>
         /// Permet à l'Ennemie de mourrir.
         /// </summary>
-        public override void Death() {
+        public override void Death()
+        {
             Debug.WriteLine("Morbius");
 
 
@@ -94,7 +99,7 @@ namespace RogueProject
         public override void Attack(ref Entity _entity)
         {
             uint curr_entityHeathPoint = _entity.GetHealthPoint();
-            
+
             //Retire une partie des dégats fait par l'enemy sur 
             uint curr_damage = this.m_Damage - _entity.GetDefense();
 
@@ -108,30 +113,158 @@ namespace RogueProject
         /// </summary>
         public void Move(Case[][] _GridOfCase)
         {
-            Vector2 vision = this.GetIndex() + new Vector2(5f,5f);
+            Vector2 vision = this.GetIndex() + new Vector2(5f, 5f);
 
-            for (int i = 0; i <= (int)vision.X -  1 ; i++)
+            for (int i = 0; i <= (int)vision.X - 1; i++)
             {
-                 
                 for (int j = 0; j <= vision.Y - 1; j++)
                 {
                     //if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetLight > 0) {
+
+                    // Vérifie si la case est remplis
+                    if (!(_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetContent() is null)) {
+
+                        //Vérifie si la case contient le joueur
                         if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetContent().GetType().Name == "Player")
                         {
-                            
-                        }
-                    //}
-                    
-                }
-            }
-           
+                            Vector2 curr_PlayerIndex = new Vector2(vision.X + i, vision.Y + j);
+                            Entity Player = (Player)_GridOfCase[(int)curr_PlayerIndex.X][(int)curr_PlayerIndex.X].GetContent();
 
+                            //curr_PlayerIndex.X = MovementDecision((int)m_EntityIndex.X, (int)curr_PlayerIndex.X);
+                            //curr_PlayerIndex.Y = MovementDecision((int)m_EntityIndex.Y, (int)curr_PlayerIndex.Y);
+
+                            Debug.Write("GAMER FINDED");
+
+                            Vector2 newEntityIndex = new Vector2();
+
+                            DIRECTION EnemyDirection = DIRECTION.NONE;
+
+                            switch (curr_PlayerIndex)
+                            {
+                                case Vector2 a when a == m_EntityIndex:
+                                    Debug.Write("BACKROOM");
+                                    break;
+                                // XXXXXXXXXXXXXXXXX //
+                                case Vector2 a when a.X > m_EntityIndex.X:
+                                    newEntityIndex.X++;
+                                    EnemyDirection = DIRECTION.RIGHT;
+                                    break;
+                                case Vector2 a when a.X < m_EntityIndex.X:
+                                    newEntityIndex.X--;
+                                    EnemyDirection = DIRECTION.LEFT;
+                                    break;
+                                case Vector2 a when a.X++ == m_EntityIndex.X && a.Y == m_EntityIndex.Y || a.X-- == m_EntityIndex.X && a.Y == m_EntityIndex.Y:
+                                    this.Attack(ref Player);
+
+                                    break;
+                                // YYYYYYYYYYYYYYYYY //
+                                case Vector2 a when a.Y > m_EntityIndex.Y:
+                                    newEntityIndex.Y++;
+                                    EnemyDirection = DIRECTION.DOWN;
+                                    break;
+                                case Vector2 a when a.Y < m_EntityIndex.Y:
+                                    newEntityIndex.Y--;
+                                    EnemyDirection = DIRECTION.UP;
+                                    break;
+                                case Vector2 a when a.Y++ == m_EntityIndex.Y && a.X == m_EntityIndex.X || a.Y-- == m_EntityIndex.Y && a.X == m_EntityIndex.X:
+                                    this.Attack(ref Player);
+                                    break;
+                            }
+
+                            OrientationMove(EnemyDirection, _GridOfCase);
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        void OrientationMove(DIRECTION _Direction, Case[][] _GridOfCase)
+        {
+            // Vérifie de quelle côté le joueur veut se déplacer
+            switch (_Direction)
+            {
+                // Gauche
+                case DIRECTION.LEFT:
+
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.X - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().X - this.GetTexture().Width)
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X - 1, this.m_EntityIndex.Y), _GridOfCase);
+                    }
+                    break;
+                // Droite
+                case DIRECTION.RIGHT:
+
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.X + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().X)
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X + 1, this.m_EntityIndex.Y), _GridOfCase);
+                    }
+                    break;
+                // Haut
+                case DIRECTION.UP:
+
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height)
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y - 1), _GridOfCase);
+                    }
+                    break;
+                // Bas
+                case DIRECTION.DOWN:
+
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.Y + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().Y)
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y + 1), _GridOfCase);
+                    }
+                    break;
+                case DIRECTION.NONE:
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    Debug.Write("Rompiche");
+                    break;
+            }
+        }
+
+        float MovementDecision(int _EnemyAxe, int _PlayerAxe)
+        {
+
+            switch (_EnemyAxe)
+            {
+                case int a when a > _PlayerAxe:
+                    _EnemyAxe--;
+                    break;
+                case int a when a < _PlayerAxe:
+                    _EnemyAxe++;
+                    break;
+                case int a when a > (int)this.m_EntityIndex.X:
+                    this.m_EntityIndex.X++;
+                    break;
+                case int a when a > (int)this.m_EntityIndex.X:
+                    this.m_EntityIndex.X++;
+                    break;
+            }
+
+            return _EnemyAxe;
         }
 
 
-        public void Update(GameTime gameTime) {
+        public void Update(GameTime _GameTime,
+                Case[][] _GridOfCase
+                )
+        {
+            this.Move(_GridOfCase);
 
-            //this.Move();
         }
     }
 }
