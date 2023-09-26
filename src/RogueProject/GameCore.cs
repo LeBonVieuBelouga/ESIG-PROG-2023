@@ -285,8 +285,6 @@ namespace RogueProject
 
                     GridOfCase[i][j].Draw(_spriteBatch);
 
-
-
                 }
             }
 
