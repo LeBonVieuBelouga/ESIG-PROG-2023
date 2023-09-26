@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace RogueProject
 {
@@ -24,7 +21,9 @@ namespace RogueProject
         public Room(Vector2 _InitialIndex, int _SizeX, int _SizeY, ROOM_TYPE _RoomType) 
         {
             this.SetInitialIndex(_InitialIndex);
-            this.m_SizeX = _SizeX;
+            this.SetSizeX(_SizeX);
+            this.SetSizeY(_SizeY);
+            this.SetRoomType(_RoomType);
         }
 
         /// <summary>

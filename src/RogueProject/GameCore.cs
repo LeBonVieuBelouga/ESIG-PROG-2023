@@ -4,9 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Drawing;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace RogueProject
@@ -43,7 +40,11 @@ namespace RogueProject
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
-   
+
+        Room m_Room;
+        Texture2D m_TextureRoomCorner;
+        Texture2D m_TextureRoomStraight;
+
         private List<Entity> m_entitiesL;
 
         public GameCore()
@@ -112,6 +113,17 @@ namespace RogueProject
                 1,
                 1,
                 new Vector2(centerPosX, centerPosY)
+            );
+
+
+            m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV1");
+            m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV1");
+
+            m_Room = new Room(
+            new Vector2(5, 5),
+            10,
+            5,
+            ROOM_TYPE.EMPTY
             );
 
             base.Initialize();
@@ -209,8 +221,76 @@ namespace RogueProject
                     GridOfCase[i][j].Draw(_spriteBatch); 
                 }
             }
+
+
+            Vector2 roomInitialValue = m_Room.GetInitialIndex();
+
+            for (int i = (int)roomInitialValue.X;i < roomInitialValue.X + m_Room.GetSizeX();i++)
+            {
+                for (int j = (int)roomInitialValue.Y;j < roomInitialValue.Y + m_Room.GetSizeY();j++)
+                {
+                    //GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+
+                    if (i == roomInitialValue.X)
+                    {
+
+                        if (j == roomInitialValue.Y)
+                        {
+                            // Coin haut gauche
+                            GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
+
+                            GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
+
+                        } 
+                        else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
+                        {
+                            // Coin bas gauche
+                            GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
+                        } 
+                        else
+                        {
+                            // Ligne droite (mur gauche de la pièce)
+                            GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+                        }
+
+                    } else if (i == roomInitialValue.X + m_Room.GetSizeX() - 1)
+                    {
+                        if (j == roomInitialValue.Y)
+                        {
+                            // Coin haut droite
+                            GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
+                            GridOfCase[i][j].SetRotation(MathHelper.ToRadians(180));
+                        } 
+                        else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
+                        {
+                            // Coint bas droit
+                            GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
+                            GridOfCase[i][j].SetRotation(MathHelper.ToRadians(270));
+                        } else
+                        {
+                            // ligne droite (mur droite de la pièce)
+                            GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+                        }
+                    } else if (j == roomInitialValue.Y)
+                    {
+                        // Ligne droite (mur haut de la pièce
+                        GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+                        GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
+                    } else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
+                    {
+                        // Ligne droite (mur bas de la pièce
+                        GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+                        GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
+                    }
+
+                    GridOfCase[i][j].Draw(_spriteBatch);
+
+
+
+                }
+            }
+
             m_Player.Draw(_spriteBatch);
-            
             _spriteBatch.End();
 
             base.Draw(gameTime);
