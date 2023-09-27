@@ -21,9 +21,12 @@ namespace RogueProject
 
         private const uint EXPERIENCE_POINT_DEFAULT = 15;
         private const uint ACTION_POINT_DEFAULT = 1;
+        private const float VISION_DEFAULT = 5f;
 
         private uint m_ExperienceGiven;
-        private uint m_actionPoint;
+        private uint m_ActionPoint;
+
+        protected Vector2 m_Vision;
 
         /// <summary>
         /// Créer un objet de type Entity et instencie toutes ces propriétés.
@@ -46,6 +49,7 @@ namespace RogueProject
                 uint _HealthPoint = HEALTH_DEFAULT,
                 uint _Damage = DAMAGE_DEFAULT,
                 uint _Defense = DEFENSE_DEFAULT,
+                Vector2 _Vision = new Vector2(),
                 Vector2 _Position = new Vector2(),
                 uint _ExpericenGiven = EXPERIENCE_POINT_DEFAULT,
                 float _Velocity = DEFAULT_ENTITY_VELOCITY,
@@ -59,11 +63,32 @@ namespace RogueProject
             ) : base(_EntityIndex, _GridOfCase, _Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
                 _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
-
+            if (_Vision == new Vector2()) {
+                _Vision = new Vector2(VISION_DEFAULT, VISION_DEFAULT);
+            }
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
             this.SetExperienceGiven(_ExpericenGiven);
+            this.SetVision(_Vision);
+        }
+
+        /// <summary>
+        /// Setter de la vision de l'enemie
+        /// </summary>
+        /// <param name="_Vision"></param>
+        void SetVision(Vector2 _Vision)
+        {
+            this.m_Vision = _Vision;
+        }
+
+        /// <summary>
+        /// Getter la vision de l'enemie
+        /// </summary>
+        /// <param name="_Vision"></param>
+        Vector2 GetVision()
+        {
+            return this.m_Vision;
         }
 
         /// <summary>
@@ -114,10 +139,9 @@ namespace RogueProject
         /// </summary>
         public void Move(Case[][] _GridOfCase)
         {
-            //Parcourt les colonnes du tableau2D
+            //Change la couleur du tableau dans sa couleur d'origine
             for (int i = 0; i <= _GridOfCase.Length - 1; i++)
             {
-
                 for (int j = 0; j <= _GridOfCase[i].Length - 1; j++)
                 {
                     Color color = new Color(255, 0, 255);
@@ -125,36 +149,38 @@ namespace RogueProject
                 }
             }
 
-            Vector2 vision = new Vector2(5f, 5f);
+            bool isPlayer = true;
 
-            bool isPlayer = false;
-
-            for (int i = 5; i > 0; i--)
+            for (int i = (int)m_Vision.X; i > 0; i--)
             {
-
-                for (int j = (int)vision.Y; j > 0; j--)
+                for (int j = (int)m_Vision.Y; j > 0; j--)
                 {
-                    //if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetLight > 0) {
+                    //if (_GridOfCase[(int)m_Vision.X + i][(int)m_Vision.Y + j].GetLight > 0) {
                     _GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].SetColor(Color.White);
-                    //Debug.WriteLine(this.GetIndex().X + i );
-                    //Debug.WriteLine(this.GetIndex().Y + j);
+
+                    Vector2 curr_Case = new Vector2(this.GetIndex().X + i, this.GetIndex().Y + j);
+                    Debug.WriteLine("Colonne : " + curr_Case.X + "Ligne : " + curr_Case.Y);
 
                     // Vérifie si la case est remplis
-                    if (!(_GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].GetContent() is null)) {
+                    if (!(_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent() is null)) {
                    
                             Debug.Write("Y a un truc..");
                         
                         //Vérifie si la case contient le joueur
                         if (_GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].GetContent().GetType().Name == "Player")
                         {
+                            //Player trouvé
                             isPlayer = true;
-                            Vector2 curr_PlayerIndex = new Vector2(vision.X + i, vision.Y + j);
-                            Entity Player = (Player)_GridOfCase[(int)curr_PlayerIndex.X][(int)curr_PlayerIndex.X].GetContent();
+
+                            Entity Player = (Player)_GridOfCase[(int)m_Vision.X + i][(int)m_Vision.Y + j].GetContent();
+                            Vector2 curr_PlayerIndex = Player.GetIndex();//Récupère la position dans l'index du joueur
+                            //Vector2 curr_PlayerIndex = new Vector2(m_Vision.X + i, m_Vision.Y + j);
+
+                            //Colorie la case du joueur pour la mettre en surbriance
+                            _GridOfCase[(int)curr_PlayerIndex.X][(int)curr_PlayerIndex.Y].SetColor(Color.Green);
 
                             //curr_PlayerIndex.X = MovementDecision((int)m_EntityIndex.X, (int)curr_PlayerIndex.X);
                             //curr_PlayerIndex.Y = MovementDecision((int)m_EntityIndex.Y, (int)curr_PlayerIndex.Y);
-
-                            Debug.Write("GAMER FINDED");
 
                             Vector2 newEntityIndex = new Vector2();
 
@@ -176,7 +202,6 @@ namespace RogueProject
                                     break;
                                 case Vector2 a when a.X++ == m_EntityIndex.X && a.Y == m_EntityIndex.Y || a.X-- == m_EntityIndex.X && a.Y == m_EntityIndex.Y:
                                     this.Attack(ref Player);
-
                                     break;
                                 // YYYYYYYYYYYYYYYYY //
                                 case Vector2 a when a.Y > m_EntityIndex.Y:

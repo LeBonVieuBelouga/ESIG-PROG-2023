@@ -57,7 +57,7 @@ namespace RogueProject
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
          
-            Window.IsBorderless = true;
+            //Window.IsBorderless = true;
             
             _graphics.ApplyChanges();
         }
