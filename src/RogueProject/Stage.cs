@@ -20,18 +20,20 @@ namespace RogueProject
 
         Texture2D m_TextureRoomCorner;
         Texture2D m_TextureRoomStraight;
+        Texture2D m_TextureRoomGround;
         int m_NumberOfRoom;
 
-        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Texture2D _TextureRoomCorner, Texture2D _TextureRoomStraight, GraphicsDeviceManager _graphics) 
+        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Texture2D _TextureRoomCorner, Texture2D _TextureRoomStraight, Texture2D _TextureGround, GraphicsDeviceManager _graphics) 
         {
             this.SetGridCol(_GridCol);
             this.SetGridRow(_GridRow);
             this.SetNumberOfRoom(_NumberOfRoom);
             this.SetTextureCorner(_TextureRoomCorner);
             this.SetTextureStraight(_TextureRoomStraight);
+            this.SetTextureGround(_TextureGround);
 
-            ResetStage();
-            //GenerateStage();
+            ResetStage(_graphics);
+            GenerateStage();
         }
         
         public void GenerateStage()
@@ -54,12 +56,12 @@ namespace RogueProject
             //    this.GenerateRoom();
             //} while (m_ListRoom.Count != m_NumberOfRoom);
 
-            //m_ListRoom.Add(new Room(
-            //    m_ListFreeSpace[rand.Next(m_ListFreeSpace.Count)],
-            //    3,
-            //    3,
-            //    ROOM_TYPE.EMPTY
-            //));
+            m_ListRoom.Add(new Room(
+                m_ListFreeSpace[rand.Next(m_ListFreeSpace.Count)],
+                3,
+                3,
+                ROOM_TYPE.EMPTY
+            ));
 
         }
 
@@ -82,19 +84,53 @@ namespace RogueProject
 
         }
 
-        public void ResetStage()
+        public void ResetStage(GraphicsDeviceManager _graphics)
         {
             m_GridOfCase = new Case[m_GridCol][];
-            m_GridOfCase = new Case[m_GridCol][];
+            
+            int GridSizeWidth = m_GridCol * this.m_TextureRoomGround.Width;
+            int GridSizeHeight = this.m_GridRow * this.m_TextureRoomGround.Height;
+
+            int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
+            int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
+
+            //Parcourt les colonnes du tableau2D
+            for (int i = 0; i <= m_GridCol - 1; i++)
+            {
+                //Définit la hauteur maximal du tableau2D      
+                m_GridOfCase[i] = new Case[this.m_GridRow];
+
+                //Parcourt les lignes du tableau2D
+                for (int j = 0; j <= this.m_GridRow - 1; j++)
+                {
+                    m_GridOfCase[i][j] = new Ground(
+                            1,
+                            null,
+                            true,
+                            this.m_TextureRoomGround,
+                            new Vector2(startX + this.m_TextureRoomGround.Width * i, startY + this.m_TextureRoomGround.Height * j)
+                        );
+                    m_GridOfCase[i][j].DefaultValue();
+                    Color color = new Color(255, 0, 255);
+                    m_GridOfCase[i][j].SetColor(color);
+                }
+            }
 
         }
 
         public void Draw(SpriteBatch _SpriteBatch)
         {
-            for (int i = 0;i < m_ListRoom.Count;i++)
+            for (int i = 0; i <= this.m_GridOfCase.Length - 1; i++)
             {
-                this.DrawRoom(_SpriteBatch, m_ListRoom[i], new Vector2(m_ListRoom[i].GetInitialIndex().X, m_ListRoom[i].GetInitialIndex().Y));
+                for (int j = 0; j <= this.m_GridOfCase[i].Length - 1; j++)
+                {
+                    this.m_GridOfCase[i][j].Draw(_SpriteBatch);
+                }
             }
+            //for (int i = 0;i < m_ListRoom.Count;i++)
+            //{
+            //    this.DrawRoom(_SpriteBatch, m_ListRoom[i], new Vector2(m_ListRoom[i].GetInitialIndex().X, m_ListRoom[i].GetInitialIndex().Y));
+            //}
         }
 
         private void DrawRoom(SpriteBatch _SpriteBatch, Room _RoomToDraw, Vector2 _Index)
@@ -223,6 +259,15 @@ namespace RogueProject
         public Texture2D GetTextureStraight()
         {
             return this.m_TextureRoomStraight;
+        }
+        public void SetTextureGround(Texture2D _TextureGround)
+        {
+            this.m_TextureRoomGround = _TextureGround;
+        }
+
+        public Texture2D GetTextureGround()
+        {
+            return this.m_TextureRoomGround;
         }
 
         public void SetNumberOfRoom(int _NumberOfRoom)

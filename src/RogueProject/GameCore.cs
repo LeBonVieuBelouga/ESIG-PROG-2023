@@ -137,7 +137,7 @@ namespace RogueProject
             ROOM_TYPE.EMPTY
             );
 
-            m_Stage = new Stage(COL_GRID, RAW_GRID, 5, m_TextureRoomCorner, m_TextureRoomStraight, _graphics);
+            m_Stage = new Stage(COL_GRID, RAW_GRID, 5, m_TextureRoomCorner, m_TextureRoomStraight, CaseTex,_graphics);
 
             base.Initialize();
         }
@@ -227,13 +227,13 @@ namespace RogueProject
             _spriteBatch.Begin();
 
             //Dessine le quadrillage du niveau
-            for (int i = 0; i <= GridOfCase.Length-1; i++)
-            {
-                for (int j = 0; j <= GridOfCase[i].Length-1; j++)
-                {
-                    GridOfCase[i][j].Draw(_spriteBatch); 
-                }
-            }
+            //for (int i = 0; i <= GridOfCase.Length-1; i++)
+            //{
+            //    for (int j = 0; j <= GridOfCase[i].Length-1; j++)
+            //    {
+            //        GridOfCase[i][j].Draw(_spriteBatch); 
+            //    }
+            //}
 
 
             //Vector2 roomInitialValue = m_Room.GetInitialIndex();
@@ -320,7 +320,7 @@ namespace RogueProject
 
             //    }
             //}
-            m_Stage.Draw(_spriteBatch, GridOfCase);
+            m_Stage.Draw(_spriteBatch);
             m_Player.Draw(_spriteBatch);
             m_Player2.Draw(_spriteBatch);
             _spriteBatch.End();
