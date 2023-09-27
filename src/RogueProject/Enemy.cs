@@ -79,7 +79,9 @@ namespace RogueProject
         /// <param name="_Vision"></param>
         void SetVision(Vector2 _Vision)
         {
-            this.m_Vision = _Vision;
+            if (_Vision.X % 2 == 1 && _Vision.Y % 2 == 1) {
+                this.m_Vision = _Vision;
+            } 
         }
 
         /// <summary>
@@ -149,14 +151,19 @@ namespace RogueProject
                 }
             }
 
-            bool isPlayer = true;
+            bool isPlayer = true;  //<- valeur temporaire
+
+            //Vector2 VisionCentre = new Vector2(m_Vision.X/2,m_Vision.Y/2);
 
             for (int i = (int)m_Vision.X; i > 0; i--)
             {
                 for (int j = (int)m_Vision.Y; j > 0; j--)
                 {
                     //if (_GridOfCase[(int)m_Vision.X + i][(int)m_Vision.Y + j].GetLight > 0) {
-                    _GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].SetColor(Color.White);
+
+                    Vector2 centreVision = new Vector2((this.GetIndex().X - m_Vision.X/2 + i), (this.GetIndex().Y- m_Vision.Y/2 +j));
+
+                    _GridOfCase[(int)centreVision.X][(int)centreVision.Y].SetColor(Color.HotPink);
 
                     Vector2 curr_Case = new Vector2(this.GetIndex().X + i, this.GetIndex().Y + j);
                     Debug.WriteLine("Colonne : " + curr_Case.X + "Ligne : " + curr_Case.Y);
@@ -170,54 +177,9 @@ namespace RogueProject
                         if (_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent().GetType().Name == "Player")
                         {
                             //Player trouvé
-                            isPlayer = true; //<- valeur temporaire
-
-                            Entity Player = (Player)_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent();
-                            Vector2 curr_PlayerIndex = Player.GetIndex();//Récupère la position dans l'index du joueur
-                            //Vector2 curr_PlayerIndex = new Vector2(m_Vision.X + i, m_Vision.Y + j);
-
-                            //Colorie la case du joueur pour la mettre en surbriance
-                            _GridOfCase[(int)curr_PlayerIndex.X][(int)curr_PlayerIndex.Y].SetColor(Color.Green);
-
-                            //curr_PlayerIndex.X = MovementDecision((int)m_EntityIndex.X, (int)curr_PlayerIndex.X);
-                            //curr_PlayerIndex.Y = MovementDecision((int)m_EntityIndex.Y, (int)curr_PlayerIndex.Y);
-
-                            Vector2 newEntityIndex = new Vector2();
-
-                            DIRECTION EnemyDirection = DIRECTION.NONE;
-
-                            switch (curr_PlayerIndex)
-                            {
-                                case Vector2 a when a == m_EntityIndex:
-                                    Debug.Write("BACKROOM");
-                                    break;
-                                // XXXXXXXXXXXXXXXXX //
-                                case Vector2 a when a.X > m_EntityIndex.X:
-                                    newEntityIndex.X++;
-                                    EnemyDirection = DIRECTION.RIGHT;
-                                    break;
-                                case Vector2 a when a.X < m_EntityIndex.X:
-                                    newEntityIndex.X--;
-                                    EnemyDirection = DIRECTION.LEFT;
-                                    break;
-                                case Vector2 a when a.X++ == m_EntityIndex.X && a.Y == m_EntityIndex.Y || a.X-- == m_EntityIndex.X && a.Y == m_EntityIndex.Y:
-                                    this.Attack(ref Player);
-                                    break;
-                                // YYYYYYYYYYYYYYYYY //
-                                case Vector2 a when a.Y > m_EntityIndex.Y:
-                                    newEntityIndex.Y++;
-                                    EnemyDirection = DIRECTION.DOWN;
-                                    break;
-                                case Vector2 a when a.Y < m_EntityIndex.Y:
-                                    newEntityIndex.Y--;
-                                    EnemyDirection = DIRECTION.UP;
-                                    break;
-                                case Vector2 a when a.Y++ == m_EntityIndex.Y && a.X == m_EntityIndex.X || a.Y-- == m_EntityIndex.Y && a.X == m_EntityIndex.X:
-                                    this.Attack(ref Player);
-                                    break;
-                            }
-
-                            OrientationMove(EnemyDirection, _GridOfCase);
+                            isPlayer = true;
+                           
+                            MovementDecision(curr_Case, _GridOfCase);
                         }
                     }
                 }
@@ -290,26 +252,54 @@ namespace RogueProject
             }
         }
 
-        float MovementDecision(int _EnemyAxe, int _PlayerAxe)
+        void MovementDecision(Vector2 _PlayerIndex, Case[][] _GridOfCase)
         {
 
-            switch (_EnemyAxe)
+            Entity Player = (Player)_GridOfCase[(int)_PlayerIndex.X][(int)_PlayerIndex.Y].GetContent();
+            Vector2 curr_PlayerIndex = Player.GetIndex();//Récupère la position dans l'index du joueur
+                                                         //Vector2 curr_PlayerIndex = new Vector2(m_Vision.X + i, m_Vision.Y + j);
+
+            //Colorie la case du joueur pour la mettre en surbriance
+            _GridOfCase[(int)curr_PlayerIndex.X][(int)curr_PlayerIndex.Y].SetColor(Color.White);
+
+            Vector2 newEntityIndex = new Vector2();
+
+            DIRECTION EnemyDirection = DIRECTION.NONE;
+
+            switch (this.GetIndex())
             {
-                case int a when a > _PlayerAxe:
-                    _EnemyAxe--;
+                case Vector2 a when a == m_EntityIndex:
+                    Debug.Write("BACKROOM");
                     break;
-                case int a when a < _PlayerAxe:
-                    _EnemyAxe++;
+                // XXXXXXXXXXXXXXXXX //
+                case Vector2 a when a.X > m_EntityIndex.X:
+                    newEntityIndex.X++;
+                    EnemyDirection = DIRECTION.RIGHT;
                     break;
-                case int a when a > (int)this.m_EntityIndex.X:
-                    this.m_EntityIndex.X++;
+                case Vector2 a when a.X < m_EntityIndex.X:
+                    newEntityIndex.X--;
+                    EnemyDirection = DIRECTION.LEFT;
                     break;
-                case int a when a > (int)this.m_EntityIndex.X:
-                    this.m_EntityIndex.X++;
+                case Vector2 a when a.X++ == m_EntityIndex.X && a.Y == m_EntityIndex.Y || a.X-- == m_EntityIndex.X && a.Y == m_EntityIndex.Y:
+                    this.Attack(ref Player);
+                    break;
+                // YYYYYYYYYYYYYYYYY //
+                case Vector2 a when a.Y > m_EntityIndex.Y:
+                    newEntityIndex.Y++;
+                    EnemyDirection = DIRECTION.DOWN;
+                    break;
+                case Vector2 a when a.Y < m_EntityIndex.Y:
+                    newEntityIndex.Y--;
+                    EnemyDirection = DIRECTION.UP;
+                    break;
+                case Vector2 a when a.Y++ == m_EntityIndex.Y && a.X == m_EntityIndex.X || a.Y-- == m_EntityIndex.Y && a.X == m_EntityIndex.X:
+                    this.Attack(ref Player);
                     break;
             }
 
-            return _EnemyAxe;
+            OrientationMove(EnemyDirection, _GridOfCase);
+
+            //return _EnemyAxe;
         }
 
 

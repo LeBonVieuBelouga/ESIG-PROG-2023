@@ -24,7 +24,7 @@ namespace RogueProject
     {
         // Constantes
         const int COL_GRID = 50;
-        const int RAW_GRID = 30;
+        const int ROW_GRID = 30;
 
         float intervalEnemy = 0.5f;
         float timerEnemy = 0f;
@@ -71,7 +71,7 @@ namespace RogueProject
 
 
             int GridSizeWidth = COL_GRID * CaseTex.Width;
-            int GridSizeHeight = RAW_GRID * CaseTex.Height;
+            int GridSizeHeight = ROW_GRID * CaseTex.Height;
 
             int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
             int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
@@ -80,10 +80,10 @@ namespace RogueProject
             for (int i = 0; i <= COL_GRID-1; i++)
             {
                 //Définit la hauteur maximal du tableau2D      
-                GridOfCase[i] = new Case[RAW_GRID];
+                GridOfCase[i] = new Case[ROW_GRID];
 
                 //Parcourt les lignes du tableau2D
-                for (int j = 0; j <= RAW_GRID-1; j++)
+                for (int j = 0; j <= ROW_GRID-1; j++)
                 {
                     GridOfCase[i][j] = new Ground(
                             1,
