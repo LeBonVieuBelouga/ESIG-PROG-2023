@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using Color = Microsoft.Xna.Framework.Color;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RogueProject
 {
@@ -102,7 +103,10 @@ namespace RogueProject
             m_Player = new Player(
                 new Vector2(0, 0),
                 GridOfCase,
-                Player_Tex2D
+                Player_Tex2D,
+                1,
+                1,
+                1
             );
 
             // Calcule la position du joueur pour le centrer dans les cases
@@ -115,7 +119,10 @@ namespace RogueProject
             m_Enemy = new Enemy(
                 new Vector2(10, 10),
                 GridOfCase,
-                Enemy_Tex2D
+                Enemy_Tex2D,
+                1,
+                1,
+                1
             );
 
             // Calcule la position de l'enemy pour le centrer dans les cases
@@ -140,7 +147,7 @@ namespace RogueProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            
 
             // Récupère les inputs clavier
             var kstate = Keyboard.GetState();

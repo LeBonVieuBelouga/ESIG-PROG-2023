@@ -114,16 +114,31 @@ namespace RogueProject
         /// </summary>
         public void Move(Case[][] _GridOfCase)
         {
+            //Parcourt les colonnes du tableau2D
+            for (int i = 0; i <= _GridOfCase.Length - 1; i++)
+            {
+
+                for (int j = 0; j <= _GridOfCase[i].Length - 1; j++)
+                {
+                    Color color = new Color(255, 0, 255);
+                    _GridOfCase[i][j].SetColor(color);
+                }
+            }
+
             Vector2 vision = new Vector2(5f, 5f);
 
             bool isPlayer = false;
 
-            for (int i = (int)vision.X; i > 0  - 1; i--)
+            for (int i = 5; i > 0; i--)
             {
-                for (int j = (int)vision.Y; j < vision.Y - 1; j--)
+
+                for (int j = (int)vision.Y; j > 0; j--)
                 {
                     //if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetLight > 0) {
-                    
+                    _GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].SetColor(Color.White);
+                    //Debug.WriteLine(this.GetIndex().X + i );
+                    //Debug.WriteLine(this.GetIndex().Y + j);
+
                     // Vérifie si la case est remplis
                     if (!(_GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].GetContent() is null)) {
                    
@@ -224,7 +239,6 @@ namespace RogueProject
                     break;
                 // Haut
                 case DIRECTION.UP:
-
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height)
                     {
