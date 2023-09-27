@@ -153,8 +153,6 @@ namespace RogueProject
 
             bool isPlayer = true;  //<- valeur temporaire
 
-            //Vector2 VisionCentre = new Vector2(m_Vision.X/2,m_Vision.Y/2);
-
             for (int i = (int)m_Vision.X; i > 0; i--)
             {
                 for (int j = (int)m_Vision.Y; j > 0; j--)
@@ -165,7 +163,7 @@ namespace RogueProject
 
                     _GridOfCase[(int)centreVision.X][(int)centreVision.Y].SetColor(Color.HotPink);
 
-                    Vector2 curr_Case = new Vector2(this.GetIndex().X + i, this.GetIndex().Y + j);
+                    Vector2 curr_Case = new Vector2(centreVision.X, centreVision.Y);
                     Debug.WriteLine("Colonne : " + curr_Case.X + "Ligne : " + curr_Case.Y);
 
                     // Vérifie si la case est remplis
