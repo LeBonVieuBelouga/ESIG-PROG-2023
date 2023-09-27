@@ -40,7 +40,7 @@ namespace RogueProject
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
-
+        Player m_Player2;
         Room m_Room;
         Texture2D m_TextureRoomCorner;
         Texture2D m_TextureRoomStraight;
@@ -87,7 +87,7 @@ namespace RogueProject
                     GridOfCase[i][j] = new Ground(
                             1,
                             null,
-                            false,
+                            true,
                             CaseTex,
                             new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
                         );
@@ -114,7 +114,16 @@ namespace RogueProject
                 1,
                 new Vector2(centerPosX, centerPosY)
             );
-
+            // Création du joueur
+            m_Player2 = new Player(
+                new Vector2(1, 1),
+                GridOfCase,
+                Player_Tex2D,
+                1,
+                1,
+                1,
+                new Vector2(centerPosX + 32, centerPosY + 32)
+            );
 
             m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV1");
             m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV1");
@@ -240,47 +249,67 @@ namespace RogueProject
                             GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
 
                             GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
+                            GridOfCase[i][j].SetIsWalkable(false);
+
 
                         } 
                         else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
                         {
                             // Coin bas gauche
                             GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
+                            GridOfCase[i][j].SetIsWalkable(false);
                         } 
                         else
                         {
                             // Ligne droite (mur gauche de la pièce)
                             GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+                            GridOfCase[i][j].SetIsWalkable(false);
                         }
 
-                    } else if (i == roomInitialValue.X + m_Room.GetSizeX() - 1)
+                    } 
+                    else if (i == roomInitialValue.X + m_Room.GetSizeX() - 1)
                     {
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut droite
                             GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
                             GridOfCase[i][j].SetRotation(MathHelper.ToRadians(180));
+                            GridOfCase[i][j].SetIsWalkable(false);
                         } 
                         else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
                         {
                             // Coint bas droit
                             GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
                             GridOfCase[i][j].SetRotation(MathHelper.ToRadians(270));
-                        } else
+                            GridOfCase[i][j].SetIsWalkable(false);
+                        } 
+                        else
                         {
                             // ligne droite (mur droite de la pièce)
                             GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+                            GridOfCase[i][j].SetIsWalkable(false);
                         }
-                    } else if (j == roomInitialValue.Y)
+                    } 
+                    else if (j == roomInitialValue.Y)
                     {
                         // Ligne droite (mur haut de la pièce
                         GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
                         GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
-                    } else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
+                        GridOfCase[i][j].SetIsWalkable(false);
+
+                    } 
+                    else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
                     {
                         // Ligne droite (mur bas de la pièce
                         GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
                         GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
+                        GridOfCase[i][j].SetIsWalkable(false);
+                    }
+
+                    if (i == roomInitialValue.X + 1 && j == roomInitialValue.Y)
+                    {
+                        GridOfCase[i][j].SetColor(Color.Black);
+                        GridOfCase[i][j].SetIsWalkable(true);
                     }
 
                     GridOfCase[i][j].Draw(_spriteBatch);
@@ -289,6 +318,7 @@ namespace RogueProject
             }
 
             m_Player.Draw(_spriteBatch);
+            m_Player2.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);

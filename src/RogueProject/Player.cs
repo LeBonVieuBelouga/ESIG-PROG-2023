@@ -108,9 +108,14 @@ namespace RogueProject
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.X - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().X - this.GetTexture().Width)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X - 1,this.m_PlayerIndex.Y), _GridOfCase);
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_PlayerIndex.X - 1][(int)this.m_PlayerIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X - 1][(int)this.m_PlayerIndex.Y].GetContent() is null)
+                        {                        
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
+                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X - 1, this.m_PlayerIndex.Y), _GridOfCase);
+                        }
                     }
                     break;
                 // Droite
@@ -119,9 +124,14 @@ namespace RogueProject
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.X + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().X)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X + 1, this.m_PlayerIndex.Y), _GridOfCase);
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_PlayerIndex.X + 1][(int)this.m_PlayerIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X + 1][(int)this.m_PlayerIndex.Y].GetContent() is null)
+                        {
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X + 1, this.m_PlayerIndex.Y), _GridOfCase);
+                        }
                     }
                     break;
                 // Haut
@@ -130,9 +140,14 @@ namespace RogueProject
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y - 1), _GridOfCase);
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y - 1].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y - 1].GetContent() is null)
+                        {
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
+                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y - 1), _GridOfCase);
+                        }
                     }
                     break;
                 // Bas
@@ -141,9 +156,14 @@ namespace RogueProject
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.Y + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().Y)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                        this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y + 1), _GridOfCase);
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y + 1].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y + 1].GetContent() is null)
+                        {
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y + 1), _GridOfCase);
+                        }
                     }
                     break;
             }
