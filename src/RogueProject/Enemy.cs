@@ -151,7 +151,7 @@ namespace RogueProject
                 }
             }
 
-            bool isPlayer = true;  //<- valeur temporaire
+            bool isPlayer = false;  //<- valeur temporaire
 
             for (int i = (int)m_Vision.X; i > 0; i--)
             {
@@ -161,7 +161,7 @@ namespace RogueProject
 
                     Vector2 centreVision = new Vector2((this.GetIndex().X - m_Vision.X/2 + i), (this.GetIndex().Y- m_Vision.Y/2 +j));
 
-                    _GridOfCase[(int)centreVision.X][(int)centreVision.Y].SetColor(Color.HotPink);
+                    _GridOfCase[(int)centreVision.X][(int)centreVision.Y].SetColor(Color.LightBlue);
 
                     Vector2 curr_Case = new Vector2(centreVision.X, centreVision.Y);
                     Debug.WriteLine("Colonne : " + curr_Case.X + "Ligne : " + curr_Case.Y);
