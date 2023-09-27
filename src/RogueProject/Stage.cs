@@ -21,9 +21,10 @@ namespace RogueProject
         Texture2D m_TextureRoomCorner;
         Texture2D m_TextureRoomStraight;
         Texture2D m_TextureRoomGround;
+        Texture2D m_TextureVoid;
         int m_NumberOfRoom;
 
-        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Texture2D _TextureRoomCorner, Texture2D _TextureRoomStraight, Texture2D _TextureGround, GraphicsDeviceManager _graphics) 
+        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Texture2D _TextureRoomCorner, Texture2D _TextureRoomStraight, Texture2D _TextureGround, Texture2D _TextureVoid, GraphicsDeviceManager _graphics) 
         {
             this.SetGridCol(_GridCol);
             this.SetGridRow(_GridRow);
@@ -31,6 +32,7 @@ namespace RogueProject
             this.SetTextureCorner(_TextureRoomCorner);
             this.SetTextureStraight(_TextureRoomStraight);
             this.SetTextureGround(_TextureGround);
+            this.SetTextureVoid(_TextureVoid);
 
             ResetStage(_graphics);
             GenerateStage();
@@ -49,20 +51,24 @@ namespace RogueProject
             }
 
 
-            Random rand = new Random();
 
-            //do
-            //{
-            //    this.GenerateRoom();
-            //} while (m_ListRoom.Count != m_NumberOfRoom);
+            do
+            {
+                this.GenerateRoom();
+            } while (m_ListRoom.Count != m_NumberOfRoom);
 
-            m_ListRoom.Add(new Room(
-                m_ListFreeSpace[rand.Next(m_ListFreeSpace.Count)],
-                3,
-                3,
-                ROOM_TYPE.EMPTY
-            ));
+            for (int i = 0;i < m_ListRoom.Count;i++)
+            {
+                // utiliser la fonction DrawRoom pour chaque room de la liste
+                // Ne pas oublier de changer et retirer les cases valide pour les rooms et uniquement utiliser celle libre
+            }
 
+            //m_ListRoom.Add(new Room(
+            //    m_ListFreeSpace[rand.Next(m_ListFreeSpace.Count)],
+            //    3,
+            //    3,
+            //    ROOM_TYPE.EMPTY
+            //));
         }
 
         public void GenerateRoom()
@@ -78,6 +84,39 @@ namespace RogueProject
                 int sizeY = rand.Next(2, 10);
                 ROOM_TYPE roomType = ROOM_TYPE.EMPTY;
 
+                bool isFree = true;
+                if (initialIndex.X + sizeX > m_GridCol)
+                {
+                    initialIndex.X = initialIndex.X - Math.Abs(initialIndex.X - sizeX);
+                }
+
+                if (initialIndex.Y + sizeY > m_GridRow)
+                {
+                    initialIndex.Y = initialIndex.Y - Math.Abs(initialIndex.Y - sizeY);
+                }
+
+                for (int i = (int)initialIndex.X; i <= initialIndex.X + sizeX; i++)
+                {
+                    for (int j = (int)initialIndex.Y; j <= initialIndex.Y + sizeY; j++)
+                    {
+                        // Faire la classe void, les salles peuvent se poser uniquement sur des cases void, si c'est autre chose (ground ou mur) alors la salle est invalide
+                        if (this.m_GridOfCase[i][j].GetType().Name != "Void")
+                        {
+                            isFree = false;
+                        }
+                    }
+                }
+
+                if (isFree)
+                {
+                    m_ListRoom.Add(new Room(
+                        initialIndex,
+                        sizeX,
+                        sizeY,
+                        ROOM_TYPE.EMPTY
+                    ));
+                    roomIsCreated = true;
+                }
 
             } while (!roomIsCreated);
 
@@ -103,11 +142,11 @@ namespace RogueProject
                 //Parcourt les lignes du tableau2D
                 for (int j = 0; j <= this.m_GridRow - 1; j++)
                 {
-                    m_GridOfCase[i][j] = new Ground(
+                    m_GridOfCase[i][j] = new Void(
                             1,
                             null,
                             true,
-                            this.m_TextureRoomGround,
+                            this.m_TextureVoid,
                             new Vector2(startX + this.m_TextureRoomGround.Width * i, startY + this.m_TextureRoomGround.Height * j)
                         );
                     m_GridOfCase[i][j].DefaultValue();
@@ -133,7 +172,7 @@ namespace RogueProject
             //}
         }
 
-        private void DrawRoom(SpriteBatch _SpriteBatch, Room _RoomToDraw, Vector2 _Index)
+        public void DrawRoom(SpriteBatch _SpriteBatch, Room _RoomToDraw, Vector2 _Index)
         {
             Vector2 roomInitialValue = _RoomToDraw.GetInitialIndex();
 
@@ -270,6 +309,16 @@ namespace RogueProject
             return this.m_TextureRoomGround;
         }
 
+        public void SetTextureVoid(Texture2D _TextureVoid)
+        {
+            this.m_TextureVoid = _TextureVoid;
+        }
+
+        public Texture2D GetTextureVoid()
+        {
+            return this.m_TextureVoid;
+        }
+
         public void SetNumberOfRoom(int _NumberOfRoom)
         {
             this.m_NumberOfRoom = _NumberOfRoom;
@@ -279,5 +328,12 @@ namespace RogueProject
         {
             return this.m_NumberOfRoom;
         }
+
+        public Case[][] GetGridOfCase()
+        {
+            return this.m_GridOfCase;
+        }
+
+
     }
 }

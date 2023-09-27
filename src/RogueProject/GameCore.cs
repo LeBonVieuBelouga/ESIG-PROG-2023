@@ -32,7 +32,6 @@ namespace RogueProject
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Case[][] GridOfCase = new Case[COL_GRID][];
         private bool EnterKeyHold = false;
         private bool SpaceKeyHold = false;
         private bool NightClubMode = false;
@@ -46,6 +45,7 @@ namespace RogueProject
 
         Texture2D m_TextureRoomCorner;
         Texture2D m_TextureRoomStraight;
+        Texture2D m_TextureVoid;
 
         private List<Entity> m_entitiesL;
 
@@ -69,47 +69,52 @@ namespace RogueProject
             Window.Title = "Abyssal Enigma: Rogue Requiem";        
 
             Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
+            m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV1");
+            m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV1");
+            m_TextureVoid = Content.Load<Texture2D>("VoidCase");
 
+            //int GridSizeWidth = COL_GRID * CaseTex.Width;
+            //int GridSizeHeight = RAW_GRID * CaseTex.Height;
 
-            int GridSizeWidth = COL_GRID * CaseTex.Width;
-            int GridSizeHeight = RAW_GRID * CaseTex.Height;
-
-            int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
-            int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
+            //int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
+            //int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
 
             //Parcourt les colonnes du tableau2D
-            for (int i = 0; i <= COL_GRID-1; i++)
-            {
-                //Définit la hauteur maximal du tableau2D      
-                GridOfCase[i] = new Case[RAW_GRID];
+            //for (int i = 0; i <= COL_GRID-1; i++)
+            //{
+            //    //Définit la hauteur maximal du tableau2D      
+            //    m_Stage.GetGridOfCase()[i] = new Case[RAW_GRID];
 
-                //Parcourt les lignes du tableau2D
-                for (int j = 0; j <= RAW_GRID-1; j++)
-                {
-                    GridOfCase[i][j] = new Ground(
-                            1,
-                            null,
-                            true,
-                            CaseTex,
-                            new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
-                        );
-                    GridOfCase[i][j].DefaultValue();
-                    Color color = new Color(255, 0, 255);
-                    GridOfCase[i][j].SetColor(color);
-                }
-            }
+            //    //Parcourt les lignes du tableau2D
+            //    for (int j = 0; j <= RAW_GRID-1; j++)
+            //    {
+            //        m_Stage.GetGridOfCase()[i][j] = new Ground(
+            //                1,
+            //                null,
+            //                true,
+            //                CaseTex,
+            //                new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
+            //            );
+            //        m_Stage.GetGridOfCase()[i][j].DefaultValue();
+            //        Color color = new Color(255, 0, 255);
+            //        m_Stage.GetGridOfCase()[i][j].SetColor(color);
+            //    }
+            //}
+
+
+            m_Stage = new Stage(COL_GRID, RAW_GRID, 5, m_TextureRoomCorner, m_TextureRoomStraight, CaseTex, m_TextureVoid, _graphics);
 
             Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
 
             // Calcule la position du joueur pour le centrer dans les cases
-            float centerPosX = GridOfCase[0][0].GetPosition().X - Player_Tex2D.Width / 2;
-            float centerPosY = GridOfCase[0][0].GetPosition().Y - Player_Tex2D.Height / 2;
+            float centerPosX = m_Stage.GetGridOfCase()[0][0].GetPosition().X - Player_Tex2D.Width / 2;
+            float centerPosY = m_Stage.GetGridOfCase()[0][0].GetPosition().Y - Player_Tex2D.Height / 2;
 
 
             // Création du joueur
             m_Player = new Player(
                 new Vector2(0, 0),
-                GridOfCase,
+                m_Stage.GetGridOfCase(),
                 Player_Tex2D,
                 1,
                 1,
@@ -119,7 +124,7 @@ namespace RogueProject
             // Création du joueur
             m_Player2 = new Player(
                 new Vector2(1, 1),
-                GridOfCase,
+                m_Stage.GetGridOfCase(),
                 Player_Tex2D,
                 1,
                 1,
@@ -127,17 +132,15 @@ namespace RogueProject
                 new Vector2(centerPosX + 32, centerPosY + 32)
             );
 
-            m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV1");
-            m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV1");
 
-            m_Room = new Room(
-            new Vector2(20, 10),
-            10,
-            12,
-            ROOM_TYPE.EMPTY
-            );
 
-            m_Stage = new Stage(COL_GRID, RAW_GRID, 5, m_TextureRoomCorner, m_TextureRoomStraight, CaseTex,_graphics);
+            //m_Room = new Room(
+            //    new Vector2(10, 10),
+            //    10,
+            //    12,
+            //    ROOM_TYPE.EMPTY
+            //);
+
 
             base.Initialize();
         }
@@ -163,7 +166,7 @@ namespace RogueProject
 
             // Utilise la fonction Update du joueur,
             // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
-            m_Player.Update(gameTime, kstate, GridOfCase);
+            m_Player.Update(gameTime, kstate, m_Stage.GetGridOfCase());
 
             // Permet de récupérer tous les entité sur une case et d'avoir leur position
             if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
@@ -171,14 +174,14 @@ namespace RogueProject
                 // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
                 EnterKeyHold = true;
                 
-                for (int i = 0; i <= GridOfCase.Length - 1; i++)
+                for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
                 {
-                    for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                    for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
                     {
-                        Sprite currentContent = GridOfCase[i][j].GetContent();
+                        Sprite currentContent = m_Stage.GetGridOfCase()[i][j].GetContent();
                         if (currentContent != null)
                         {
-                            Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + GridOfCase[i][j].GetContent().GetType().Name);
+                            Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + m_Stage.GetGridOfCase()[i][j].GetContent().GetType().Name);
                         }
                     }
                 }
@@ -187,13 +190,13 @@ namespace RogueProject
             // Night club mode
             if (NightClubMode) 
             {
-                for (int i = 0; i <= GridOfCase.Length - 1; i++)
+                for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
                 {
 
-                    for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                    for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
                     {
                         Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
-                        GridOfCase[i][j].SetColor(RandBow);
+                        m_Stage.GetGridOfCase()[i][j].SetColor(RandBow);
                     }
                 }
             }
@@ -226,103 +229,10 @@ namespace RogueProject
 
             _spriteBatch.Begin();
 
-            //Dessine le quadrillage du niveau
-            //for (int i = 0; i <= GridOfCase.Length-1; i++)
-            //{
-            //    for (int j = 0; j <= GridOfCase[i].Length-1; j++)
-            //    {
-            //        GridOfCase[i][j].Draw(_spriteBatch); 
-            //    }
-            //}
-
-
-            //Vector2 roomInitialValue = m_Room.GetInitialIndex();
-
-            //for (int i = (int)roomInitialValue.X;i < roomInitialValue.X + m_Room.GetSizeX();i++)
-            //{
-            //    for (int j = (int)roomInitialValue.Y;j < roomInitialValue.Y + m_Room.GetSizeY();j++)
-            //    {
-            //        //GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-
-            //        if (i == roomInitialValue.X)
-            //        {
-
-            //            if (j == roomInitialValue.Y)
-            //            {
-            //                // Coin haut gauche
-            //                GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-
-            //                GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
-            //                GridOfCase[i][j].SetIsWalkable(false);
-
-
-            //            } 
-            //            else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
-            //            {
-            //                // Coin bas gauche
-            //                GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-            //                GridOfCase[i][j].SetIsWalkable(false);
-            //            } 
-            //            else
-            //            {
-            //                // Ligne droite (mur gauche de la pièce)
-            //                GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-            //                GridOfCase[i][j].SetIsWalkable(false);
-            //            }
-
-            //        } 
-            //        else if (i == roomInitialValue.X + m_Room.GetSizeX() - 1)
-            //        {
-            //            if (j == roomInitialValue.Y)
-            //            {
-            //                // Coin haut droite
-            //                GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-            //                GridOfCase[i][j].SetRotation(MathHelper.ToRadians(180));
-            //                GridOfCase[i][j].SetIsWalkable(false);
-            //            } 
-            //            else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
-            //            {
-            //                // Coint bas droit
-            //                GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-            //                GridOfCase[i][j].SetRotation(MathHelper.ToRadians(270));
-            //                GridOfCase[i][j].SetIsWalkable(false);
-            //            } 
-            //            else
-            //            {
-            //                // ligne droite (mur droite de la pièce)
-            //                GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-            //                GridOfCase[i][j].SetIsWalkable(false);
-            //            }
-            //        } 
-            //        else if (j == roomInitialValue.Y)
-            //        {
-            //            // Ligne droite (mur haut de la pièce
-            //            GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-            //            GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
-            //            GridOfCase[i][j].SetIsWalkable(false);
-
-            //        } 
-            //        else if (j == roomInitialValue.Y + m_Room.GetSizeY() - 1)
-            //        {
-            //            // Ligne droite (mur bas de la pièce
-            //            GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-            //            GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
-            //            GridOfCase[i][j].SetIsWalkable(false);
-            //        }
-
-            //        if (i == roomInitialValue.X + 1 && j == roomInitialValue.Y)
-            //        {
-            //            GridOfCase[i][j].SetColor(Color.Black);
-            //            GridOfCase[i][j].SetIsWalkable(true);
-            //        }
-
-            //        GridOfCase[i][j].Draw(_spriteBatch);
-
-            //    }
-            //}
             m_Stage.Draw(_spriteBatch);
             m_Player.Draw(_spriteBatch);
             m_Player2.Draw(_spriteBatch);
+            //m_Stage.DrawRoom(_spriteBatch, m_Room, new Vector2(10, 10));
             _spriteBatch.End();
 
             base.Draw(gameTime);
