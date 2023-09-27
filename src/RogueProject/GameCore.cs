@@ -25,8 +25,11 @@ namespace RogueProject
         const int COL_GRID = 50;
         const int RAW_GRID = 30;
 
-        float interval = 0.5f;
-        float timer = 0f;
+        float intervalEnemy = 0.5f;
+        float timerEnemy = 0f;
+
+        float intervalNightClub = 0.5f;
+        float timerNightClub = 0f;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -145,7 +148,17 @@ namespace RogueProject
             // Utilise la fonction Update du joueur,
             // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
             m_Player.Update(gameTime, kstate, GridOfCase);
-            m_Enemy.Update(gameTime,GridOfCase);
+
+            // Mettez à jour le compteur de temps
+            timerEnemy += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            // Vérifiez si le temps écoulé est supérieur à l'intervalle
+            if (timerEnemy >= intervalEnemy)
+            {
+                m_Enemy.Update(gameTime, GridOfCase);
+                timerEnemy = 0f;
+            }
+            
 
             // Permet de récupérer tous les entité sur une case et d'avoir leur position
             if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
@@ -170,9 +183,9 @@ namespace RogueProject
             if (NightClubMode) 
             {
                 // Mettez à jour le compteur de temps
-                timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                timerNightClub += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 // Vérifiez si le temps écoulé est supérieur à l'intervalle
-                if (timer >= interval)
+                if (timerNightClub >= intervalNightClub)
                 {
                     for (int i = 0; i <= GridOfCase.Length - 1; i++)
                     {
@@ -183,7 +196,7 @@ namespace RogueProject
                             GridOfCase[i][j].SetColor(RandBow);
                         }
                     }
-                    timer = 0f;
+                    timerNightClub = 0f;
                 }
             }
 

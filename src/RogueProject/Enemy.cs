@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Formats.Asn1;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics.Metrics;
 
 namespace RogueProject
 {
@@ -113,20 +114,25 @@ namespace RogueProject
         /// </summary>
         public void Move(Case[][] _GridOfCase)
         {
-            Vector2 vision = this.GetIndex() + new Vector2(5f, 5f);
+            Vector2 vision = new Vector2(5f, 5f);
 
-            for (int i = 0; i <= (int)vision.X - 1; i++)
+            bool isPlayer = false;
+
+            for (int i = (int)vision.X; i > 0  - 1; i--)
             {
-                for (int j = 0; j <= vision.Y - 1; j++)
+                for (int j = (int)vision.Y; j < vision.Y - 1; j--)
                 {
                     //if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetLight > 0) {
-
+                    
                     // Vérifie si la case est remplis
-                    if (!(_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetContent() is null)) {
-
+                    if (!(_GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].GetContent() is null)) {
+                   
+                            Debug.Write("Y a un truc..");
+                        
                         //Vérifie si la case contient le joueur
-                        if (_GridOfCase[(int)vision.X + i][(int)vision.Y + j].GetContent().GetType().Name == "Player")
+                        if (_GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].GetContent().GetType().Name == "Player")
                         {
+                            isPlayer = true;
                             Vector2 curr_PlayerIndex = new Vector2(vision.X + i, vision.Y + j);
                             Entity Player = (Player)_GridOfCase[(int)curr_PlayerIndex.X][(int)curr_PlayerIndex.X].GetContent();
 
@@ -175,8 +181,17 @@ namespace RogueProject
                         }
                     }
                 }
+            }
 
+            if (!isPlayer) {
+                
+                Random random = new Random();
+                // Générez un nombre aléatoire entre 0 et le nombre total de membres de l'enum.
+                int nombreAleatoire = random.Next(Enum.GetValues(typeof(DIRECTION)).Length);
 
+                // Convertissez le nombre aléatoire en une valeur enum.
+                DIRECTION directionAleatoire = (DIRECTION)nombreAleatoire;
+                OrientationMove(directionAleatoire, _GridOfCase);
             }
         }
 
