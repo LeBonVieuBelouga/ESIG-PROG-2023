@@ -162,17 +162,17 @@ namespace RogueProject
                     Debug.WriteLine("Colonne : " + curr_Case.X + "Ligne : " + curr_Case.Y);
 
                     // Vérifie si la case est remplis
-                    if (!(_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent() is null)) {
+                    if (_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent() is not null) {
                    
                             Debug.Write("Y a un truc..");
                         
                         //Vérifie si la case contient le joueur
-                        if (_GridOfCase[(int)this.GetIndex().X + i][(int)this.GetIndex().Y + j].GetContent().GetType().Name == "Player")
+                        if (_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent().GetType().Name == "Player")
                         {
                             //Player trouvé
-                            isPlayer = true;
+                            isPlayer = true; //<- valeur temporaire
 
-                            Entity Player = (Player)_GridOfCase[(int)m_Vision.X + i][(int)m_Vision.Y + j].GetContent();
+                            Entity Player = (Player)_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent();
                             Vector2 curr_PlayerIndex = Player.GetIndex();//Récupère la position dans l'index du joueur
                             //Vector2 curr_PlayerIndex = new Vector2(m_Vision.X + i, m_Vision.Y + j);
 

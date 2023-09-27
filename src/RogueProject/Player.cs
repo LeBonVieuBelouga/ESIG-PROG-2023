@@ -18,7 +18,6 @@ namespace RogueProject
         private bool m_ReleaseDownKey = false;
         private bool m_ReleaseRightKey = false;
         private bool m_ReleaseLeftKey = false;
-        private Vector2 m_EntityIndex = new Vector2(0, 0);
 
         /// <summary>
         /// Constructeur d'un joueur avec toutes ses informations

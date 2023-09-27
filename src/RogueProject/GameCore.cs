@@ -154,18 +154,11 @@ namespace RogueProject
 
             // Utilise la fonction Update du joueur,
             // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
-            m_Player.Update(gameTime, kstate, GridOfCase);
+            if (m_Player.Update(gameTime, kstate, GridOfCase)) {
 
-            // Mettez à jour le compteur de temps
-            timerEnemy += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
-            // Vérifiez si le temps écoulé est supérieur à l'intervalle
-            if (timerEnemy >= intervalEnemy)
-            {
                 m_Enemy.Update(gameTime, GridOfCase);
-                timerEnemy = 0f;
             }
-            
+
 
             // Permet de récupérer tous les entité sur une case et d'avoir leur position
             if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
