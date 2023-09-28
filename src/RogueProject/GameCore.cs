@@ -70,9 +70,9 @@ namespace RogueProject
             Window.Title = "Abyssal Enigma: Rogue Requiem";        
 
             Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
-            m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV1");
-            m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV1");
-            m_TextureRoomDoor = Content.Load<Texture2D>("porteV1");
+            m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV2");
+            m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV2");
+            m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
             m_TextureVoid = Content.Load<Texture2D>("VoidCase");
 
             //int GridSizeWidth = COL_GRID * CaseTex.Width;
