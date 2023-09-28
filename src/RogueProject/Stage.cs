@@ -57,11 +57,12 @@ namespace RogueProject
                 this.GenerateRoom();
             } while (m_ListRoom.Count != m_NumberOfRoom);
 
-            for (int i = 0;i < m_ListRoom.Count;i++)
-            {
-                // utiliser la fonction DrawRoom pour chaque room de la liste
-                // Ne pas oublier de changer et retirer les cases valide pour les rooms et uniquement utiliser celle libre
-            }
+            //for (int i = 0;i < m_ListRoom.Count;i++)
+            //{
+            //    // utiliser la fonction DrawRoom pour chaque room de la liste
+            //    // Ne pas oublier de changer et retirer les cases valide pour les rooms et uniquement utiliser celle libre
+            //    this.DrawRoom()
+            //}
 
             //m_ListRoom.Add(new Room(
             //    m_ListFreeSpace[rand.Next(m_ListFreeSpace.Count)],
@@ -81,7 +82,7 @@ namespace RogueProject
 
                 Vector2 initialIndex = this.m_ListFreeSpace[rand.Next(m_ListFreeSpace.Count)];
                 int sizeX = rand.Next(4, 10);
-                int sizeY = rand.Next(2, 10);
+                int sizeY = rand.Next(4, 10);
                 ROOM_TYPE roomType = ROOM_TYPE.EMPTY;
 
                 bool isFree = true;
@@ -95,9 +96,9 @@ namespace RogueProject
                     initialIndex.Y = initialIndex.Y - Math.Abs(initialIndex.Y - sizeY);
                 }
 
-                for (int i = (int)initialIndex.X; i <= initialIndex.X + sizeX; i++)
+                for (int i = (int)initialIndex.X; i < initialIndex.X + sizeX; i++)
                 {
-                    for (int j = (int)initialIndex.Y; j <= initialIndex.Y + sizeY; j++)
+                    for (int j = (int)initialIndex.Y; j < initialIndex.Y + sizeY; j++)
                     {
                         // Faire la classe void, les salles peuvent se poser uniquement sur des cases void, si c'est autre chose (ground ou mur) alors la salle est invalide
                         if (this.m_GridOfCase[i][j].GetType().Name != "Void")
@@ -166,10 +167,10 @@ namespace RogueProject
                     this.m_GridOfCase[i][j].Draw(_SpriteBatch);
                 }
             }
-            //for (int i = 0;i < m_ListRoom.Count;i++)
-            //{
-            //    this.DrawRoom(_SpriteBatch, m_ListRoom[i], new Vector2(m_ListRoom[i].GetInitialIndex().X, m_ListRoom[i].GetInitialIndex().Y));
-            //}
+            for (int i = 0; i < m_ListRoom.Count; i++)
+            {
+                this.DrawRoom(_SpriteBatch, m_ListRoom[i], new Vector2(m_ListRoom[i].GetInitialIndex().X, m_ListRoom[i].GetInitialIndex().Y));
+            }
         }
 
         public void DrawRoom(SpriteBatch _SpriteBatch, Room _RoomToDraw, Vector2 _Index)
@@ -180,7 +181,7 @@ namespace RogueProject
             {
                 for (int j = (int)roomInitialValue.Y; j < roomInitialValue.Y + _RoomToDraw.GetSizeY(); j++)
                 {
-                    //GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
+                    Vector2 oldPos = m_GridOfCase[i][j].GetPosition();
 
                     if (i == roomInitialValue.X)
                     {
@@ -188,6 +189,17 @@ namespace RogueProject
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut gauche
+                            //this.m_GridOfCase[i][j] = new Wall(
+                            //        1,
+                            //        null,
+                            //        false,
+                            //        this.m_TextureRoomCorner,
+                            //        oldPos,
+                            //        0,
+                            //        null,
+                            //        default,
+                            //        MathHelper.ToRadians(90)
+                            //    );
                             this.m_GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
 
                             this.m_GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
