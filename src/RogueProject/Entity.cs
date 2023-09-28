@@ -100,6 +100,66 @@ namespace RogueProject
         }
 
         /// <summary>
+        /// Permet de déplacer le l'entité dans une gride donné
+        /// </summary>
+        /// <param name="_Direction"></param>
+        /// <param name="_GridOfCase"></param>
+        protected void OrientationMove(DIRECTION _Direction, Case[][] _GridOfCase)
+        {
+            // Vérifie de quelle côté le joueur veut se déplacer
+            switch (_Direction)
+            {
+                // Gauche
+                case DIRECTION.LEFT:
+
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.X - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().X - this.GetTexture().Width)
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X - 1, this.m_EntityIndex.Y), _GridOfCase);
+                    }
+                    break;
+                // Droite
+                case DIRECTION.RIGHT:
+
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.X + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().X)
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X + 1, this.m_EntityIndex.Y), _GridOfCase);
+                    }
+                    break;
+                // Haut
+                case DIRECTION.UP:
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height) //<-- pas bien
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y - 1), _GridOfCase);
+                    }
+                    break;
+                // Bas
+                case DIRECTION.DOWN:
+
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    if (this.m_Pos.Y + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().Y)
+                    {
+                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                        this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y + 1), _GridOfCase);
+                    }
+                    break;
+                case DIRECTION.NONE:
+                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
+                    Debug.Write("Rompiche");
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Setter pour m_HealthPoint
         /// </summary>
         /// <param name="_HealthPoint"></param>
