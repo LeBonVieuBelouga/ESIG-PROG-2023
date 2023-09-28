@@ -45,6 +45,7 @@ namespace RogueProject
 
         Texture2D m_TextureRoomCorner;
         Texture2D m_TextureRoomStraight;
+        Texture2D m_TextureRoomDoor;
         Texture2D m_TextureVoid;
 
         private List<Entity> m_entitiesL;
@@ -71,6 +72,7 @@ namespace RogueProject
             Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
             m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV1");
             m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV1");
+            m_TextureRoomDoor = Content.Load<Texture2D>("porteV1");
             m_TextureVoid = Content.Load<Texture2D>("VoidCase");
 
             //int GridSizeWidth = COL_GRID * CaseTex.Width;
@@ -102,7 +104,7 @@ namespace RogueProject
             //}
 
 
-            m_Stage = new Stage(COL_GRID, RAW_GRID, 5, m_TextureRoomCorner, m_TextureRoomStraight, CaseTex, m_TextureVoid, _graphics);
+            m_Stage = new Stage(COL_GRID, RAW_GRID, 7, m_TextureRoomCorner, m_TextureRoomStraight, CaseTex, m_TextureVoid, m_TextureRoomDoor, _graphics);
 
             Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
 

@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using System.Linq;
 
 namespace RogueProject
 {
     class Stage
     {
+        const int MAX_WIDTH_ROOM    = 15;
+        const int MIN_WIDTH_ROOM    = 4;
+        const int MAX_HEIGHT_ROOM   = 15;
+        const int MIN_HEIGHT_ROOM   = 4;
+
 
         List<Room> m_ListRoom = new List<Room>();
         List<Vector2> m_ListFreeSpace = new List<Vector2>();
@@ -21,10 +27,11 @@ namespace RogueProject
         Texture2D m_TextureRoomCorner;
         Texture2D m_TextureRoomStraight;
         Texture2D m_TextureRoomGround;
+        Texture2D m_TextureRoomDoor;
         Texture2D m_TextureVoid;
         int m_NumberOfRoom;
 
-        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Texture2D _TextureRoomCorner, Texture2D _TextureRoomStraight, Texture2D _TextureGround, Texture2D _TextureVoid, GraphicsDeviceManager _graphics) 
+        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Texture2D _TextureRoomCorner, Texture2D _TextureRoomStraight, Texture2D _TextureGround, Texture2D _TextureVoid, Texture2D _TextureRoomDoor, GraphicsDeviceManager _graphics) 
         {
             this.SetGridCol(_GridCol);
             this.SetGridRow(_GridRow);
@@ -81,19 +88,21 @@ namespace RogueProject
                 Random rand = new Random();
 
                 Vector2 initialIndex = this.m_ListFreeSpace[rand.Next(m_ListFreeSpace.Count)];
-                int sizeX = rand.Next(4, 10);
-                int sizeY = rand.Next(4, 10);
+                int sizeX = rand.Next(MIN_WIDTH_ROOM, MAX_WIDTH_ROOM);
+                int sizeY = rand.Next(MIN_HEIGHT_ROOM, MAX_HEIGHT_ROOM);
                 ROOM_TYPE roomType = ROOM_TYPE.EMPTY;
 
                 bool isFree = true;
                 if (initialIndex.X + sizeX > m_GridCol)
                 {
-                    initialIndex.X = initialIndex.X - Math.Abs(initialIndex.X - sizeX);
+                    //initialIndex.X = initialIndex.X - Math.Abs(initialIndex.X - sizeX);
+                    initialIndex.X = initialIndex.X - Math.Abs(m_GridCol - (initialIndex.X + sizeX));
                 }
 
                 if (initialIndex.Y + sizeY > m_GridRow)
                 {
-                    initialIndex.Y = initialIndex.Y - Math.Abs(initialIndex.Y - sizeY);
+                    //initialIndex.Y = initialIndex.Y - Math.Abs(initialIndex.Y - sizeY);
+                    initialIndex.Y = initialIndex.Y - Math.Abs(m_GridRow - (initialIndex.Y + sizeY));
                 }
 
                 for (int i = (int)initialIndex.X; i < initialIndex.X + sizeX; i++)
@@ -116,6 +125,7 @@ namespace RogueProject
                         sizeY,
                         ROOM_TYPE.EMPTY
                     ));
+                    this.DrawRoom(this.m_ListRoom.Last());
                     roomIsCreated = true;
                 }
 
@@ -167,13 +177,84 @@ namespace RogueProject
                     this.m_GridOfCase[i][j].Draw(_SpriteBatch);
                 }
             }
-            for (int i = 0; i < m_ListRoom.Count; i++)
-            {
-                this.DrawRoom(_SpriteBatch, m_ListRoom[i], new Vector2(m_ListRoom[i].GetInitialIndex().X, m_ListRoom[i].GetInitialIndex().Y));
-            }
         }
 
-        public void DrawRoom(SpriteBatch _SpriteBatch, Room _RoomToDraw, Vector2 _Index)
+        public void ConvertCaseType(Vector2 _IndexCase, string _NewType, float _Rotation = -1, bool isCorner = false)
+        {
+            if (_Rotation == -1)
+            {
+                _Rotation = m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetRotation();
+            }
+
+            switch (_NewType)
+            {
+                case "Ground":
+                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y] = new Ground(
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
+                                    true,
+                                    this.m_TextureRoomGround,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetPosition(),
+                                    0,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetSourceRectangle(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetColor(),
+                                    _Rotation,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetOrigin(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetScale(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetEffect(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetLayerDepth()
+                        );
+                    break;
+                case "Void":
+                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y] = new Void(
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetIsWalkable(),
+                                    this.m_TextureVoid,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetPosition(),
+                                    0,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetSourceRectangle(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetColor(),
+                                    _Rotation,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetOrigin(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetScale(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetEffect(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetLayerDepth()
+                        );
+                    break;
+                case "Wall":
+
+                    Texture2D textureWall;
+
+                    if (isCorner)
+                    {
+                        textureWall = m_TextureRoomCorner;
+                    } 
+                    else
+                    {
+                        textureWall = m_TextureRoomStraight;
+                    }
+                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y] = new Wall(
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
+                                    false,
+                                    textureWall,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetPosition(),
+                                    0,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetSourceRectangle(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetColor(),
+                                    _Rotation,
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetOrigin(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetScale(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetEffect(),
+                                    m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetLayerDepth()
+                        );
+                    break;
+            }
+        }
+        
+
+        public void DrawRoom(Room _RoomToDraw)
         {
             Vector2 roomInitialValue = _RoomToDraw.GetInitialIndex();
 
@@ -182,6 +263,7 @@ namespace RogueProject
                 for (int j = (int)roomInitialValue.Y; j < roomInitialValue.Y + _RoomToDraw.GetSizeY(); j++)
                 {
                     Vector2 oldPos = m_GridOfCase[i][j].GetPosition();
+                    bool isWall = false;
 
                     if (i == roomInitialValue.X)
                     {
@@ -189,35 +271,20 @@ namespace RogueProject
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut gauche
-                            //this.m_GridOfCase[i][j] = new Wall(
-                            //        1,
-                            //        null,
-                            //        false,
-                            //        this.m_TextureRoomCorner,
-                            //        oldPos,
-                            //        0,
-                            //        null,
-                            //        default,
-                            //        MathHelper.ToRadians(90)
-                            //    );
-                            this.m_GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-
-                            this.m_GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
-                            this.m_GridOfCase[i][j].SetIsWalkable(false);
-
-
+                            this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(90), true);
+                            isWall = true;
                         }
                         else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                         {
                             // Coin bas gauche
-                            this.m_GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-                            this.m_GridOfCase[i][j].SetIsWalkable(false);
+                            this.ConvertCaseType(new Vector2(i, j), "Wall", -1, true);
+                            isWall = true;
                         }
                         else
                         {
                             // Ligne droite (mur gauche de la pièce)
-                            this.m_GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-                            this.m_GridOfCase[i][j].SetIsWalkable(false);
+                            this.ConvertCaseType(new Vector2(i, j), "Wall", -1, false);
+                            isWall = true;
                         }
 
                     }
@@ -226,38 +293,34 @@ namespace RogueProject
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut droite
-                            this.m_GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-                            this.m_GridOfCase[i][j].SetRotation(MathHelper.ToRadians(180));
-                            this.m_GridOfCase[i][j].SetIsWalkable(false);
+                            this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(180), true);
+                            isWall = true;
                         }
                         else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                         {
                             // Coint bas droit
-                            this.m_GridOfCase[i][j].SetTexture(m_TextureRoomCorner);
-                            this.m_GridOfCase[i][j].SetRotation(MathHelper.ToRadians(270));
-                            this.m_GridOfCase[i][j].SetIsWalkable(false);
+                            this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(270), true);
+                            isWall = true;
                         }
                         else
                         {
                             // ligne droite (mur droite de la pièce)
-                            this.m_GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-                            this.m_GridOfCase[i][j].SetIsWalkable(false);
+                            this.ConvertCaseType(new Vector2(i, j), "Wall", -1, false);
+                            isWall = true;
                         }
                     }
                     else if (j == roomInitialValue.Y)
                     {
-                        // Ligne droite (mur haut de la pièce
-                        this.m_GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-                        this.m_GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
-                        this.m_GridOfCase[i][j].SetIsWalkable(false);
+                        // Ligne droite (mur haut de la pièce)
+                        this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(90), false);
+                        isWall = true;
 
                     }
                     else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                     {
                         // Ligne droite (mur bas de la pièce
-                        this.m_GridOfCase[i][j].SetTexture(m_TextureRoomStraight);
-                        this.m_GridOfCase[i][j].SetRotation(MathHelper.ToRadians(90));
-                        this.m_GridOfCase[i][j].SetIsWalkable(false);
+                        this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(90), false);
+                        isWall = true;
                     }
 
                     if (i == roomInitialValue.X + 1 && j == roomInitialValue.Y)
@@ -266,8 +329,10 @@ namespace RogueProject
                         this.m_GridOfCase[i][j].SetIsWalkable(true);
                     }
 
-                    this.m_GridOfCase[i][j].Draw(_SpriteBatch);
-
+                    if (!isWall)
+                    {
+                        this.ConvertCaseType(new Vector2(i, j), "Ground");
+                    }
                 }
             }
         }
