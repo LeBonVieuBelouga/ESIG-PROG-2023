@@ -161,30 +161,24 @@ namespace RogueProject
 
                     Vector2 centreVision = new Vector2((this.GetIndex().X - m_Vision.X/2 + i), (this.GetIndex().Y- m_Vision.Y/2 +j));
 
-                    _GridOfCase[(int)centreVision.X][(int)centreVision.Y].SetColor(Color.LightBlue);
-
-                    Vector2 curr_Case = new Vector2(centreVision.X, centreVision.Y);
-                    Debug.WriteLine("Colonne : " + curr_Case.X + "Ligne : " + curr_Case.Y);
-
                     // Vérifie si la case est remplis
-                    if (_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent() is not null) {
+                    if (_GridOfCase[(int)centreVision.X][(int)centreVision.Y].GetContent() is not null) {
                    
                             Debug.Write("Y a un truc..");
                         
                         //Vérifie si la case contient le joueur
-                        if (_GridOfCase[(int)curr_Case.X][(int)curr_Case.Y].GetContent().GetType().Name == "Player")
+                        if (_GridOfCase[(int)centreVision.X][(int)centreVision.Y].GetContent().GetType().Name == "Player")
                         {
                             //Player trouvé
                             isPlayer = true;
                            
-                            MovementDecision(curr_Case, _GridOfCase);
+                            MovementDecision(centreVision, _GridOfCase);
                         }
                     }
                 }
             }
 
             if (!isPlayer) {
-                
                 Random random = new Random();
                 // Générez un nombre aléatoire entre 0 et le nombre total de membres de l'enum.
                 int nombreAleatoire = random.Next(Enum.GetValues(typeof(DIRECTION)).Length);
@@ -193,6 +187,19 @@ namespace RogueProject
                 DIRECTION directionAleatoire = (DIRECTION)nombreAleatoire;
                 OrientationMove(directionAleatoire, _GridOfCase);
             }
+
+            for (int i = (int)m_Vision.X; i > 0; i--)
+            {
+                for (int j = (int)m_Vision.Y; j > 0; j--)
+                {
+                    //if (_GridOfCase[(int)m_Vision.X + i][(int)m_Vision.Y + j].GetLight > 0) {
+
+                    Vector2 centreVision = new Vector2((this.GetIndex().X - m_Vision.X / 2 + i), (this.GetIndex().Y - m_Vision.Y / 2 + j));
+
+                    _GridOfCase[(int)centreVision.X][(int)centreVision.Y].SetColor(Color.LightBlue);
+                }
+            }
+
         }
 
         void OrientationMove(DIRECTION _Direction, Case[][] _GridOfCase)
