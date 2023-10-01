@@ -29,7 +29,7 @@ namespace RogueProject
         float intervalEnemy = 0.5f;
         float timerEnemy = 0f;
 
-        float intervalNightClub = 0.5f;
+        float intervalNightClub = 0.0f;
         float timerNightClub = 0f;
 
         private GraphicsDeviceManager _graphics;
