@@ -154,7 +154,7 @@ namespace RogueProject
             //Définit la direction que va prendre l'enemie
             DIRECTION DirectionEnemy = DIRECTION.NONE;
 
-            bool isPlayer = true;
+            bool isPlayer = false;
 
             Vector2 IndexPlayer = new Vector2();
 
@@ -245,8 +245,15 @@ namespace RogueProject
 
             DIRECTION EnemyDirection = DIRECTION.NONE;
 
-            if (m_EntityIndex.X == _PlayerIndex.X || m_EntityIndex.Y == _PlayerIndex.Y)
+            if (m_EntityIndex.X == _PlayerIndex.X && m_EntityIndex.Y == _PlayerIndex.Y)
             {
+                //Le joueur est sur la meme position que l'ennemie
+                Debug.WriteLine("BACKROOM");
+
+            }
+            else
+            {
+
                 Random random = new Random();
                 int randMaxChose = random.Next(2);
 
@@ -275,15 +282,13 @@ namespace RogueProject
                         EnemyDirection = DIRECTION.LEFT;
                         Debug.WriteLine("Ennemi va à GAUCHE");
                     }
-                    else if(m_EntityIndex.X < _PlayerIndex.X)
+                    else if (m_EntityIndex.X < _PlayerIndex.X)
                     {
                         // L'ennemi est à gauche du joueur
                         EnemyDirection = DIRECTION.RIGHT;
                         Debug.WriteLine("Ennemi va à DROITE");
                     }
                 }
-
-                // UP UP UP UP UP UP UP UP UP UP
                 else if (m_EntityIndex.X < _PlayerIndex.X && m_EntityIndex.Y > _PlayerIndex.Y)
                 {
                     // Le joueur est en haut à droite
@@ -302,8 +307,6 @@ namespace RogueProject
                     // Convertissez le nombre aléatoire en une valeur enum.
                     EnemyDirection = (DIRECTION)RandLEFTUP;
                 }
-
-                // DOWN DOWN DOWN DOWN DOWN DOWN
                 else if (m_EntityIndex.X > _PlayerIndex.X && m_EntityIndex.Y < _PlayerIndex.Y)
                 {
                     // Le joueur est en bas à gauche
@@ -322,12 +325,6 @@ namespace RogueProject
                     // Convertissez le nombre aléatoire en une valeur enum.
                     EnemyDirection = (DIRECTION)RandRIGHTDOWN;
                 }
-            }
-
-            else
-            {
-                //Le joueur est sur la meme position que l'ennemie
-                Debug.WriteLine("BACKROOM");
             }
             
 
