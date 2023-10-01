@@ -43,6 +43,7 @@ namespace RogueProject
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
+        Texture2D tombOfPlayer;
 
         Enemy m_Enemy;
 
@@ -68,7 +69,7 @@ namespace RogueProject
             Window.Title = "Abyssal Enigma: Rogue Requiem";        
 
             Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
-
+           
 
             int GridSizeWidth = COL_GRID * CaseTex.Width;
             int GridSizeHeight = ROW_GRID * CaseTex.Height;
@@ -104,7 +105,7 @@ namespace RogueProject
                 new Vector2(0, 0),
                 GridOfCase,
                 Player_Tex2D,
-                1,
+                100,
                 1,
                 1
             );
@@ -121,8 +122,9 @@ namespace RogueProject
                 GridOfCase,
                 Enemy_Tex2D,
                 1,
-                1,
+                12,
                 1
+                
             );
 
             // Calcule la position de l'enemy pour le centrer dans les cases
@@ -139,7 +141,7 @@ namespace RogueProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
+            tombOfPlayer = Content.Load<Texture2D>("MorbiusV1");
         }
 
         protected override void Update(GameTime gameTime)
@@ -217,6 +219,10 @@ namespace RogueProject
             if (kstate.IsKeyUp(Keys.Space))
             {
                 SpaceKeyHold = false;
+            }
+
+            if (m_Player.GetHealthPoint() <= 0) {
+                m_Player.SetTexture(tombOfPlayer);
             }
 
             base.Update(gameTime);

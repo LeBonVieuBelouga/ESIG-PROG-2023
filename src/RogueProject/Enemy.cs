@@ -140,6 +140,8 @@ namespace RogueProject
             curr_entityHeathPoint -= curr_damage;
 
             _entity.SetHealthPoint(curr_entityHeathPoint);
+
+            Debug.WriteLine(_entity.GetHealthPoint());
         }
 
         /// <summary>
@@ -233,12 +235,123 @@ namespace RogueProject
             
         }
 
+
+        DIRECTION MovementDecision(Vector2 _PlayerIndex, Case[][] _GridOfCase)
+        {
+            Entity Player = (Player)_GridOfCase[(int)_PlayerIndex.X][(int)_PlayerIndex.Y].GetContent();
+
+            _PlayerIndex.X -= 0.5f;
+            _PlayerIndex.Y -= 0.5f;
+
+            DIRECTION EnemyDirection = DIRECTION.NONE;
+
+            if (m_EntityIndex.X == _PlayerIndex.X && m_EntityIndex.Y == _PlayerIndex.Y)
+            {
+                //Le joueur est sur la meme position que l'ennemie
+                Debug.WriteLine("BACKROOM");
+
+            }
+            else
+            {
+                Random random = new Random();
+                int randMaxChose = random.Next(2);
+
+                switch (m_EntityIndex)
+                {
+                    case Vector2 EIndex when EIndex.X > _PlayerIndex.X:
+                        if (EIndex.Y == _PlayerIndex.Y)
+                        {
+                            // L'ennemi est à droite du joueur
+                            EnemyDirection = DIRECTION.LEFT;
+                            Debug.WriteLine("Ennemi va à GAUCHE");
+                        }
+                        else if (EIndex.Y < _PlayerIndex.Y)
+                        {
+                            // Le joueur est en bas à gauche
+
+                            // Générez un nombre aléatoire entre 1 et 3 soit la valeur UP ou RIGHT
+                            int RandLEFTDOWN = randMaxChose * 2 + 1;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandLEFTDOWN;
+                            Debug.WriteLine("Ennemi va à GAUCHE/BAS");
+                        }
+                        else if (EIndex.Y > _PlayerIndex.Y)
+                        {
+                            // Le joueur est en haut à gauche
+
+                            // Générez un nombre aléatoire entre 0 et 2 soit la valeur UP ou RIGHT
+                            int RandLEFTUP = randMaxChose * 3;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandLEFTUP;
+                            Debug.WriteLine("Ennemi va à GAUCHE/HAUT");
+                        }
+                        break;
+                    case Vector2 EIndex when EIndex.X < _PlayerIndex.X:
+
+                        if (EIndex.Y == _PlayerIndex.Y)
+                        {
+                            // L'ennemi est à gauche du joueur
+                            EnemyDirection = DIRECTION.RIGHT;
+                            Debug.WriteLine("Ennemi va à DROITE");
+                        }
+                        else if (EIndex.Y > _PlayerIndex.Y)
+                        {
+                            // Le joueur est en haut à droite
+
+                            // Générez un nombre aléatoire entre 0 et 2 soit la valeur UP ou RIGHT
+                            int RandRIGHTUP = randMaxChose * 2;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandRIGHTUP;
+                            Debug.WriteLine("Ennemi va à DROITE/HAUT");
+                        }
+                        else if (EIndex.Y < _PlayerIndex.Y)
+                        {
+                            // Le joueur est en bas à droite
+
+                            // Générez un nombre aléatoire entre 1 et 3 soit la valeur UP ou RIGHT
+                            int RandRIGHTDOWN = randMaxChose + 1;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandRIGHTDOWN;
+                        }
+                        break;
+                    case Vector2 EIndex when EIndex.X == _PlayerIndex.X:
+                        // L'ennemi est sur la même colonne que le joueur.
+                        if (EIndex.Y > _PlayerIndex.Y)
+                        {
+                            // L'ennemi est en dessous du joueur
+                            EnemyDirection = DIRECTION.UP;
+                            Debug.WriteLine("Ennemi MONTE");
+                        }
+                        else if (EIndex.Y < _PlayerIndex.Y)
+                        {
+                            // L'ennemi est au-dessus du joueur
+                            EnemyDirection = DIRECTION.DOWN;
+                            Debug.WriteLine("Ennemi DESCEND");
+                        }
+                        break;
+                    default:
+                        Debug.WriteLine("Position en dehors du jeu de test définit");
+                        break;
+                }
+            }
+
+            if (m_EntityIndex.Y == _PlayerIndex.Y++ || m_EntityIndex.X == _PlayerIndex.X++
+                || m_EntityIndex.Y == _PlayerIndex.Y-- || m_EntityIndex.X == _PlayerIndex.X--)
+            {
+                this.Attack(ref Player);
+                Debug.WriteLine("L'ennemie a attaqué le joueur");
+                Debug.WriteLine("Health Point player : " + Player.GetHealthPoint());
+            }
+
+            return EnemyDirection;
+        }
+
         /// <summary>
         /// Permet de définir où va se diriger l'enemie dans une grid selon l'emplacement du joueur. 
         /// </summary>
         /// <param name="_PlayerIndex"></param>
         /// <param name="_GridOfCase"></param>
-        /// <returns></returns>
+        /// <returns>La direction de l'ennemie</returns>
         DIRECTION MovementDecisionOld(Vector2 _PlayerIndex, Case[][] _GridOfCase)
         {
             Entity Player = (Player)_GridOfCase[(int)_PlayerIndex.X][(int)_PlayerIndex.Y].GetContent();
@@ -330,110 +443,9 @@ namespace RogueProject
                 }
             }
 
-            //this.SetIndex
             return EnemyDirection;
         }
 
-        DIRECTION MovementDecisionOpti(Vector2 _PlayerIndex, Case[][] _GridOfCase)
-        {
-            Entity Player = (Player)_GridOfCase[(int)_PlayerIndex.X][(int)_PlayerIndex.Y].GetContent();
-
-            _PlayerIndex.X -= 0.5f;
-            _PlayerIndex.Y -= 0.5f;
-
-            DIRECTION EnemyDirection = DIRECTION.NONE;
-
-            if (m_EntityIndex.X == _PlayerIndex.X && m_EntityIndex.Y == _PlayerIndex.Y)
-            {
-                //Le joueur est sur la meme position que l'ennemie
-                Debug.WriteLine("BACKROOM");
-
-            }
-            else
-            {
-                Random random = new Random();
-                int randMaxChose = random.Next(2);
-
-                switch (m_EntityIndex)
-                {
-                    case Vector2 EIndex when EIndex.X > _PlayerIndex.X:
-                        if (EIndex.Y == _PlayerIndex.Y)
-                        {
-                            // L'ennemi est à droite du joueur
-                            EnemyDirection = DIRECTION.LEFT;
-                            Debug.WriteLine("Ennemi va à GAUCHE");
-                        }
-                        else if (EIndex.Y < _PlayerIndex.Y)
-                        {
-                            // Le joueur est en bas à gauche
-
-                            // Générez un nombre aléatoire entre 1 et 3 soit la valeur UP ou RIGHT
-                            int RandLEFTDOWN = randMaxChose * 2 + 1;
-                            // Convertissez le nombre aléatoire en une valeur enum.
-                            EnemyDirection = (DIRECTION)RandLEFTDOWN;
-                            Debug.WriteLine("Ennemi va à GAUCHE/BAS");
-                        }
-                        else if (EIndex.Y > _PlayerIndex.Y)
-                        {
-                            // Le joueur est en haut à gauche
-
-                            // Générez un nombre aléatoire entre 0 et 2 soit la valeur UP ou RIGHT
-                            int RandLEFTUP = randMaxChose * 3;
-                            // Convertissez le nombre aléatoire en une valeur enum.
-                            EnemyDirection = (DIRECTION)RandLEFTUP;
-                            Debug.WriteLine("Ennemi va à GAUCHE/HAUT");
-                        }
-                        break;
-                    case Vector2 EIndex when EIndex.X < _PlayerIndex.X:
-
-                        if (EIndex.Y == _PlayerIndex.Y)
-                        {
-                            // L'ennemi est à gauche du joueur
-                            EnemyDirection = DIRECTION.RIGHT;
-                            Debug.WriteLine("Ennemi va à DROITE");
-                        }else if (EIndex.Y > _PlayerIndex.Y)
-                        {
-                            // Le joueur est en haut à droite
-
-                            // Générez un nombre aléatoire entre 0 et 2 soit la valeur UP ou RIGHT
-                            int RandRIGHTUP = randMaxChose * 2;
-                            // Convertissez le nombre aléatoire en une valeur enum.
-                            EnemyDirection = (DIRECTION)RandRIGHTUP;
-                            Debug.WriteLine("Ennemi va à DROITE/HAUT");
-                        }
-                        else if (EIndex.Y < _PlayerIndex.Y)
-                        {
-                            // Le joueur est en bas à droite
-
-                            // Générez un nombre aléatoire entre 1 et 3 soit la valeur UP ou RIGHT
-                            int RandRIGHTDOWN = randMaxChose + 1;
-                            // Convertissez le nombre aléatoire en une valeur enum.
-                            EnemyDirection = (DIRECTION)RandRIGHTDOWN;
-                        }
-                        break;
-                    case Vector2 EIndex when EIndex.X == _PlayerIndex.X:
-                        // L'ennemi est sur la même colonne que le joueur.
-                        if (EIndex.Y > _PlayerIndex.Y)
-                        {
-                            // L'ennemi est en dessous du joueur
-                            EnemyDirection = DIRECTION.UP;
-                            Debug.WriteLine("Ennemi MONTE");
-                        }
-                        else if (EIndex.Y < _PlayerIndex.Y)
-                        {
-                            // L'ennemi est au-dessus du joueur
-                            EnemyDirection = DIRECTION.DOWN;
-                            Debug.WriteLine("Ennemi DESCEND");
-                        }
-                        break;
-                    default:
-                        Debug.WriteLine("Position en dehors du jeu de test définit");
-                        break;
-                }
-            }
-
-            return EnemyDirection;
-        }
 
         public void Update(GameTime _GameTime,
                 Case[][] _GridOfCase

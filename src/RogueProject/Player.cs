@@ -87,7 +87,7 @@ namespace RogueProject
         /// </summary>
         public override void Death()
         {
-
+            
         }
 
         /// <summary>
