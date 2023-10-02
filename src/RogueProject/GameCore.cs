@@ -29,7 +29,7 @@ namespace RogueProject
         float intervalEnemy = 0.5f;
         float timerEnemy = 0f;
 
-        float intervalNightClub = 0.0f;
+        float intervalNightClub = 1.5f;
         float timerNightClub = 0f;
 
         private GraphicsDeviceManager _graphics;
@@ -43,7 +43,8 @@ namespace RogueProject
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
-        Texture2D tombOfPlayer;
+
+        Sprite tombOfPlayer;
 
         Enemy m_Enemy;
 
@@ -127,6 +128,11 @@ namespace RogueProject
                 
             );
 
+            tombOfPlayer = new Sprite(
+                Content.Load<Texture2D>("MorbiusV1"),
+                m_Player.GetPosition()
+                ) ;
+
             // Calcule la position de l'enemy pour le centrer dans les cases
             centerPosX = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().X - Enemy_Tex2D.Width / 2;
             centerPosY = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().Y - Enemy_Tex2D.Height / 2;
@@ -140,92 +146,107 @@ namespace RogueProject
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            tombOfPlayer = Content.Load<Texture2D>("MorbiusV1");
+          
         }
 
         protected override void Update(GameTime gameTime)
         {
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            
-
-            // Récupère les inputs clavier
-            var kstate = Keyboard.GetState();
-
-            // Utilise la fonction Update du joueur,
-            // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
-            if (m_Player.Update(gameTime, kstate, GridOfCase)) {
-
-                m_Enemy.Update(gameTime, GridOfCase);
-            }
-
-
-            // Permet de récupérer tous les entité sur une case et d'avoir leur position
-            if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
+            if (!(m_Player.GetHealthPoint() <= 0))
             {
-                // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
-                EnterKeyHold = true;
-                
-                for (int i = 0; i <= GridOfCase.Length - 1; i++)
+
+
+
+                // Récupère les inputs clavier
+                var kstate = Keyboard.GetState();
+
+                // Utilise la fonction Update du joueur,
+                // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
+                if (m_Player.Update(gameTime, kstate, GridOfCase))
                 {
-                    for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+
+                    m_Enemy.Update(gameTime, GridOfCase);
+                }
+
+
+                // Permet de récupérer tous les entité sur une case et d'avoir leur position
+                if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
+                {
+                    // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
+                    EnterKeyHold = true;
+
+                    for (int i = 0; i <= GridOfCase.Length - 1; i++)
                     {
-                        Sprite currentContent = GridOfCase[i][j].GetContent();
-                        if (currentContent != null)
+                        for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
                         {
-                            Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + GridOfCase[i][j].GetContent().GetType().Name);
+                            Sprite currentContent = GridOfCase[i][j].GetContent();
+                            if (currentContent != null)
+                            {
+                                Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + GridOfCase[i][j].GetContent().GetType().Name);
+                            }
                         }
                     }
                 }
-            }
 
-            // Night club mode
-            if (NightClubMode) 
+                // Night club mode
+                if (NightClubMode)
+                {
+                    // Mettez à jour le compteur de temps
+                    timerNightClub += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    // Vérifiez si le temps écoulé est supérieur à l'intervalle
+                    if (timerNightClub >= intervalNightClub)
+                    {
+                        for (int i = 0; i <= GridOfCase.Length - 1; i++)
+                        {
+
+                            for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                            {
+                                Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
+                                GridOfCase[i][j].SetColor(RandBow);
+                            }
+                        }
+                        timerNightClub = 0f;
+                    }
+                }
+
+                if (kstate.IsKeyDown(Keys.Space) && !SpaceKeyHold)
+                {
+                    NightClubMode = !NightClubMode;
+                    SpaceKeyHold = true;
+
+                }
+
+                // Si la touche Enter est relâcher, permet de refaire le code de vérification des entités
+                if (kstate.IsKeyUp(Keys.Enter))
+                {
+                    EnterKeyHold = false;
+                }
+
+                // Si la touche Espace est relâcher, permet de mettre le mode discoooooooooooooooooooooo
+                if (kstate.IsKeyUp(Keys.Space))
+                {
+                    SpaceKeyHold = false;
+                }
+
+            }
+            else
             {
                 // Mettez à jour le compteur de temps
                 timerNightClub += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 // Vérifiez si le temps écoulé est supérieur à l'intervalle
                 if (timerNightClub >= intervalNightClub)
                 {
-                    for (int i = 0; i <= GridOfCase.Length - 1; i++)
-                    {
-
-                        for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
-                        {
-                            Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
-                            GridOfCase[i][j].SetColor(RandBow);
-                        }
-                    }
+                    m_Enemy.Update(gameTime, GridOfCase);
                     timerNightClub = 0f;
                 }
-            }
+                
 
-            if (kstate.IsKeyDown(Keys.Space) && !SpaceKeyHold) 
-            {
-                NightClubMode = !NightClubMode;
-                SpaceKeyHold = true;
-
-            }
-
-            // Si la touche Enter est relâcher, permet de refaire le code de vérification des entités
-            if (kstate.IsKeyUp(Keys.Enter))
-            {
-                EnterKeyHold = false;
-            }
-
-            // Si la touche Espace est relâcher, permet de mettre le mode discoooooooooooooooooooooo
-            if (kstate.IsKeyUp(Keys.Space))
-            {
-                SpaceKeyHold = false;
-            }
-
-            if (m_Player.GetHealthPoint() <= 0) {
-                m_Player.SetTexture(tombOfPlayer);
             }
 
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)
@@ -242,7 +263,15 @@ namespace RogueProject
                     GridOfCase[i][j].Draw(_spriteBatch); 
                 }
             }
-            m_Player.Draw(_spriteBatch);
+            if (m_Player.GetHealthPoint() <= 0)
+            {
+                tombOfPlayer.SetPosition(m_Player.GetPosition());
+                tombOfPlayer.Draw(_spriteBatch);
+            }
+            else {
+                m_Player.Draw(_spriteBatch);
+            }
+            
             m_Enemy.Draw(_spriteBatch);
             
             _spriteBatch.End();

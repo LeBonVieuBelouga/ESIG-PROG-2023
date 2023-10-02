@@ -17,15 +17,15 @@ namespace RogueProject
     /// </summary>
     internal abstract class Entity : Sprite
     {
-        protected const uint HEALTH_DEFAULT = 1;
-        protected const uint DAMAGE_DEFAULT = 0;
-        protected const uint DEFENSE_DEFAULT = 0;
+        protected const int HEALTH_DEFAULT = 1;
+        protected const int DAMAGE_DEFAULT = 0;
+        protected const int DEFENSE_DEFAULT = 0;
         protected const float DEFAULT_ENTITY_VELOCITY = 1f;
 
         protected Vector2 m_EntityIndex = new Vector2(0, 0);
-        protected uint m_HealthPoint;
-        protected uint m_Damage;
-        protected uint m_Defense;
+        protected int m_HealthPoint;
+        protected int m_Damage;
+        protected int m_Defense;
         protected bool m_IsDead = false;
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace RogueProject
             Vector2 _EntityIndex,
             Case[][] _GridOfCase,
             Texture2D _Texture2D,
-            uint _HealthPoint = HEALTH_DEFAULT,
-            uint _Damage = DAMAGE_DEFAULT,
-            uint _Defense = DEFENSE_DEFAULT,
+            int _HealthPoint = HEALTH_DEFAULT,
+            int _Damage = DAMAGE_DEFAULT,
+            int _Defense = DEFENSE_DEFAULT,
             Vector2 _Position = new Vector2(),
             float _Velocity = DEFAULT_ENTITY_VELOCITY,
             Rectangle? _SourceRectangle = null,
@@ -163,8 +163,8 @@ namespace RogueProject
         /// Setter pour m_HealthPoint
         /// </summary>
         /// <param name="_HealthPoint"></param>
-        public void SetHealthPoint(uint _HealthPoint = HEALTH_DEFAULT) {
-            if (_HealthPoint == HEALTH_DEFAULT)
+        public void SetHealthPoint(int _HealthPoint = HEALTH_DEFAULT) {
+            if (_HealthPoint == 0f)
             {
                 Debug.WriteLine("Les points de vie sont passé à zero");
                 this.m_IsDead = true;
@@ -178,7 +178,7 @@ namespace RogueProject
         /// Getter pour m_HealthPoint
         /// </summary>
         /// <returns>this.m_HealthPoint</returns>
-        public uint  GetHealthPoint()
+        public int  GetHealthPoint()
         {
                 return this.m_HealthPoint;
         }
@@ -187,7 +187,7 @@ namespace RogueProject
         /// Setter pour m_Damage 
         /// </summary>
         /// <param name="_Damage"></param>
-        public void SetDamage(uint _Damage = DAMAGE_DEFAULT) {
+        public void SetDamage(int _Damage = DAMAGE_DEFAULT) {
           
                 this.m_Damage = _Damage;
         }
@@ -196,7 +196,7 @@ namespace RogueProject
         /// Getter pour m_Damage
         /// </summary>
         /// <returns></returns>
-        public uint GetDamage()
+        public int GetDamage()
         {
             return this.m_Damage;
         }
@@ -205,7 +205,7 @@ namespace RogueProject
         /// Setter pour m_Defense
         /// </summary>
         /// <param name="_Defense"></param>
-        public void SetDefense(uint _Defense = DEFENSE_DEFAULT) { 
+        public void SetDefense(int _Defense = DEFENSE_DEFAULT) { 
         
             this.m_Defense = _Defense;
 
@@ -215,7 +215,7 @@ namespace RogueProject
         /// Getter pour m_Defense
         /// </summary>
         /// <returns></returns>
-        public uint GetDefense()
+        public int GetDefense()
         {
             return this.m_Defense;
 

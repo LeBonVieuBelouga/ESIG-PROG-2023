@@ -47,9 +47,9 @@ namespace RogueProject
                 Vector2 _EntityIndex,
                 Case[][] _GridOfCase,
                 Texture2D _Texture2D,
-                uint _HealthPoint = HEALTH_DEFAULT,
-                uint _Damage = DAMAGE_DEFAULT,
-                uint _Defense = DEFENSE_DEFAULT,
+                int _HealthPoint = HEALTH_DEFAULT,
+                int _Damage = DAMAGE_DEFAULT,
+                int _Defense = DEFENSE_DEFAULT,
                 Vector2 _Vision = new Vector2(),
                 Vector2 _Position = new Vector2(),
                 uint _ExpericenGiven = EXPERIENCE_POINT_DEFAULT,
@@ -132,10 +132,10 @@ namespace RogueProject
         /// </summary>
         public override void Attack(ref Entity _entity)
         {
-            uint curr_entityHeathPoint = _entity.GetHealthPoint();
+            int curr_entityHeathPoint = _entity.GetHealthPoint();
 
             //Retire une partie des dégats fait par l'enemy sur 
-            uint curr_damage = this.m_Damage - _entity.GetDefense();
+            int curr_damage = this.m_Damage - _entity.GetDefense();
 
             curr_entityHeathPoint -= curr_damage;
 
