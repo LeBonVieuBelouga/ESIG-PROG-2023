@@ -333,6 +333,8 @@ namespace RogueProject
             // Récupère la position initiale de la Room (représente le coin haut gauche de la Room)
             Vector2 roomInitialValue = _RoomToDraw.GetInitialIndex();
 
+           
+
             // Utilise deux boucles "for" pour parcourir toutes les cases que la Room va prendre
             for (int i = (int)roomInitialValue.X; i < roomInitialValue.X + _RoomToDraw.GetSizeX(); i++)
             {
@@ -347,12 +349,13 @@ namespace RogueProject
                     // Vérifie les différents contour d'une salle pour y mettre les murs :
                     if (i == roomInitialValue.X)
                     {
+                        isCorner = true;
                         //Par défaut on concidaire que c'est le mur de gauche de la Room
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut gauche de la Room
                             rotation = 90;
-                            isCorner = true;
+                            
                         }
                         else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                         {
@@ -361,6 +364,15 @@ namespace RogueProject
                         }
                         else {
                             isCorner = false;
+
+                            Random random = new Random();
+                            int randSide = random.Next(4);
+                            int randPosDoorX = random.Next(_RoomToDraw.GetSizeX());
+                            int randPosDoorY = random.Next(_RoomToDraw.GetSizeY());
+                            if (j == randPosDoorY)
+                            {
+                                curr_type = CASE_TYPE.DOOR;
+                            }
                         }
                     }
                     else if (i == roomInitialValue.X + _RoomToDraw.GetSizeX() - 1)
@@ -398,13 +410,15 @@ namespace RogueProject
 
                     // Temporaire, met une porte en haut à gauche de la pièce
                     // plus tard la porte sera mis aléatoirement sur un côté de la pièce
+                    /*
                     if (i == roomInitialValue.X + 1 && j == roomInitialValue.Y)
                     {
                         curr_type = CASE_TYPE.DOOR;
                         rotation = 360;
                         this.m_GridOfCase[i][j].SetIsWalkable(true);
                         
-                    }
+                    }*/
+                    
 
                     this.ConvertCaseType(new Vector2(i, j), curr_type, MathHelper.ToRadians(rotation), isCorner);
                     //this.ConvertCaseType(new Vector2(i, j), curr_type);
