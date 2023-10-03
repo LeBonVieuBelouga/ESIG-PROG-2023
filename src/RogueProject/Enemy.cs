@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using System.Formats.Asn1;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.Xna.Framework.Input;
+using System.Diagnostics.Metrics;
+using System.Reflection;
 
 namespace RogueProject
 {
@@ -18,9 +22,12 @@ namespace RogueProject
 
         private const uint EXPERIENCE_POINT_DEFAULT = 15;
         private const uint ACTION_POINT_DEFAULT = 1;
+        private const float VISION_DEFAULT = 5f;
 
         private uint m_ExperienceGiven;
-        private uint m_actionPoint;
+        private uint m_ActionPoint;
+
+        protected Vector2 m_Vision;
 
         /// <summary>
         /// Créer un objet de type Entity et instencie toutes ces propriétés.
@@ -37,11 +44,14 @@ namespace RogueProject
         /// <param name="_Effect">Modificateurs pour le dessin (peut être combiné)</param>
         /// <param name="_LayerDepth">Profondeur du champ du Ground/param>
         public Enemy(
+                Vector2 _EntityIndex,
+                Case[][] _GridOfCase,
                 Texture2D _Texture2D,
+                int _HealthPoint = HEALTH_DEFAULT,
+                int _Damage = DAMAGE_DEFAULT,
+                int _Defense = DEFENSE_DEFAULT,
+                Vector2 _Vision = new Vector2(),
                 Vector2 _Position = new Vector2(),
-                uint _HealthPoint = HEALTH_DEFAULT,
-                uint _Damage = DAMAGE_DEFAULT,
-                uint _Defense = DEFENSE_DEFAULT,
                 uint _ExpericenGiven = EXPERIENCE_POINT_DEFAULT,
                 float _Velocity = DEFAULT_ENTITY_VELOCITY,
                 Rectangle? _SourceRectangle = null,
@@ -51,21 +61,50 @@ namespace RogueProject
                 Vector2 _Scale = new Vector2(),
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
+            ) : base(_EntityIndex, _GridOfCase, _Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,
                 _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
-
+            if (_Vision == new Vector2()) {
+                _Vision = new Vector2(VISION_DEFAULT, VISION_DEFAULT);
+            }
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
             this.SetExperienceGiven(_ExpericenGiven);
+            this.SetVision(_Vision);
+        }
+
+        /// <summary>
+        /// Setter de la vision de l'enemie
+        /// </summary>
+        /// <param name="_Vision"></param>
+        void SetVision(Vector2 _Vision)
+        {
+            if (_Vision.X % 2 == 1 && _Vision.Y % 2 == 1)
+            {
+                this.m_Vision = _Vision;
+            }
+            else {
+                this.m_Vision = new Vector2(VISION_DEFAULT, VISION_DEFAULT);
+                Debug.WriteLine("la vision de l'ennemie n'est pas impaire, la valeur par defaut a ete attribue");
+            }
+        }
+
+        /// <summary>
+        /// Getter la vision de l'enemie
+        /// </summary>
+        /// <param name="_Vision"></param>
+        Vector2 GetVision()
+        {
+            return this.m_Vision;
         }
 
         /// <summary>
         /// Définit le total d'XP que l'ennemie après sa mort.
         /// </summary>
         /// <param name="_ExpericenGiven"></param>
-        void SetExperienceGiven(uint _ExpericenGiven) {
+        void SetExperienceGiven(uint _ExpericenGiven)
+        {
             this.m_ExperienceGiven = _ExpericenGiven;
         }
 
@@ -73,14 +112,16 @@ namespace RogueProject
         /// Renvoit le total d'XP que l'ennemie donne après sa mort
         /// </summary>
         /// <returns>this.m_ExperienceGiven</returns>
-        uint GetExpericenGiven(){
+        uint GetExpericenGiven()
+        {
             return this.m_ExperienceGiven;
         }
 
         /// <summary>
         /// Permet à l'Ennemie de mourrir.
         /// </summary>
-        public override void Death() {
+        public override void Death()
+        {
             Debug.WriteLine("Morbius");
 
 
@@ -91,28 +132,236 @@ namespace RogueProject
         /// </summary>
         public override void Attack(ref Entity _entity)
         {
-            uint curr_entityHeathPoint = _entity.GetHealthPoint();
-            
+            int curr_entityHeathPoint = _entity.GetHealthPoint();
+
             //Retire une partie des dégats fait par l'enemy sur 
-            uint curr_damage = this.m_Damage - _entity.GetDefense();
+            int curr_damage = this.m_Damage - _entity.GetDefense();
 
             curr_entityHeathPoint -= curr_damage;
 
             _entity.SetHealthPoint(curr_entityHeathPoint);
+
+            Debug.WriteLine(_entity.GetHealthPoint());
         }
 
         /// <summary>
-        /// Permet à l'Ennemie de bouger.
+        /// Permet à l'ennemie de se déplacer dans un cadrillage.
         /// </summary>
         public void Move(Case[][] _GridOfCase)
         {
-            
+
+            //Définit la direction que va prendre l'enemie
+            DIRECTION DirectionEnemy = DIRECTION.NONE;
+
+            bool isPlayer = false;
+
+            for (int i = (int)m_Vision.X; i > 0; i--)
+            {
+                for (int j = (int)m_Vision.Y; j > 0; j--)
+                {
+                    //if (_GridOfCase[(int)m_Vision.X + i][(int)m_Vision.Y + j].GetLight > 0) {
+
+                    //Définit la position de la case à traité
+                    Vector2 curr_IndexCase = new Vector2((this.GetIndex().X - m_Vision.X / 2 + i), (this.GetIndex().Y - m_Vision.Y / 2 + j));
+
+                    //Vérifie que la case existe
+                    if (curr_IndexCase.X >= 0 && curr_IndexCase.Y >= 0 && (int)curr_IndexCase.X <= _GridOfCase.Length - 1 && curr_IndexCase.Y <= _GridOfCase[0].Length - 1)
+                    {
+                        // Vérifie si la case est remplis
+                        if (_GridOfCase[(int)curr_IndexCase.X][(int)curr_IndexCase.Y].GetContent() is not null)
+                        {
+                            //Vérifie si la case contient le joueur
+                            if (_GridOfCase[(int)curr_IndexCase.X][(int)curr_IndexCase.Y].GetContent().GetType().Name == "Player")
+                            {
+                                //Player trouvé
+                                isPlayer = true;
+
+                                // Définit la direction que va prendre l'ennemie
+                                DirectionEnemy = MovementDecision(curr_IndexCase, _GridOfCase);
+                            }
+                        }
+                    }
+                }
+            }
+            //Vérifie si le joueur a été trouvé.
+            if (!isPlayer)
+            {
+                Random random = new Random();
+                // Générez un nombre aléatoire entre 0 et le nombre total de membres de l'enum.
+                int nombreAleatoire = random.Next(Enum.GetValues(typeof(DIRECTION)).Length);
+
+                // Convertissez le nombre aléatoire en une valeur enum.
+                DirectionEnemy = (DIRECTION)nombreAleatoire;
+            }
+            OrientationMove(DirectionEnemy, _GridOfCase);
         }
 
+        /// <summary>
+        /// MovementDecision premet a l'ennemie de choisir la direction qu'il va prendre selon celle du joueur.
+        /// </summary>
+        /// <param name="_PlayerIndex"></param>
+        /// <param name="_GridOfCase"></param>
+        /// <returns></returns>
+        DIRECTION MovementDecision(Vector2 _PlayerIndex, Case[][] _GridOfCase)
+        {
+            Entity Player = (Player)_GridOfCase[(int)_PlayerIndex.X][(int)_PlayerIndex.Y].GetContent();
 
-        public void Update(GameTime gameTime) {
+            _PlayerIndex.X -= 0.5f;
+            _PlayerIndex.Y -= 0.5f;
 
-            //this.Move();
+            DIRECTION EnemyDirection = DIRECTION.NONE;
+
+            if (m_EntityIndex.X == _PlayerIndex.X && m_EntityIndex.Y == _PlayerIndex.Y)
+            {
+                //Le joueur est sur la meme position que l'ennemie
+                Debug.WriteLine("BACKROOM");
+            }
+            else
+            {
+                Random random = new Random();
+                int randMaxChose = random.Next(2);
+
+                //Jeu de de test logique des déplacement de l'ennemie
+                switch (m_EntityIndex)
+                {
+                    // L'ennemie est sur un numéro de colonne plus grand que celle du joueur
+                    case Vector2 EIndex when EIndex.X > _PlayerIndex.X:
+                        //Par défaut, l'ennemi est à droite du joueur
+                        EnemyDirection = DIRECTION.LEFT;
+
+                        if (EIndex.Y < _PlayerIndex.Y)
+                        {
+                            // Le joueur est en bas à gauche
+
+                            // Générez un nombre aléatoire entre 1 et 3 soit la valeur UP ou RIGHT
+                            int RandLEFTDOWN = randMaxChose * 2 + 1;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandLEFTDOWN;
+                            Debug.WriteLine("Ennemi va à GAUCHE/BAS");
+                        }
+                        else if (EIndex.Y > _PlayerIndex.Y)
+                        {
+                            // Le joueur est en haut à gauche
+
+                            // Générez un nombre aléatoire entre 0 et 2 soit la valeur UP ou RIGHT
+                            int RandLEFTUP = randMaxChose * 3;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandLEFTUP;
+                            Debug.WriteLine("Ennemi va à GAUCHE/HAUT");
+                        }
+                        break;
+
+                    // L'ennemie est sur un numéro de colonne plus petit que celle du joueur
+                    case Vector2 EIndex when EIndex.X < _PlayerIndex.X:
+
+                            //Par defaut, l'ennemi est à gauche du joueur
+                            EnemyDirection = DIRECTION.RIGHT;
+                            
+                        if (EIndex.Y > _PlayerIndex.Y)
+                        {
+                            // Le joueur est en haut à droite
+
+                            // Générez un nombre aléatoire entre 0 et 2 soit la valeur UP ou RIGHT
+                            int RandRIGHTUP = randMaxChose * 2;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandRIGHTUP;
+                            Debug.WriteLine("Ennemi va à DROITE/HAUT");
+                        }
+                        else if (EIndex.Y < _PlayerIndex.Y)
+                        {
+                            // Le joueur est en bas à droite
+
+                            // Générez un nombre aléatoire entre 1 et 3 soit la valeur UP ou RIGHT
+                            int RandRIGHTDOWN = randMaxChose + 1;
+                            // Convertissez le nombre aléatoire en une valeur enum.
+                            EnemyDirection = (DIRECTION)RandRIGHTDOWN;
+                        }
+                        break;
+                    // L'ennemie est sur la même colonne que le joueur
+                    case Vector2 EIndex when EIndex.X == _PlayerIndex.X:
+                        // L'ennemi est sur la même colonne que le joueur.
+                        if (EIndex.Y > _PlayerIndex.Y)
+                        {
+                            // L'ennemi est en dessous du joueur
+                            EnemyDirection = DIRECTION.UP;
+                            Debug.WriteLine("Ennemi MONTE");
+                        }
+                        else if (EIndex.Y < _PlayerIndex.Y)
+                        {
+                            // L'ennemi est au-dessus du joueur
+                            EnemyDirection = DIRECTION.DOWN;
+                            Debug.WriteLine("Ennemi DESCEND");
+                        }
+                        break;
+                    default:
+                        Debug.WriteLine("Position en dehors du jeu de test définit");
+                        break;
+                }
+            }
+
+            //Vérifie que le joueur se trouve quand un perimètre de 3x3
+            if (m_EntityIndex.Y == _PlayerIndex.Y++ || m_EntityIndex.X == _PlayerIndex.X++
+                || m_EntityIndex.Y == _PlayerIndex.Y-- || m_EntityIndex.X == _PlayerIndex.X--)
+            {
+                this.Attack(ref Player);
+                Debug.WriteLine("L'ennemie a attaqué le joueur");
+                Debug.WriteLine("Health Point player : " + Player.GetHealthPoint());
+            }
+
+            return EnemyDirection;
+        }
+
+        /// <summary>
+        /// Fonction Update de Enemy, s'éxécute à chaque tick du jeu
+        /// Cette fonction s'occupe de toutes les actions qu'un Player peut faire
+        /// par exemple : les déplacements, les attaques, les menus,...
+        /// </summary>
+        /// <param name="_GameTime">Temps entre chaque appel de la fonction Update</param>
+        ///
+        /// <param name="_GridOfCase">Quadrillage du jeu</param>
+        /// <returns>Retourne vrai si le joueur à effectuer une action qui termine son tour</returns>
+        public void Update(GameTime _GameTime,
+                Case[][] _GridOfCase
+                )
+        {
+
+            //Change la couleur du tableau dans sa couleur d'origine
+            for (int i = 0; i <= _GridOfCase.Length - 1; i++)
+            {
+                for (int j = 0; j <= _GridOfCase[i].Length - 1; j++)
+                {
+                    Color color = new Color(255, 0, 255);
+                    _GridOfCase[i][j].SetColor(color);
+                }
+            }
+
+            this.Move(_GridOfCase);
+
+
+            //Permet de visualiser la vision de l'ennemie
+            for (int i = (int)m_Vision.X; i > 0; i--)
+            {
+                for (int j = (int)m_Vision.Y; j > 0; j--)
+                {
+                    //Définit la position de la case à traité
+                    Vector2 curr_IndexCase = new Vector2(this.GetIndex().X - m_Vision.X / 2 + i, this.GetIndex().Y - m_Vision.Y / 2 + j);
+
+                    // Vérifie que l'index a colorier est valide
+                    if (curr_IndexCase.X >= 0 && curr_IndexCase.Y >= 0 && (int)curr_IndexCase.X <= _GridOfCase.Length - 1 && curr_IndexCase.Y <= _GridOfCase[0].Length - 1)
+                    {
+                        _GridOfCase[(int)curr_IndexCase.X][(int)curr_IndexCase.Y].SetColor(Color.LightBlue);
+                    }
+
+                }
+            }
+
+            /*
+            if (IndexPlayer == new Vector2()) {
+                //Colorie la case du joueur pour la mettre en surbriance
+                _GridOfCase[(int)IndexPlayer.X][(int)IndexPlayer.Y].SetColor(Color.GreenYellow);
+            }
+            */
+
         }
     }
 }
