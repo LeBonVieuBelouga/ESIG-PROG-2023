@@ -44,7 +44,7 @@ namespace RogueProject
         //Variable propre à la méthodolgie du projet
         Player m_Player;
 
-        Sprite tombOfPlayer;
+        Sprite m_TombOfPlayer;
 
         Enemy m_Enemy;
 
@@ -128,7 +128,7 @@ namespace RogueProject
                 
             );
 
-            tombOfPlayer = new Sprite(
+            m_TombOfPlayer = new Sprite(
                 Content.Load<Texture2D>("MorbiusV1"),
                 m_Player.GetPosition()
                 ) ;
@@ -265,8 +265,8 @@ namespace RogueProject
             }
             if (m_Player.GetHealthPoint() <= 0)
             {
-                tombOfPlayer.SetPosition(m_Player.GetPosition());
-                tombOfPlayer.Draw(_spriteBatch);
+                m_TombOfPlayer.SetPosition(m_Player.GetPosition());
+                m_TombOfPlayer.Draw(_spriteBatch);
             }
             else {
                 m_Player.Draw(_spriteBatch);
