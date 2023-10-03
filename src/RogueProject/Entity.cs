@@ -112,49 +112,82 @@ namespace RogueProject
                 // Gauche
                 case DIRECTION.LEFT:
 
+ 
+
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.X - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().X - this.GetTexture().Width)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
-                        this.SetIndex(new Vector2(this.m_EntityIndex.X - 1, this.m_EntityIndex.Y), _GridOfCase);
+
+ 
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_EntityIndex.X - 1][(int)this.m_EntityIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X - 1][(int)this.m_EntityIndex.Y].GetContent() is null)
+                        {                        
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
+                            this.SetIndex(new Vector2(this.m_EntityIndex.X - 1, this.m_EntityIndex.Y), _GridOfCase);
+                        }
                     }
                     break;
                 // Droite
                 case DIRECTION.RIGHT:
 
+ 
+
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.X + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().X)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                        this.SetIndex(new Vector2(this.m_EntityIndex.X + 1, this.m_EntityIndex.Y), _GridOfCase);
+
+ 
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_EntityIndex.X + 1][(int)this.m_EntityIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X + 1][(int)this.m_EntityIndex.Y].GetContent() is null)
+                        {
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                            this.SetIndex(new Vector2(this.m_EntityIndex.X + 1, this.m_EntityIndex.Y), _GridOfCase);
+                        }
                     }
                     break;
                 // Haut
                 case DIRECTION.UP:
+
+ 
+
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
-                    if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height) //<-- pas bien
+                    if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
-                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y - 1), _GridOfCase);
+
+ 
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y - 1].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y - 1].GetContent() is null)
+                        {
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
+                            this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y - 1), _GridOfCase);
+                        }
                     }
                     break;
                 // Bas
                 case DIRECTION.DOWN:
 
+ 
+
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.Y + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().Y)
                     {
-                        // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                        this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                        this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y + 1), _GridOfCase);
+
+ 
+
+                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
+                        if (_GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y + 1].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y + 1].GetContent() is null)
+                        {
+                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
+                            this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
+                            this.SetIndex(new Vector2(this.m_EntityIndex.X, this.m_EntityIndex.Y + 1), _GridOfCase);
+                        }
                     }
-                    break;
-                case DIRECTION.NONE:
-                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
-                    Debug.Write("Rompiche");
                     break;
             }
         }

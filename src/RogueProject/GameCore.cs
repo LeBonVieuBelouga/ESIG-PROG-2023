@@ -42,12 +42,12 @@ namespace RogueProject
 
         private bool EnterKeyHold = false;
         private bool SpaceKeyHold = false;
+        private bool DKeyHold = false;
         private bool NightClubMode = false;
         Random random = new Random(); 
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
-        Player m_Player2;
         Room m_Room;
         Stage m_Stage;
 
@@ -59,6 +59,8 @@ namespace RogueProject
         Sprite m_TombOfPlayer;
 
         Enemy m_Enemy;
+
+        Texture2D CaseTex;
 
         private List<Entity> m_entitiesL;
 
@@ -88,36 +90,16 @@ namespace RogueProject
             m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
             m_TextureVoid = Content.Load<Texture2D>("VoidCase");
 
-            //int GridSizeWidth = COL_GRID * CaseTex.Width;
-            //int GridSizeHeight = RAW_GRID * CaseTex.Height;
-
-            //int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
-            //int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
-
-            //Parcourt les colonnes du tableau2D
-            //for (int i = 0; i <= COL_GRID-1; i++)
-            //{
-            //    //Définit la hauteur maximal du tableau2D      
-            //    m_Stage.GetGridOfCase()[i] = new Case[RAW_GRID];
-
-            //    //Parcourt les lignes du tableau2D
-            //    for (int j = 0; j <= RAW_GRID-1; j++)
-            //    {
-            //        m_Stage.GetGridOfCase()[i][j] = new Ground(
-            //                1,
-            //                null,
-            //                true,
-            //                CaseTex,
-            //                new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
-            //            );
-            //        m_Stage.GetGridOfCase()[i][j].DefaultValue();
-            //        Color color = new Color(255, 0, 255);
-            //        m_Stage.GetGridOfCase()[i][j].SetColor(color);
-            //    }
-            //}
-
-
-            m_Stage = new Stage(COL_GRID, RAW_GRID, 7, m_TextureRoomCorner, m_TextureRoomStraight, CaseTex, m_TextureVoid, m_TextureRoomDoor, _graphics);
+            m_Stage = new Stage(
+                COL_GRID, ROW_GRID, 
+                7, 
+                m_TextureRoomCorner, 
+                m_TextureRoomStraight, 
+                CaseTex, 
+                m_TextureVoid, 
+                m_TextureRoomDoor, 
+                _graphics
+                );
 
             Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
 
@@ -126,74 +108,30 @@ namespace RogueProject
             float centerPosY = m_Stage.GetGridOfCase()[0][0].GetPosition().Y - Player_Tex2D.Height / 2;
 
 
-           
-
-            int GridSizeWidth = COL_GRID * CaseTex.Width;
-            int GridSizeHeight = ROW_GRID * CaseTex.Height;
-
-            int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
-            int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
-
-            //Parcourt les colonnes du tableau2D
-            for (int i = 0; i <= COL_GRID-1; i++)
-            {
-                //Définit la hauteur maximal du tableau2D      
-                GridOfCase[i] = new Case[ROW_GRID];
-
-                //Parcourt les lignes du tableau2D
-                for (int j = 0; j <= ROW_GRID-1; j++)
-                {
-                    GridOfCase[i][j] = new Ground(
-                            1,
-                            null,
-                            false,
-                            CaseTex,
-                            new Vector2(startX + CaseTex.Width * i, startY+ CaseTex.Height * j)
-                        );
-                    GridOfCase[i][j].DefaultValue();
-                    Color color = new Color(255, 0, 255);
-                    GridOfCase[i][j].SetColor(color);
-                }
-            }
 
             // Création du joueur
-            Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
             m_Player = new Player(
                 new Vector2(0, 0),
                 m_Stage.GetGridOfCase(),
                 Player_Tex2D,
-                100,
+                1000000,
                 1,
                 1
             );
 
-            // Calcule la position du joueur pour le centrer dans les cases
-            float centerPosX = GridOfCase[(int)m_Player.GetIndex().X][(int)m_Player.GetIndex().Y].GetPosition().X - Player_Tex2D.Width / 2;
-            float centerPosY = GridOfCase[(int)m_Player.GetIndex().X][(int)m_Player.GetIndex().Y].GetPosition().Y - Player_Tex2D.Height / 2;
             m_Player.SetPosition(new Vector2 (centerPosX, centerPosY));
 
             //Création de l'enemy
             Texture2D Enemy_Tex2D = Content.Load<Texture2D>("enemyV1");
             m_Enemy = new Enemy(
                 new Vector2(10, 10),
-                GridOfCase,
+                m_Stage.GetGridOfCase(),
                 Enemy_Tex2D,
                 1,
                 12,
                 1
                 
             );
-            // Création du joueur
-            m_Player2 = new Player(
-                new Vector2(1, 1),
-                m_Stage.GetGridOfCase(),
-                Player_Tex2D,
-                1,
-                1,
-                1,
-                new Vector2(centerPosX + 32, centerPosY + 32)
-            );
-
 
 
             //m_Room = new Room(
@@ -210,8 +148,8 @@ namespace RogueProject
                 ) ;
 
             // Calcule la position de l'enemy pour le centrer dans les cases
-            centerPosX = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().X - Enemy_Tex2D.Width / 2;
-            centerPosY = GridOfCase[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().Y - Enemy_Tex2D.Height / 2;
+            centerPosX = m_Stage.GetGridOfCase()[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().X - Enemy_Tex2D.Width / 2;
+            centerPosY = m_Stage.GetGridOfCase()[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().Y - Enemy_Tex2D.Height / 2;
             m_Enemy.SetPosition(new Vector2(centerPosX, centerPosY));
 
             base.Initialize();
@@ -227,41 +165,38 @@ namespace RogueProject
 
         protected override void Update(GameTime gameTime)
         {
-            
+
+           
+
+            // Récupère les inputs clavier
+            var kstate = Keyboard.GetState();
+
+
+            if (kstate.IsKeyDown(Keys.G) && !EnterKeyHold) {
+                m_Stage = new Stage(
+               COL_GRID, ROW_GRID,
+               7,
+               m_TextureRoomCorner,
+               m_TextureRoomStraight,
+               CaseTex, 
+               m_TextureVoid,
+               m_TextureRoomDoor,
+               _graphics
+               );
+
+            }
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             if (!(m_Player.GetHealthPoint() <= 0))
             {
 
-
-            // Utilise la fonction Update du joueur,
-            // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
-            m_Player.Update(gameTime, kstate, m_Stage.GetGridOfCase());
-
-            // Permet de récupérer tous les entité sur une case et d'avoir leur position
-            if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
-            {
-                // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
-                EnterKeyHold = true;
-                
-                for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
-                {
-                    for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
-                    {
-                        Sprite currentContent = m_Stage.GetGridOfCase()[i][j].GetContent();
-                        if (currentContent != null)
-                        {
-                            Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + m_Stage.GetGridOfCase()[i][j].GetContent().GetType().Name);
-
-                // Récupère les inputs clavier
-                var kstate = Keyboard.GetState();
-
                 // Utilise la fonction Update du joueur,
                 // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
-                if (m_Player.Update(gameTime, kstate, GridOfCase))
+                if (m_Player.Update(gameTime, kstate, m_Stage.GetGridOfCase()))
                 {
 
-                    m_Enemy.Update(gameTime, GridOfCase);
+                    m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
                 }
 
 
@@ -271,48 +206,32 @@ namespace RogueProject
                     // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
                     EnterKeyHold = true;
 
-                    for (int i = 0; i <= GridOfCase.Length - 1; i++)
+                    for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
                     {
-                        for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
+                        for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
                         {
-                            Sprite currentContent = GridOfCase[i][j].GetContent();
+                            Sprite currentContent = m_Stage.GetGridOfCase()[i][j].GetContent();
                             if (currentContent != null)
                             {
-                                Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + GridOfCase[i][j].GetContent().GetType().Name);
+                                Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + m_Stage.GetGridOfCase()[i][j].GetContent().GetType().Name);
                             }
                         }
                     }
                 }
 
-            // Night club mode
-            if (NightClubMode) 
-            {
-                for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
-                {
-
-                    for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
-                    {
-                        Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
-                        m_Stage.GetGridOfCase()[i][j].SetColor(RandBow);
-
                 // Night club mode
                 if (NightClubMode)
                 {
-                    // Mettez à jour le compteur de temps
-                    timerNightClub += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    // Vérifiez si le temps écoulé est supérieur à l'intervalle
-                    if (timerNightClub >= intervalNightClub)
+                    for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
                     {
-                        for (int i = 0; i <= GridOfCase.Length - 1; i++)
-                        {
 
-                            for (int j = 0; j <= GridOfCase[i].Length - 1; j++)
-                            {
-                                Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
-                                GridOfCase[i][j].SetColor(RandBow);
-                            }
+
+
+                        for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
+                        {
+                            Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
+                            m_Stage.GetGridOfCase()[i][j].SetColor(RandBow);
                         }
-                        timerNightClub = 0f;
                     }
                 }
 
@@ -335,6 +254,7 @@ namespace RogueProject
                     SpaceKeyHold = false;
                 }
 
+                base.Update(gameTime);
             }
             else
             {
@@ -343,7 +263,7 @@ namespace RogueProject
                 // Vérifiez si le temps écoulé est supérieur à l'intervalle
                 if (timerNightClub >= intervalNightClub)
                 {
-                    m_Enemy.Update(gameTime, GridOfCase);
+                    m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
                     timerNightClub = 0f;
                 }
                 
@@ -361,18 +281,9 @@ namespace RogueProject
             _spriteBatch.Begin();
 
             m_Stage.Draw(_spriteBatch);
-            m_Player.Draw(_spriteBatch);
-            m_Player2.Draw(_spriteBatch);
             //m_Stage.DrawRoom(_spriteBatch, m_Room, new Vector2(10, 10));
 
-            //Dessine le quadrillage du niveau
-            for (int i = 0; i <= GridOfCase.Length-1; i++)
-            {
-                for (int j = 0; j <= GridOfCase[i].Length-1; j++)
-                {
-                    GridOfCase[i][j].Draw(_spriteBatch); 
-                }
-            }
+ 
             if (m_Player.GetHealthPoint() <= 0)
             {
                 m_TombOfPlayer.SetPosition(m_Player.GetPosition());
