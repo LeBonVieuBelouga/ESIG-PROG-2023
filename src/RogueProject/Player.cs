@@ -18,12 +18,11 @@ namespace RogueProject
         private bool m_ReleaseDownKey = false;
         private bool m_ReleaseRightKey = false;
         private bool m_ReleaseLeftKey = false;
-        private Vector2 m_PlayerIndex = new Vector2(0, 0);
 
         /// <summary>
         /// Constructeur d'un joueur avec toutes ses informations
         /// </summary>
-        /// <param name="_PlayerIndex">Index du joueur dans le tableau de case</param>
+        /// <param name="_EntityIndex">Index du joueur dans le tableau de case</param>
         /// <param name="_GridOfCase">Tableau de toutes les cases</param>
         /// <param name="_Texture2D">Texture de le Player</param>
         /// <param name="_HealthPoint">Point de vie du joueur</param>
@@ -39,12 +38,12 @@ namespace RogueProject
         /// <param name="_Effect">Modificateurs pour le dessin (peut être combiné)</param>
         /// <param name="_LayerDepth">Profondeur du champ du Player/param>
         public Player(
-            Vector2 _PlayerIndex,
+            Vector2 _EntityIndex,
             Case[][] _GridOfCase,
             Texture2D _Texture2D,
-            uint _HealthPoint = HEALTH_DEFAULT,
-            uint _Damage = DAMAGE_DEFAULT,
-            uint _Defense = DEFENSE_DEFAULT,
+            int _HealthPoint = HEALTH_DEFAULT,
+            int _Damage = DAMAGE_DEFAULT,
+            int _Defense = DEFENSE_DEFAULT,
             Vector2 _Position = new Vector2(),
             float _Velocity = DEFAULT_ENTITY_VELOCITY,
             Rectangle? _SourceRectangle = null,
@@ -54,41 +53,11 @@ namespace RogueProject
             Vector2 _Scale = new Vector2(),
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH
-            ) : base(_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
+            ) : base(_EntityIndex, _GridOfCase,_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
         {
-            this.SetIndexPlayer(_PlayerIndex, _GridOfCase);
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
             this.SetDefense(_Defense);
-        }
-
-        /// <summary>
-        /// Change l'index (emplacement dans le tableau des cases) du joueur
-        /// </summary>
-        /// <param name="_indexPlayer">Nouvelle index dans le tableau des cases</param>
-        /// <param name="_GridOfCase">Le tableau de cases</param>
-        public void SetIndexPlayer(Vector2 _indexPlayer, Case[][] _GridOfCase)
-        {
-            // Vérifie si le nouvel index est valide sinon empêche sa modification
-            if (_indexPlayer.X < 0 || _indexPlayer.Y < 0)
-            {
-                return;
-            }
-
-            // Affiche son ancienne index
-            //Debug.WriteLine("Content supprimé à : " + m_PlayerIndex.X + ";" + m_PlayerIndex.Y);
-
-            // Retire la préscence du joueur dans sa case précédente
-            _GridOfCase[(int)m_PlayerIndex.X][(int)m_PlayerIndex.Y].SetContent(null);
-
-            this.m_PlayerIndex = _indexPlayer;
-
-            // Affiche son nouvelle index
-            //Debug.WriteLine("Content ajouté à : " + _indexPlayer.X + ";" + _indexPlayer.Y);
-
-            // Ajoute la préscence du joueur dans la nouvelle case
-            _GridOfCase[(int)m_PlayerIndex.X][(int)m_PlayerIndex.Y].SetContent(this);
-
         }
     
         /// <summary>
@@ -99,74 +68,7 @@ namespace RogueProject
         /// <param name="_GridOfCase">Le quadrillage de case</param>
         public void Move(DIRECTION _Direction, Case[][] _GridOfCase)
         {
-            // Vérifie de quelle côté le joueur veut se déplacer
-            switch (_Direction)
-            {
-                // Gauche
-                case DIRECTION.LEFT:
-
-                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
-                    if (this.m_Pos.X - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().X - this.GetTexture().Width)
-                    {
-
-                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
-                        if (_GridOfCase[(int)this.m_PlayerIndex.X - 1][(int)this.m_PlayerIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X - 1][(int)this.m_PlayerIndex.Y].GetContent() is null)
-                        {                        
-                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                            this.m_Pos.X -= _GridOfCase[0][0].GetTexture().Width;
-                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X - 1, this.m_PlayerIndex.Y), _GridOfCase);
-                        }
-                    }
-                    break;
-                // Droite
-                case DIRECTION.RIGHT:
-
-                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
-                    if (this.m_Pos.X + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().X)
-                    {
-
-                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
-                        if (_GridOfCase[(int)this.m_PlayerIndex.X + 1][(int)this.m_PlayerIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X + 1][(int)this.m_PlayerIndex.Y].GetContent() is null)
-                        {
-                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                            this.m_Pos.X += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X + 1, this.m_PlayerIndex.Y), _GridOfCase);
-                        }
-                    }
-                    break;
-                // Haut
-                case DIRECTION.UP:
-
-                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
-                    if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height)
-                    {
-
-                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
-                        if (_GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y - 1].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y - 1].GetContent() is null)
-                        {
-                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                            this.m_Pos.Y -= _GridOfCase[0][0].GetTexture().Width;
-                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y - 1), _GridOfCase);
-                        }
-                    }
-                    break;
-                // Bas
-                case DIRECTION.DOWN:
-
-                    // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
-                    if (this.m_Pos.Y + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().Y)
-                    {
-
-                        // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
-                        if (_GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y + 1].GetIsWalkable() && _GridOfCase[(int)this.m_PlayerIndex.X][(int)this.m_PlayerIndex.Y + 1].GetContent() is null)
-                        {
-                            // Change la position du joueur et change son index (son emplacement dans le tableau des cases)
-                            this.m_Pos.Y += _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width;
-                            this.SetIndexPlayer(new Vector2(this.m_PlayerIndex.X, this.m_PlayerIndex.Y + 1), _GridOfCase);
-                        }
-                    }
-                    break;
-            }
+            OrientationMove(_Direction, _GridOfCase);
         }
 
         /// <summary>
@@ -183,7 +85,7 @@ namespace RogueProject
         /// </summary>
         public override void Death()
         {
-
+            
         }
 
         /// <summary>
