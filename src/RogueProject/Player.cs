@@ -68,9 +68,7 @@ namespace RogueProject
         /// <param name="_GridOfCase">Le quadrillage de case</param>
         public void Move(DIRECTION _Direction, Case[][] _GridOfCase)
         {
-            
             OrientationMove(_Direction, _GridOfCase);
-  
         }
 
         /// <summary>
