@@ -69,6 +69,7 @@ namespace RogueProject
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
             //change the screen size
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -83,12 +84,12 @@ namespace RogueProject
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";        
 
-            Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
+            Texture2D CaseTex = Content.Load<Texture2D>("groundCaseV1");
 
             m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV2");
             m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV2");
             m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
-            m_TextureVoid = Content.Load<Texture2D>("VoidCase");
+            m_TextureVoid = Content.Load<Texture2D>("VoidCaseV1");
 
             m_Stage = new Stage(
                 COL_GRID, ROW_GRID, 
@@ -173,16 +174,9 @@ namespace RogueProject
 
 
             if (kstate.IsKeyDown(Keys.G) && !EnterKeyHold) {
-                m_Stage = new Stage(
-               COL_GRID, ROW_GRID,
-               7,
-               m_TextureRoomCorner,
-               m_TextureRoomStraight,
-               CaseTex, 
-               m_TextureVoid,
-               m_TextureRoomDoor,
-               _graphics
-               );
+                Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
+                m_Stage.ResetStage(_graphics);
+                m_Stage.GenerateStage();
 
             }
 

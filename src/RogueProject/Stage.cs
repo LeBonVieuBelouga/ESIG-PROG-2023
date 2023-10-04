@@ -158,6 +158,10 @@ namespace RogueProject
         /// <param name="_graphics">Permet d'obtenir des informations graphique (taille de l'écran, etc...)</param>
         public void ResetStage(GraphicsDeviceManager _graphics)
         {
+            m_GridOfCase = null;
+            
+            m_ListRoom = new List<Room>();
+
             // Crée les colonnes tableau selon m_GridCol
             m_GridOfCase = new Case[m_GridCol][];
             
