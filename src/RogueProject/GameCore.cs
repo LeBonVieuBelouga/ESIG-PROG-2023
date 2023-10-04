@@ -108,8 +108,6 @@ namespace RogueProject
             float centerPosX = m_Stage.GetGridOfCase()[0][0].GetPosition().X - Player_Tex2D.Width / 2;
             float centerPosY = m_Stage.GetGridOfCase()[0][0].GetPosition().Y - Player_Tex2D.Height / 2;
 
-
-
             // Création du joueur
             m_Player = new Player(
                 new Vector2(0, 0),
@@ -142,7 +140,6 @@ namespace RogueProject
             //    ROOM_TYPE.EMPTY
             //);
 
-
             m_TombOfPlayer = new Sprite(
                 Content.Load<Texture2D>("MorbiusV1"),
                 m_Player.GetPosition()
@@ -160,14 +157,11 @@ namespace RogueProject
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-          
+  
         }
 
         protected override void Update(GameTime gameTime)
         {
-
-           
 
             // Récupère les inputs clavier
             var kstate = Keyboard.GetState();
@@ -260,12 +254,8 @@ namespace RogueProject
                     m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
                     timerNightClub = 0f;
                 }
-                
-
             }
-
             base.Update(gameTime);
-
         }
 
         protected override void Draw(GameTime gameTime)

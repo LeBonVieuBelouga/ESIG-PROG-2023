@@ -60,7 +60,6 @@ namespace RogueProject
             float _LayerDepth = DEFAULT_LAYER_DEPTH
             ) : base (_Texture2D, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth) {
 
-
             this.SetIndex(_EntityIndex, _GridOfCase);
             this.SetHealthPoint(_HealthPoint);
             this.SetDamage(_Damage);
@@ -82,7 +81,6 @@ namespace RogueProject
                 //GameCore.SetBackRoomMode();
                 return;
             }
-
             // Affiche son ancienne index
             //Debug.WriteLine("Content supprimé à : " + m_EntityIndex.X + ";" + m_EntityIndex.Y);
 
@@ -96,7 +94,6 @@ namespace RogueProject
 
             // Ajoute la préscence du joueur dans la nouvelle case
             _GridOfCase[(int)m_EntityIndex.X][(int)m_EntityIndex.Y].SetContent(this);
-
         }
 
         /// <summary>
@@ -111,15 +108,9 @@ namespace RogueProject
             {
                 // Gauche
                 case DIRECTION.LEFT:
-
- 
-
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.X - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().X - this.GetTexture().Width)
                     {
-
- 
-
                         // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
                         if (_GridOfCase[(int)this.m_EntityIndex.X - 1][(int)this.m_EntityIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X - 1][(int)this.m_EntityIndex.Y].GetContent() is null)
                         {                        
@@ -131,15 +122,9 @@ namespace RogueProject
                     break;
                 // Droite
                 case DIRECTION.RIGHT:
-
- 
-
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.X + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().X)
                     {
-
- 
-
                         // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
                         if (_GridOfCase[(int)this.m_EntityIndex.X + 1][(int)this.m_EntityIndex.Y].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X + 1][(int)this.m_EntityIndex.Y].GetContent() is null)
                         {
@@ -151,15 +136,9 @@ namespace RogueProject
                     break;
                 // Haut
                 case DIRECTION.UP:
-
- 
-
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.Y - _GridOfCase[0][0].GetTexture().Width >= _GridOfCase[0][0].GetPosition().Y - this.GetTexture().Height)
                     {
-
- 
-
                         // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
                         if (_GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y - 1].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y - 1].GetContent() is null)
                         {
@@ -171,15 +150,9 @@ namespace RogueProject
                     break;
                 // Bas
                 case DIRECTION.DOWN:
-
- 
-
                     // Vérifie que le joueur ne va pas se déplacer en dehors du quadrillage
                     if (this.m_Pos.Y + _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetTexture().Width <= _GridOfCase[_GridOfCase.Length - 1][_GridOfCase[0].Length - 1].GetPosition().Y)
                     {
-
- 
-
                         // Vérifie si la case dans laquelle le joueur veut se déplacer est vide et qu'on peut marcher dessus
                         if (_GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y + 1].GetIsWalkable() && _GridOfCase[(int)this.m_EntityIndex.X][(int)this.m_EntityIndex.Y + 1].GetContent() is null)
                         {

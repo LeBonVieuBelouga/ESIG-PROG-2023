@@ -11,6 +11,16 @@ namespace RogueProject
         private ROOM_TYPE m_RoomType;
         private Vector2 m_InitialIndex;
 
+        public enum CASE_TYPE
+        {
+            WALL,
+            GROUND,    // 1
+            DOOR,     // 2
+            VOID      // 3
+            
+
+        }
+
         /// <summary>
         /// Constructeur d'un object de type Room
         /// </summary>
@@ -34,7 +44,6 @@ namespace RogueProject
         {
             this.m_SizeX = _SizeX;
         }
-
 
         /// <summary>
         /// Renvoie la valeur de m_SizeX

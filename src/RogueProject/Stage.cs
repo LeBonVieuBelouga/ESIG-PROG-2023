@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using System.Linq;
+using static RogueProject.Room;
 
 namespace RogueProject
 {
@@ -15,10 +16,10 @@ namespace RogueProject
     class Stage
     {
         // Constante de Stage
-        const int MAX_WIDTH_ROOM    = 15;
-        const int MIN_WIDTH_ROOM    = 4;
-        const int MAX_HEIGHT_ROOM   = 15;
-        const int MIN_HEIGHT_ROOM   = 4;
+        const int MAX_WIDTH_ROOM = 15;
+        const int MIN_WIDTH_ROOM = 4;
+        const int MAX_HEIGHT_ROOM = 15;
+        const int MIN_HEIGHT_ROOM = 4;
 
         // Variable membre de Stage
         List<Room> m_ListRoom = new List<Room>();
@@ -35,6 +36,8 @@ namespace RogueProject
         Texture2D m_TextureRoomGround;
         Texture2D m_TextureRoomDoor;
         Texture2D m_TextureVoid;
+
+
 
         /// <summary>
         /// Constructeur du Stage, instancie les variables et crée le quadrillage, les salles,...
@@ -222,7 +225,7 @@ namespace RogueProject
         /// <param name="_NewType">Chaine de caractère du nouveau type de la case (Ground, Void, Wall, Door)</param>
         /// <param name="_Rotation">Rotation qui va être apporter à la case en Radian</param>
         /// <param name="isCorner">Booléen utiliser uniquement si le _NewType, représentant si le mur est un mur droit ou un coin</param>
-        public void ConvertCaseType(Vector2 _IndexCase, string _NewType, float _Rotation = -1, bool isCorner = false)
+        public void ConvertCaseType(Vector2 _IndexCase, CASE_TYPE _NewType, float _Rotation = -1, bool isCorner = false)
         {
             // Si la rotation n'est pas spécifié, reprend l'ancienne rotation de la case
             if (_Rotation == -1)
@@ -234,7 +237,7 @@ namespace RogueProject
             switch (_NewType)
             {
                 // Convertissement en classe Ground
-                case "Ground":
+                case CASE_TYPE.GROUND:
                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y] = new Ground(
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
@@ -252,7 +255,7 @@ namespace RogueProject
                         );
                     break;
                 // Convertissement en classe Void
-                case "Void":
+                case CASE_TYPE.VOID:
                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y] = new Void(
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
@@ -270,7 +273,7 @@ namespace RogueProject
                         );
                     break;
                 // Convertissement en classe Wall
-                case "Wall":
+                case CASE_TYPE.WALL:
 
                     Texture2D textureWall;
 
@@ -299,7 +302,7 @@ namespace RogueProject
                         );
                     break;
                 // Convertissement en classe Door
-                case "Door":
+                case CASE_TYPE.DOOR:
                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y] = new Door(
                                     false,
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
@@ -335,80 +338,76 @@ namespace RogueProject
             {
                 for (int j = (int)roomInitialValue.Y; j < roomInitialValue.Y + _RoomToDraw.GetSizeY(); j++)
                 {
-                    // Variable qui passe à vrai si la case en cours est un mur
-                    bool isWall = false;
+
+                    CASE_TYPE curr_type = CASE_TYPE.WALL;
+                    
+                    float rotation = -1f;
+                    bool isCorner = false;
 
                     // Vérifie les différents contour d'une salle pour y mettre les murs :
                     if (i == roomInitialValue.X)
                     {
+                        //Par défaut on concidaire que c'est le mur de gauche de la Room
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut gauche de la Room
-                            this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(90), true);
-                            isWall = true;
+                            rotation = 90;
+                            isCorner = true;
                         }
                         else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                         {
                             // Coin bas gauche de la Room
-                            this.ConvertCaseType(new Vector2(i, j), "Wall", -1, true);
-                            isWall = true;
+                            rotation = -1f; //<- angle par defaut de l'image
                         }
-                        else
-                        {
-                            // Mur gauche de la Room
-                            this.ConvertCaseType(new Vector2(i, j), "Wall", -1, false);
-                            isWall = true;
+                        else {
+                            isCorner = false;
                         }
-
                     }
                     else if (i == roomInitialValue.X + _RoomToDraw.GetSizeX() - 1)
                     {
+                        //Par défaut c'est le mur à droit de la Room
+                        isCorner = true;
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut droite de la Room
-                            this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(180), true);
-                            isWall = true;
+                            rotation = 180;
                         }
                         else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                         {
                             // Coint bas droit de la Room
-                            this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(270), true);
-                            isWall = true;
+                            rotation = 270;                            
                         }
-                        else
-                        {
-                            // Mur droit de la Room
-                            this.ConvertCaseType(new Vector2(i, j), "Wall", -1, false);
-                            isWall = true;
+                        else {
+                            isCorner = false;
                         }
                     }
                     else if (j == roomInitialValue.Y)
                     {
                         // Mur haut de la pièce
-                        this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(90), false);
-                        isWall = true;
-
+                        rotation = 90;
                     }
                     else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                     {
                         // Mur bas de la pièce
-                        this.ConvertCaseType(new Vector2(i, j), "Wall", MathHelper.ToRadians(90), false);
-                        isWall = true;
+                        rotation = 90;
+                    }
+                    else {
+                        // Si la case en cours de parcours n'a pas été changé en mur, elle devient un sol
+                        curr_type = CASE_TYPE.GROUND;
                     }
 
                     // Temporaire, met une porte en haut à gauche de la pièce
                     // plus tard la porte sera mis aléatoirement sur un côté de la pièce
                     if (i == roomInitialValue.X + 1 && j == roomInitialValue.Y)
                     {
-                        this.ConvertCaseType(new Vector2(i, j), "Door", MathHelper.ToRadians(360));
+                        curr_type = CASE_TYPE.DOOR;
+                        rotation = 360;
                         this.m_GridOfCase[i][j].SetIsWalkable(true);
+                        
                     }
 
-                    // Si la case en cours de parcours n'a pas été changé en mur ou porte, elle devient un sol
-                    if (!isWall)
-                    {
-                        this.ConvertCaseType(new Vector2(i, j), "Ground");
-                    }
+                    this.ConvertCaseType(new Vector2(i, j), curr_type, MathHelper.ToRadians(rotation), isCorner);
+                    //this.ConvertCaseType(new Vector2(i, j), curr_type);
                 }
             }
         }
