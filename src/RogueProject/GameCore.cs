@@ -25,11 +25,12 @@ namespace RogueProject
         START,      // 3
         END         // 4
     }
+
     public class GameCore : Game
     {
         // Constantes
-        const int COL_GRID = 50;
-        const int ROW_GRID = 30;
+        //const int COL_GRID = 50;
+        //const int ROW_GRID = 30;
 
         float intervalEnemy = 0.5f;
         float timerEnemy = 0f;
@@ -43,14 +44,16 @@ namespace RogueProject
         private bool EnterKeyHold = false;
         private bool SpaceKeyHold = false;
         private bool DKeyHold = false;
+        private bool EKeyHold = false;
         private bool NightClubMode = false;
         Random random = new Random(); 
+        SpriteFont _font;
 
         //Variable propre à la méthodolgie du projet
         Player m_Player;
         Room m_Room;
         Stage m_Stage;
-
+        
         Texture2D m_TextureRoomCorner;
         Texture2D m_TextureRoomStraight;
         Texture2D m_TextureRoomDoor;
@@ -86,13 +89,15 @@ namespace RogueProject
 
             Texture2D CaseTex = Content.Load<Texture2D>("groundCaseV1");
 
+            _font = Content.Load<SpriteFont>("FontV1");
             m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV2");
             m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV2");
             m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
             m_TextureVoid = Content.Load<Texture2D>("VoidCaseV1");
 
             m_Stage = new Stage(
-                COL_GRID, ROW_GRID, 
+                Globals.COL_GRID,
+                Globals.ROW_GRID, 
                 7, 
                 m_TextureRoomCorner, 
                 m_TextureRoomStraight, 
@@ -130,8 +135,7 @@ namespace RogueProject
                 Enemy_Tex2D,
                 1,
                 12,
-                1
-                
+                1                
             );
 
 
@@ -166,8 +170,9 @@ namespace RogueProject
 
         protected override void Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
 
-           
 
             // Récupère les inputs clavier
             var kstate = Keyboard.GetState();
@@ -180,88 +185,102 @@ namespace RogueProject
 
             }
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            if (!(m_Player.GetHealthPoint() <= 0))
+            if (Globals.m_Message.Count > 0)
             {
-
-                // Utilise la fonction Update du joueur,
-                // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
-                if (m_Player.Update(gameTime, kstate, m_Stage.GetGridOfCase()))
+                if (kstate.IsKeyDown(Keys.E) && !EKeyHold)
                 {
-
-                    m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
+                    Globals.m_Message.RemoveAt(0);
+                    EKeyHold = true;
                 }
-
-
-                // Permet de récupérer tous les entité sur une case et d'avoir leur position
-                if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
+            } 
+            else
+            {
+                if (!(m_Player.GetHealthPoint() <= 0))
                 {
-                    // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
-                    EnterKeyHold = true;
 
-                    for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
+                    // Utilise la fonction Update du joueur,
+                    // Cette fonction s'occupe de ses diverses interactions (déplacer, attaquer, ouvrir inventaire...)
+                    if (m_Player.Update(gameTime, kstate, m_Stage.GetGridOfCase()))
                     {
-                        for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
+
+                        m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
+                    }
+
+
+                    // Permet de récupérer tous les entité sur une case et d'avoir leur position
+                    if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
+                    {
+                        // Empêche le code de ce ré-exécuter tant que la touche enter est appuyé
+                        EnterKeyHold = true;
+
+                        for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
                         {
-                            Sprite currentContent = m_Stage.GetGridOfCase()[i][j].GetContent();
-                            if (currentContent != null)
+                            for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
                             {
-                                Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + m_Stage.GetGridOfCase()[i][j].GetContent().GetType().Name);
+                                Sprite currentContent = m_Stage.GetGridOfCase()[i][j].GetContent();
+                                if (currentContent != null)
+                                {
+                                    Debug.WriteLine("Sprite trouvé à : " + i + ";" + j + "\n" + "Ce Sprite est de type : " + m_Stage.GetGridOfCase()[i][j].GetContent().GetType().Name);
+                                }
                             }
                         }
                     }
-                }
 
-                // Night club mode
-                if (NightClubMode)
-                {
-                    for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
+                    // Night club mode
+                    if (NightClubMode)
                     {
-
-
-
-                        for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
+                        for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
                         {
-                            Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
-                            m_Stage.GetGridOfCase()[i][j].SetColor(RandBow);
+
+
+
+                            for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
+                            {
+                                Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
+                                m_Stage.GetGridOfCase()[i][j].SetColor(RandBow);
+                            }
                         }
                     }
-                }
 
-                if (kstate.IsKeyDown(Keys.Space) && !SpaceKeyHold)
+                    if (kstate.IsKeyDown(Keys.Space) && !SpaceKeyHold)
+                    {
+                        NightClubMode = !NightClubMode;
+                        SpaceKeyHold = true;
+
+                    }
+
+                    // Si la touche Enter est relâcher, permet de refaire le code de vérification des entités
+                    if (kstate.IsKeyUp(Keys.Enter))
+                    {
+                        EnterKeyHold = false;
+                    }
+
+                    // Si la touche Espace est relâcher, permet de mettre le mode discoooooooooooooooooooooo
+                    if (kstate.IsKeyUp(Keys.Space))
+                    {
+                        SpaceKeyHold = false;
+                    }
+
+                    base.Update(gameTime);
+                }
+                else
                 {
-                    NightClubMode = !NightClubMode;
-                    SpaceKeyHold = true;
-
-                }
-
-                // Si la touche Enter est relâcher, permet de refaire le code de vérification des entités
-                if (kstate.IsKeyUp(Keys.Enter))
-                {
-                    EnterKeyHold = false;
-                }
-
-                // Si la touche Espace est relâcher, permet de mettre le mode discoooooooooooooooooooooo
-                if (kstate.IsKeyUp(Keys.Space))
-                {
-                    SpaceKeyHold = false;
-                }
-
-                base.Update(gameTime);
-            }
-            else
-            {
-                // Mettez à jour le compteur de temps
-                timerNightClub += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                // Vérifiez si le temps écoulé est supérieur à l'intervalle
-                if (timerNightClub >= intervalNightClub)
-                {
-                    m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
-                    timerNightClub = 0f;
-                }
+                    // Mettez à jour le compteur de temps
+                    timerNightClub += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    // Vérifiez si le temps écoulé est supérieur à l'intervalle
+                    if (timerNightClub >= intervalNightClub)
+                    {
+                        m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
+                        timerNightClub = 0f;
+                    }
                 
 
+                }
+
+            }
+            if (EKeyHold && kstate.IsKeyUp(Keys.E))
+            {
+                EKeyHold = false;
             }
 
             base.Update(gameTime);
@@ -288,7 +307,10 @@ namespace RogueProject
             }
             
             m_Enemy.Draw(_spriteBatch);
-            
+            if (Globals.m_Message.Count > 0)
+            {
+                _spriteBatch.DrawString(_font, Globals.m_Message[0], new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X, 10), Color.White);
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);

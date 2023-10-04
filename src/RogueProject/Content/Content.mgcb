@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:enemyV1.png
 
+#begin FontV1.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:FontV1.spritefont
+
 #begin groundCase.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -120,18 +127,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:StraightWallV2.png
-
-#begin VoidCaseV1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:VoidCaseV1.png
 
 #begin VoidCaseV1.png
 /importer:TextureImporter

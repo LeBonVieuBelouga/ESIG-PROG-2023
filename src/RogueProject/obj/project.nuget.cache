@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "q7EhSoWLv2sfbHpGDQEzrQ0yUmXRG9V/11R+An/DyZrijhnlmAxg3tGoIr0H1/5v7BMzcaZW8RVG7AfqnW9Z4g==",
+  "dgSpecHash": "hWEltNkBe2BOEmgQAytVQfyb2IUpqDYlgWvlNpDz1vs77O0UOGszrsgXDikvpxbudEOO74XZPlLvaIhfRq62aQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\leo.kuttel\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
+  "projectFilePath": "C:\\Users\\johan.jacquet\\Desktop\\GitHub\\ESIG-PROG-2023\\src\\RogueProject\\RogueProject.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\leo.kuttel\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "C:\\Users\\leo.kuttel\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    "C:\\Users\\johan.jacquet\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\johan.jacquet\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
   ],
   "logs": []
 }

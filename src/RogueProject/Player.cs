@@ -18,6 +18,9 @@ namespace RogueProject
         private bool m_ReleaseDownKey = false;
         private bool m_ReleaseRightKey = false;
         private bool m_ReleaseLeftKey = false;
+        private bool m_ReleaseAKey = false;
+
+        private bool m_AttackMode = false;
 
         /// <summary>
         /// Constructeur d'un joueur avec toutes ses informations
@@ -106,37 +109,72 @@ namespace RogueProject
 
             bool turnIsOver = false;
 
+            if (m_ReleaseAKey && _Kstate.IsKeyDown(Keys.A))
+            {
+                this.m_AttackMode = !m_AttackMode;
+                m_ReleaseAKey = false;
+            }
+
             // Si aucune autre touche de mouvement est déjà enfoncé
             if (m_ReleaseUpKey && m_ReleaseDownKey && m_ReleaseLeftKey && m_ReleaseRightKey)
             {
+
                 // Vérifie si une touche de mouvement est appuyé (haut, bas, gauche et droite)
                 if (_Kstate.IsKeyDown(Keys.Up))
                 {
-                    // Avance le joueur vers le haut
-                    this.Move(DIRECTION.UP, _GridOfCase);
+                    if (m_AttackMode)
+                    {
+                        Globals.m_Message.Add("Attaque de haut !");
+                    } 
+                    else
+                    {
+                        // Avance le joueur vers le haut
+                        this.Move(DIRECTION.UP, _GridOfCase);
+                    }
                     turnIsOver = true;
                     m_ReleaseUpKey = false;
                 }
                 if (_Kstate.IsKeyDown(Keys.Down))
                 {
-                    // Avance le joueur vers le bas
-                    this.Move(DIRECTION.DOWN, _GridOfCase);
+                    if (m_AttackMode)
+                    {
+                        Globals.m_Message.Add("Attaque de bas !");
+                    }
+                    else
+                    {
+                        // Avance le joueur vers le bas
+                        this.Move(DIRECTION.DOWN, _GridOfCase);
+                    }
                     turnIsOver = true;
                     m_ReleaseDownKey = false;
                 }
 
                 if (_Kstate.IsKeyDown(Keys.Left))
                 {
-                    // Avance le joueur vers le gauche
-                    this.Move(DIRECTION.LEFT, _GridOfCase);
+                    if (m_AttackMode)
+                    {
+                        Globals.m_Message.Add("Attaque de gauche !");
+                    }
+                    else
+                    {
+                        // Avance le joueur vers le gauche
+                        this.Move(DIRECTION.LEFT, _GridOfCase);
+                    }
                     turnIsOver = true;
                     m_ReleaseLeftKey = false;
                 }
 
                 if (_Kstate.IsKeyDown(Keys.Right))
                 {
-                    // Avance le joueur vers le droite
-                    this.Move(DIRECTION.RIGHT, _GridOfCase);
+                    if (m_AttackMode)
+                    {
+                        Globals.m_Message.Add("Attaque de droite !");
+                    }
+                    else
+                    {
+                        // Avance le joueur vers le droite
+                        this.Move(DIRECTION.RIGHT, _GridOfCase);
+                    }
                     turnIsOver = true;
                     m_ReleaseRightKey = false;
                 }
@@ -159,7 +197,10 @@ namespace RogueProject
             {
                 m_ReleaseLeftKey = true;
             }
-
+            if (_Kstate.IsKeyUp(Keys.A) && !m_ReleaseAKey)
+            {
+                m_ReleaseAKey = true;
+            }
             // Retourne vrai si le joueur à fait une action terminant son tour
             return turnIsOver;
         }
