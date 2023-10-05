@@ -58,7 +58,7 @@ namespace RogueProject
                 Color _Color = default(Color),
                 float _Rotation = DEFAULT_ROTATION,
                 Vector2 _Origin = new Vector2(),
-                Vector2 _Scale = new Vector2(),
+                float _Scale = DEFAULT_SCALE,
                 SpriteEffects _Effect = DEFAULT_EFFECT,
                 float _LayerDepth = DEFAULT_LAYER_DEPTH
             ) : base(_EntityIndex, _GridOfCase, _Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity,

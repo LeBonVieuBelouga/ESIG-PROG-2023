@@ -27,7 +27,7 @@ namespace RogueProject
         public const float DEFAULT_LAYER_DEPTH = 1f;
         public const SpriteEffects DEFAULT_EFFECT = SpriteEffects.None;
         public readonly Color DEFAULT_COLOR = Color.White;
-        public readonly Vector2 DEFAULT_SCALE = Vector2.One;
+        public const float DEFAULT_SCALE = 1f;
 
         private Texture2D m_Tex2D;              // Texture du Sprite
         protected Vector2 m_Pos;                  // Position du Sprite dans l'environement
@@ -36,7 +36,7 @@ namespace RogueProject
         private Color m_Color;                  // Filtre appliqué sur le sprite
         private float m_Rotation;               // Angle de rotation a appliquer au sprite
         private Vector2 m_Origin;               //position d'orgine
-        private Vector2 m_Scale;                // Mise à l'échelle de ce sprite.
+        private float m_Scale;                // Mise à l'échelle de ce sprite.
         private SpriteEffects m_Effect;         // Modificateurs pour le dessin (peut être combiné).
         private float m_LayerDepth;             //Profondeur du champ du sprite.
 
@@ -50,7 +50,7 @@ namespace RogueProject
             Color _Color = default(Color),
             float _Rotation = DEFAULT_ROTATION,
             Vector2 _Origin = new Vector2(),
-            Vector2 _Scale = default(Vector2),
+            float _Scale = DEFAULT_SCALE,
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH)
         {
@@ -58,10 +58,6 @@ namespace RogueProject
             if (_Color == default(Color))
             {
                 _Color = DEFAULT_COLOR;
-            }
-
-            if (_Scale == default(Vector2)) {
-                _Scale = DEFAULT_SCALE;
             }
 
             this.SetTexture(_Texture2D);
@@ -205,7 +201,7 @@ namespace RogueProject
         /// Setter pour m_Scale
         /// </summary>
         /// <param name="_Scale"></param>
-        public void SetScale(Vector2 _Scale)
+        public void SetScale(float _Scale)
         {
             this.m_Scale = _Scale;
         }
@@ -214,7 +210,7 @@ namespace RogueProject
         /// Getter pour m_Scale
         /// </summary>
         /// <returns>m_Scale</returns>
-        public Vector2 GetScale()
+        public float GetScale()
         {
             return this.m_Scale;
         }
@@ -302,7 +298,7 @@ namespace RogueProject
             this.SetColor(Color.White);
             this.SetRotation(0f);
             this.SetOrigin(new Vector2(this.m_Tex2D.Width / 2, this.m_Tex2D.Height / 2));
-            this.SetScale(Vector2.One);
+            this.SetScale(DEFAULT_SCALE);
             this.SetEffect(SpriteEffects.None);
             this.SetLayerDepth(0f);
             this.SetVelocity(1f);

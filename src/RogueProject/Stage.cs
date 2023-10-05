@@ -187,13 +187,19 @@ namespace RogueProject
                             null,
                             true,
                             this.m_TextureVoid,
-                            new Vector2(startX + this.m_TextureRoomGround.Width * i, startY + this.m_TextureRoomGround.Height * j)
+                            new Vector2(startX + this.m_TextureRoomGround.Width * i, startY + this.m_TextureRoomGround.Height * j),
+                            0,
+                            default,
+                            default,
+                            default,
+                            default
                         );
 
                     // Met un filtre de couleur sur les cases
                     m_GridOfCase[i][j].DefaultValue();
                     Color color = new Color(255, 0, 255);
                     m_GridOfCase[i][j].SetColor(color);
+
                 }
             }
 

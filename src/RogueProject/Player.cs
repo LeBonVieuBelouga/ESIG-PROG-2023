@@ -53,7 +53,7 @@ namespace RogueProject
             Color _Color = default(Color),
             float _Rotation = DEFAULT_ROTATION,
             Vector2 _Origin = new Vector2(),
-            Vector2 _Scale = new Vector2(),
+            float _Scale = DEFAULT_SCALE,
             SpriteEffects _Effect = DEFAULT_EFFECT,
             float _LayerDepth = DEFAULT_LAYER_DEPTH
             ) : base(_EntityIndex, _GridOfCase,_Texture2D, _HealthPoint, _Damage, _Defense, _Position, _Velocity, _SourceRectangle, _Color, _Rotation, _Origin, _Scale, _Effect, _LayerDepth)
@@ -80,6 +80,7 @@ namespace RogueProject
         /// </summary>
         public void Attack()
         {
+            this.m_AttackMode = false;
         }
 
         /// <summary>
@@ -125,6 +126,7 @@ namespace RogueProject
                     if (m_AttackMode)
                     {
                         Globals.m_Message.Add("Attaque de haut !");
+                        this.Attack();
                     } 
                     else
                     {
@@ -139,6 +141,7 @@ namespace RogueProject
                     if (m_AttackMode)
                     {
                         Globals.m_Message.Add("Attaque de bas !");
+                        this.Attack();
                     }
                     else
                     {
@@ -154,6 +157,7 @@ namespace RogueProject
                     if (m_AttackMode)
                     {
                         Globals.m_Message.Add("Attaque de gauche !");
+                        this.Attack();
                     }
                     else
                     {
@@ -169,6 +173,7 @@ namespace RogueProject
                     if (m_AttackMode)
                     {
                         Globals.m_Message.Add("Attaque de droite !");
+                        this.Attack();
                     }
                     else
                     {

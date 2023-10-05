@@ -59,6 +59,8 @@ namespace RogueProject
         Texture2D m_TextureRoomDoor;
         Texture2D m_TextureVoid;
 
+        Texture2D m_TextureDialogueBox;
+
         Sprite m_TombOfPlayer;
 
         Enemy m_Enemy;
@@ -77,7 +79,7 @@ namespace RogueProject
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
          
-            //Window.IsBorderless = true;
+            Window.IsBorderless = true;
             
             _graphics.ApplyChanges();
         }
@@ -94,11 +96,12 @@ namespace RogueProject
             m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV2");
             m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
             m_TextureVoid = Content.Load<Texture2D>("VoidCaseV1");
+            m_TextureDialogueBox = Content.Load<Texture2D>("DialogueBoxV2");
 
             m_Stage = new Stage(
                 Globals.COL_GRID,
                 Globals.ROW_GRID, 
-                7, 
+                Globals.NUMBER_OF_ROOM, 
                 m_TextureRoomCorner, 
                 m_TextureRoomStraight, 
                 CaseTex, 
@@ -309,6 +312,7 @@ namespace RogueProject
             m_Enemy.Draw(_spriteBatch);
             if (Globals.m_Message.Count > 0)
             {
+                _spriteBatch.Draw(m_TextureDialogueBox, new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X - 10, 0), Color.White);
                 _spriteBatch.DrawString(_font, Globals.m_Message[0], new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X, 10), Color.White);
             }
             _spriteBatch.End();
