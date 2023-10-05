@@ -333,29 +333,34 @@ namespace RogueProject
             // Récupère la position initiale de la Room (représente le coin haut gauche de la Room)
             Vector2 roomInitialValue = _RoomToDraw.GetInitialIndex();
 
-           
+            Random random = new Random();
+            int randSide = random.Next(3);
+            int randPosDoorX = random.Next(_RoomToDraw.GetSizeX()); // Position de la porte sur les côtés haut/bas
+            int randPosDoorY = random.Next(_RoomToDraw.GetSizeY()); // Position de la porte sur les côtés gauche/droite
 
             // Utilise deux boucles "for" pour parcourir toutes les cases que la Room va prendre
             for (int i = (int)roomInitialValue.X; i < roomInitialValue.X + _RoomToDraw.GetSizeX(); i++)
             {
                 for (int j = (int)roomInitialValue.Y; j < roomInitialValue.Y + _RoomToDraw.GetSizeY(); j++)
                 {
-
                     CASE_TYPE curr_type = CASE_TYPE.WALL;
                     
                     float rotation = -1f;
                     bool isCorner = false;
 
+                    int curr_Side = 5;
+                    
+
                     // Vérifie les différents contour d'une salle pour y mettre les murs :
                     if (i == roomInitialValue.X)
                     {
+                        curr_Side = 0;
                         isCorner = true;
                         //Par défaut on concidaire que c'est le mur de gauche de la Room
                         if (j == roomInitialValue.Y)
                         {
                             // Coin haut gauche de la Room
                             rotation = 90;
-                            
                         }
                         else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                         {
@@ -365,12 +370,7 @@ namespace RogueProject
                         else {
                             isCorner = false;
 
-                            Random random = new Random();
-                            int randSide = random.Next(4);
-                            int randPosDoorX = random.Next(_RoomToDraw.GetSizeX());
-                            int randPosDoorY = random.Next(_RoomToDraw.GetSizeY());
-                            if (j == randPosDoorY)
-                            {
+                            if (randSide == curr_Side && j == randPosDoorX) {
                                 curr_type = CASE_TYPE.DOOR;
                             }
                         }
@@ -378,6 +378,8 @@ namespace RogueProject
                     else if (i == roomInitialValue.X + _RoomToDraw.GetSizeX() - 1)
                     {
                         //Par défaut c'est le mur à droit de la Room
+
+                        curr_Side = 1;
                         isCorner = true;
                         if (j == roomInitialValue.Y)
                         {
@@ -391,21 +393,41 @@ namespace RogueProject
                         }
                         else {
                             isCorner = false;
+
+                            if (randSide == curr_Side && j == randPosDoorX)
+                            {
+                                curr_type = CASE_TYPE.DOOR;
+                            }
                         }
                     }
                     else if (j == roomInitialValue.Y)
                     {
                         // Mur haut de la pièce
                         rotation = 90;
+
+                        int sideUP = 2;
+
+                        if (randSide == sideUP && j == randPosDoorY)
+                        {
+                            curr_type = CASE_TYPE.DOOR;
+                        }
                     }
                     else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                     {
                         // Mur bas de la pièce
                         rotation = 90;
+
+                        curr_Side = 3;
+
                     }
                     else {
                         // Si la case en cours de parcours n'a pas été changé en mur, elle devient un sol
                         curr_type = CASE_TYPE.GROUND;
+                    }
+
+                    if (randSide == curr_Side && j == randPosDoorX && !isCorner)
+                    {
+                        curr_type = CASE_TYPE.DOOR;
                     }
 
                     // Temporaire, met une porte en haut à gauche de la pièce
@@ -418,7 +440,8 @@ namespace RogueProject
                         this.m_GridOfCase[i][j].SetIsWalkable(true);
                         
                     }*/
-                    
+
+                    //m_ListFreeSpace.Remove(new Vector2(i, j));
 
                     this.ConvertCaseType(new Vector2(i, j), curr_type, MathHelper.ToRadians(rotation), isCorner);
                     //this.ConvertCaseType(new Vector2(i, j), curr_type);
