@@ -341,12 +341,17 @@ namespace RogueProject
             Random random = new Random();
 
             int nbrMaxOfDoor = random.Next(1, 5);
+            List<ROOM_SIDE>listOfSideFree = new List<ROOM_SIDE>();
+            listOfSideFree.Add(ROOM_SIDE.LEFT);
+            listOfSideFree.Add(ROOM_SIDE.RIGHT);
+            listOfSideFree.Add(ROOM_SIDE.UP);
+            listOfSideFree.Add(ROOM_SIDE.DOWN);
 
             List<Vector2> listOfDoors = new List<Vector2>();
             for (int i = 0; i < nbrMaxOfDoor;i++) {
 
-                ROOM_SIDE curr_RandSide = (ROOM_SIDE)random.Next(i,Enum.GetValues(typeof(ROOM_SIDE)).Length - 1);
-            
+                ROOM_SIDE curr_RandSide = listOfSideFree[random.Next(listOfSideFree.Count)];
+
                 Vector2 randPosDoor = new Vector2();
                 switch (curr_RandSide) {
                     case ROOM_SIDE.LEFT:
@@ -366,6 +371,7 @@ namespace RogueProject
                         break;
                 }
                 listOfDoors.Add(randPosDoor);
+                listOfSideFree.Remove(curr_RandSide);
             }
 
             bool hasDoor = false;
