@@ -340,20 +340,35 @@ namespace RogueProject
 
             Random random = new Random();
 
-            int randPosDoorX = random.Next(1,_RoomToDraw.GetSizeX()); // Position de la porte sur les côtés haut/bas                
-            int randPosDoorY = random.Next(1,_RoomToDraw.GetSizeY()); // Position de la porte sur les côtés gauche/droite
-
             int nbrMaxOfDoor = random.Next(1, 5);
 
             List<Vector2> listOfDoors = new List<Vector2>();
             for (int i = 0; i < nbrMaxOfDoor;i++) {
-                if (i%2 ==1) {
-                    listOfDoors.Add(new Vector2(randPosDoorX, roomInitialValue.Y));
+
+                ROOM_SIDE curr_RandSide = (ROOM_SIDE)random.Next(i,Enum.GetValues(typeof(ROOM_SIDE)).Length - 1);
+            
+                Vector2 randPosDoor = new Vector2();
+                switch (curr_RandSide) {
+                    case ROOM_SIDE.LEFT:
+                        randPosDoor = new Vector2(roomInitialValue.X, random.Next(1,(int)roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1));
+                        break;
+                    case ROOM_SIDE.RIGHT:
+                        randPosDoor = new Vector2(roomInitialValue.X + _RoomToDraw.GetSizeX()-1,
+                            random.Next((int)roomInitialValue.Y+1, (int)roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1));
+                        break;
+                    case ROOM_SIDE.UP:
+                        randPosDoor = new Vector2(random.Next((int)roomInitialValue.X + 1, (int)roomInitialValue.X + _RoomToDraw.GetSizeX() - 1),
+                            roomInitialValue.Y);
+                        break;
+                    case ROOM_SIDE.DOWN :
+                        randPosDoor = new Vector2(random.Next((int)roomInitialValue.X + 1, (int)roomInitialValue.X + _RoomToDraw.GetSizeX() - 1),
+                            roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1);
+                        break;
                 }
-                else {
-                    listOfDoors.Add(new Vector2(roomInitialValue.X, randPosDoorY));
-                }
+                listOfDoors.Add(randPosDoor);
             }
+
+            bool hasDoor = false;
 
             // Utilise deux boucles "for" pour parcourir toutes les cases que la Room va prendre
             for (int i = (int)roomInitialValue.X; i < roomInitialValue.X + _RoomToDraw.GetSizeX(); i++)
@@ -370,7 +385,7 @@ namespace RogueProject
                     // Vérifie les différents contour d'une salle pour y mettre les murs :
                     if (i == roomInitialValue.X)
                     {
-                        curr_Side = ROOM_SIDE.RIGHT;
+                        curr_Side = ROOM_SIDE.LEFT;
                         isCorner = true;
                         //Par défaut on concidaire que c'est le mur de gauche de la Room
                         if (j == roomInitialValue.Y)
@@ -391,8 +406,7 @@ namespace RogueProject
                     else if (i == roomInitialValue.X + _RoomToDraw.GetSizeX() - 1)
                     {
                         //Par défaut c'est le mur à droit de la Room
-
-                        curr_Side = ROOM_SIDE.LEFT;
+                        curr_Side = ROOM_SIDE.RIGHT;
                         isCorner = true;
                         if (j == roomInitialValue.Y)
                         {
@@ -411,14 +425,15 @@ namespace RogueProject
                     else if (j == roomInitialValue.Y)
                     {
                         // Mur haut de la pièce
-                        rotation = 90;
+                        rotation = 270;
+                        
 
                         curr_Side = ROOM_SIDE.UP;
                     }
                     else if (j == roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
                     {
                         // Mur bas de la pièce
-                        rotation = 270;
+                        rotation = 90;
 
                         curr_Side = ROOM_SIDE.DOWN;
 
@@ -427,11 +442,6 @@ namespace RogueProject
                         // Si la case en cours de parcours n'a pas été changé en mur, elle devient un sol
                         curr_type = CASE_TYPE.GROUND;
                     }
-
-                   
-
-
-
 
                     // Temporaire, met une porte en haut à gauche de la pièce
                     // plus tard la porte sera mis aléatoirement sur un côté de la pièce
@@ -446,18 +456,28 @@ namespace RogueProject
 
                     //m_ListFreeSpace.Remove(new Vector2(i, j));
 
+                    if (listOfDoors.Count() > 0 && !isCorner)
+                    {
+                        for (int index = listOfDoors.Count - 1; index >= 0; index--)
+                        {
+                            if (listOfDoors[index] == new Vector2(i, j)) {
+                                hasDoor = true;
+                                curr_type = CASE_TYPE.DOOR;
+                                 if (curr_Side == ROOM_SIDE.RIGHT) {
+                                    index = index;
+                                }
+                            }
+                            listOfDoors.Remove(new Vector2(i, j));
+                        }
+                    }
+
                     this.ConvertCaseType(new Vector2(i, j), curr_type, MathHelper.ToRadians(rotation), isCorner);
-                    //this.ConvertCaseType(new Vector2(i, j), curr_type);
                 }
             }
-            if (listOfDoors.Count() > 0)
+
+            if (!hasDoor)
             {
-                Vector2 curr_pos = new Vector2();
-                for (int index = listOfDoors.Count - 1; index >= 0; index--)
-                {
-                    this.ConvertCaseType(listOfDoors[index], CASE_TYPE.DOOR);
-                    //listOfDoors.RemoveAt(index);                        
-                }
+                this.ConvertCaseType(new Vector2(roomInitialValue.X + 1, roomInitialValue.Y), CASE_TYPE.DOOR);
             }
         }
 

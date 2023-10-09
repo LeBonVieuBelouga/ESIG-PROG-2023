@@ -18,7 +18,6 @@ namespace RogueProject
             DOOR,     // 2
             VOID      // 3
             
-
         }
 
         /// <summary>
