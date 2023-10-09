@@ -166,12 +166,12 @@ namespace RogueProject
             m_GridOfCase = new Case[m_GridCol][];
             
             // Selon la taille de l'écran, calcule pour centrer le quadrillage
-            int GridSizeWidth = m_GridCol * this.m_TextureRoomGround.Width;
+            int GridSizeWidth = (this.m_GridCol - 1) * this.m_TextureRoomGround.Width;
             int GridSizeHeight = this.m_GridRow * this.m_TextureRoomGround.Height;
 
-            int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
-            int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
-
+            int startX = (int)((1280 - (GridSizeWidth * Globals.m_CurrentWidthScale)) / (2* Globals.m_CurrentWidthScale)); //(_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
+            int startY = _graphics.PreferredBackBufferHeight/100 * 4;//(_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
+            //Debug.WriteLine(start_graphics.PreferredBackBufferHeight + " " + );
             //Parcourt les colonnes du tableau2D
             for (int i = 0; i <= m_GridCol - 1; i++)
             {

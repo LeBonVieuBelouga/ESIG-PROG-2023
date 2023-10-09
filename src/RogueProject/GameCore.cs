@@ -76,10 +76,17 @@ namespace RogueProject
             IsMouseVisible = true;
 
             //change the screen size
-            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-         
-            Window.IsBorderless = true;
+            //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 800;
+
+            Globals.m_CurrentWidth = _graphics.PreferredBackBufferWidth;
+            Globals.m_CurrentHeight = _graphics.PreferredBackBufferHeight;
+
+            Globals.m_CurrentWidthScale = Globals.m_CurrentWidth / Globals.DEFAULT_WIDTH;
+            Globals.m_CurrentHeightScale = Globals.m_CurrentHeight / Globals.DEFAULT_HEIGHT;
+            Window.IsBorderless = false;
             
             _graphics.ApplyChanges();
         }
@@ -294,7 +301,22 @@ namespace RogueProject
         {
             GraphicsDevice.Clear(Color.Black);// Couleur de la fenetre
 
-            _spriteBatch.Begin();
+            //_spriteBatch.Begin();
+
+
+            Matrix scaleMatrix = Matrix.CreateScale(
+                Globals.m_CurrentWidthScale,
+                Globals.m_CurrentHeightScale,
+                1f);
+
+
+
+            // Utilisez cette matrice pour dessiner vos objets de jeu
+            _spriteBatch.Begin(transformMatrix: scaleMatrix);
+
+
+
+            // Dessinez vos objets de jeu ici
 
             m_Stage.Draw(_spriteBatch);
             //m_Stage.DrawRoom(_spriteBatch, m_Room, new Vector2(10, 10));
@@ -315,6 +337,10 @@ namespace RogueProject
                 _spriteBatch.Draw(m_TextureDialogueBox, new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X - 10, 0), Color.White);
                 _spriteBatch.DrawString(_font, Globals.m_Message[0], new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X, 10), Color.White);
             }
+
+
+
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
