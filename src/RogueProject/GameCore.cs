@@ -32,6 +32,11 @@ namespace RogueProject
         //const int COL_GRID = 50;
         //const int ROW_GRID = 30;
 
+        const int TEST_WIDTH = 7;
+        const int TEST_HEIGHT = 20;
+
+
+
         float intervalEnemy = 0.5f;
         float timerEnemy = 0f;
 
@@ -62,6 +67,8 @@ namespace RogueProject
         Texture2D m_TextureDialogueBox;
 
         Sprite m_TombOfPlayer;
+        Sprite[][] m_SizeCalculator = new Sprite[TEST_HEIGHT][];
+        Sprite m_DialogueBox;
 
         Enemy m_Enemy;
 
@@ -76,17 +83,17 @@ namespace RogueProject
             IsMouseVisible = true;
 
             //change the screen size
-            //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            _graphics.PreferredBackBufferWidth = 1480;
-            _graphics.PreferredBackBufferHeight = 900;
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 800;
 
             Globals.m_CurrentWidth = _graphics.PreferredBackBufferWidth;
             Globals.m_CurrentHeight = _graphics.PreferredBackBufferHeight;
 
             Globals.m_CurrentWidthScale = Globals.m_CurrentWidth / Globals.DEFAULT_WIDTH;
             Globals.m_CurrentHeightScale = Globals.m_CurrentHeight / (Globals.DEFAULT_HEIGHT-1);
-            Window.IsBorderless = false;
+            Window.IsBorderless = true;
             
             _graphics.ApplyChanges();
         }
@@ -103,7 +110,7 @@ namespace RogueProject
             m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV2");
             m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
             m_TextureVoid = Content.Load<Texture2D>("VoidCaseV1");
-            m_TextureDialogueBox = Content.Load<Texture2D>("DialogueBoxV2");
+            m_TextureDialogueBox = Content.Load<Texture2D>("DialogueBoxV3");
 
             m_Stage = new Stage(
                 Globals.COL_GRID,
@@ -156,6 +163,29 @@ namespace RogueProject
             //    ROOM_TYPE.EMPTY
             //);
 
+            m_DialogueBox = new Sprite(
+                        m_TextureDialogueBox,
+                        new Vector2(
+                            m_Stage.GetGridOfCase()[0][m_Stage.GetGridOfCase()[0].Length - 1].GetPosition().X,
+                            m_Stage.GetGridOfCase()[0][m_Stage.GetGridOfCase()[0].Length - 1].GetPosition().Y + (32 * Globals.DEFAULT_HEIGHT_SCALE)));
+            
+
+            for (int i = 0;i < m_SizeCalculator.Length; i++)
+            {
+
+                m_SizeCalculator[i] = new Sprite[TEST_WIDTH];
+
+                for (int y = 0;y < m_SizeCalculator[i].Length;y++)
+                {
+                    m_SizeCalculator[i][y] = new Sprite(
+                        Content.Load<Texture2D>("MissingTexture32x32"),
+                        new Vector2(
+                            m_Stage.GetGridOfCase()[0][m_Stage.GetGridOfCase()[0].Length - 1].GetPosition().X + i * 32,
+                            m_Stage.GetGridOfCase()[0][m_Stage.GetGridOfCase()[0].Length - 1].GetPosition().Y + (y+1) * 32));
+                } 
+            }
+
+            
 
             m_TombOfPlayer = new Sprite(
                 Content.Load<Texture2D>("MorbiusV1"),
@@ -303,18 +333,14 @@ namespace RogueProject
 
             //_spriteBatch.Begin();
 
-
             Matrix scaleMatrix = Matrix.CreateScale(
                 Globals.m_CurrentWidthScale,
                 Globals.m_CurrentHeightScale,
                 1f);
 
 
-
             // Utilisez cette matrice pour dessiner vos objets de jeu
             _spriteBatch.Begin(transformMatrix: scaleMatrix);
-
-
 
             // Dessinez vos objets de jeu ici
 
@@ -334,13 +360,29 @@ namespace RogueProject
             m_Enemy.Draw(_spriteBatch);
             if (Globals.m_Message.Count > 0)
             {
-                _spriteBatch.Draw(m_TextureDialogueBox, new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X - 10, 0), Color.White);
-                _spriteBatch.DrawString(_font, Globals.m_Message[0], new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X, 10), Color.White);
+                //_spriteBatch.Draw(m_TextureDialogueBox, new Vector2(m_Stage.GetGridOfCase()[0][0].GetPosition().X - 10, 0), Color.White);
+                _spriteBatch.DrawString(_font, 
+                    Globals.m_Message[0],
+                    new Vector2(m_DialogueBox.GetPosition().X + 10,
+                    m_DialogueBox.GetPosition().Y + 10),
+                    Color.White,
+                    0f,
+                    new Vector2(1,1),
+                    1f, // taille du texte
+                    SpriteEffects.None,
+                    1);
             }
 
+            //for (int i = 0 ; i < m_SizeCalculator.Length;i++)
+            //{
+            //    for (int y = 0; y < m_SizeCalculator[0].Length ; y++)
+            //    {
+            //        //m_SizeCalculator.SetPosition(new Vector2(m_SizeCalculator.GetPosition().X, m_SizeCalculator.GetPosition().Y + 32 * i));
+            //        m_SizeCalculator[i][y].Draw(_spriteBatch);
+            //    }
+            //}
 
-
-
+            m_DialogueBox.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
