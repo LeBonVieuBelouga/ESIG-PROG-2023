@@ -20,14 +20,14 @@ namespace RogueProject
             RIGHT,
             LEFT,
             UP,
-            DOWN,
-            NONE
+            DOWN
         }
         // Constante de Stage
         const int MAX_WIDTH_ROOM = 15;
         const int MIN_WIDTH_ROOM = 4;
         const int MAX_HEIGHT_ROOM = 15;
         const int MIN_HEIGHT_ROOM = 4;
+        const int MAX_SIDE_ROOM = 4;
 
         // Variable membre de Stage
         List<Room> m_ListRoom = new List<Room>();
@@ -343,11 +343,13 @@ namespace RogueProject
 
             int nbrMaxOfDoor = random.Next(1, 5);
             List<ROOM_SIDE>listOfSideFree = new List<ROOM_SIDE>();
-            listOfSideFree.Add(ROOM_SIDE.LEFT);
-            listOfSideFree.Add(ROOM_SIDE.RIGHT);
-            listOfSideFree.Add(ROOM_SIDE.UP);
-            listOfSideFree.Add(ROOM_SIDE.DOWN);
 
+            //Ajout le nombre de cote libre possible dans une salle
+            for (int i = 0; i < MAX_SIDE_ROOM; i++) {
+                listOfSideFree.Add((ROOM_SIDE)i);
+            }
+
+            // liste des portes de la salle courrante
             List<Vector2> listOfDoors = new List<Vector2>();
             for (int i = 0; i < nbrMaxOfDoor;i++) {
 
@@ -401,7 +403,7 @@ namespace RogueProject
                 {
                     int randSide = random.Next(3);//Nombre entre 0 et 3
                     CASE_TYPE curr_type = CASE_TYPE.WALL;
-                    ROOM_SIDE curr_Side = ROOM_SIDE.NONE;
+                    ROOM_SIDE curr_Side = ROOM_SIDE.UP;
                     
                     float rotation = -1f;
                     bool isCorner = false;
@@ -465,19 +467,6 @@ namespace RogueProject
                         // Si la case en cours de parcours n'a pas été changé en mur, elle devient un sol
                         curr_type = CASE_TYPE.GROUND;
                     }
-
-                    // Temporaire, met une porte en haut à gauche de la pièce
-                    // plus tard la porte sera mis aléatoirement sur un côté de la pièce
-                    /*
-                    if (i == roomInitialValue.X + 1 && j == roomInitialValue.Y)
-                    {
-                        curr_type = CASE_TYPE.DOOR;
-                        rotation = 360;
-                        this.m_GridOfCase[i][j].SetIsWalkable(true);
-                        
-                    }*/
-
-                    //m_ListFreeSpace.Remove(new Vector2(i, j));
 
                     //Verifie que la liste n'est pas vide et que la case en cours n'est pas un coin
                     if (listOfDoors.Count() > 0 && !isCorner)

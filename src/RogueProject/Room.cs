@@ -13,10 +13,10 @@ namespace RogueProject
 
         public enum CASE_TYPE
         {
-            WALL,
-            GROUND,    // 1
-            DOOR,     // 2
-            VOID      // 3
+            WALL = 0,
+            GROUND = 1,
+            DOOR = 2, 
+            VOID = 3      
             
         }
 
