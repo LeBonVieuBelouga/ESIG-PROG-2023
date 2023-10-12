@@ -78,14 +78,14 @@ namespace RogueProject
             //change the screen size
             //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.PreferredBackBufferWidth = 1480;
+            _graphics.PreferredBackBufferHeight = 900;
 
             Globals.m_CurrentWidth = _graphics.PreferredBackBufferWidth;
             Globals.m_CurrentHeight = _graphics.PreferredBackBufferHeight;
 
             Globals.m_CurrentWidthScale = Globals.m_CurrentWidth / Globals.DEFAULT_WIDTH;
-            Globals.m_CurrentHeightScale = Globals.m_CurrentHeight / Globals.DEFAULT_HEIGHT;
+            Globals.m_CurrentHeightScale = Globals.m_CurrentHeight / (Globals.DEFAULT_HEIGHT-1);
             Window.IsBorderless = false;
             
             _graphics.ApplyChanges();
