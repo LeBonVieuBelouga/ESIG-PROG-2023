@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using System.Linq;
 using static RogueProject.Room;
+using System.Reflection;
 
 namespace RogueProject
 {
@@ -350,24 +351,41 @@ namespace RogueProject
             List<Vector2> listOfDoors = new List<Vector2>();
             for (int i = 0; i < nbrMaxOfDoor;i++) {
 
-                ROOM_SIDE curr_RandSide = listOfSideFree[random.Next(listOfSideFree.Count)];
+                ROOM_SIDE curr_RandSide = listOfSideFree[random.Next(0,listOfSideFree.Count)];
+                int minDistanceFromCorner = 1;
 
                 Vector2 randPosDoor = new Vector2();
                 switch (curr_RandSide) {
                     case ROOM_SIDE.LEFT:
-                        randPosDoor = new Vector2(roomInitialValue.X, random.Next(1,(int)roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1));
+                        randPosDoor = new Vector2(
+                            roomInitialValue.X, 
+                            random.Next(
+                                (int)roomInitialValue.Y + minDistanceFromCorner, 
+                                (int)roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1)
+                            );
                         break;
                     case ROOM_SIDE.RIGHT:
-                        randPosDoor = new Vector2(roomInitialValue.X + _RoomToDraw.GetSizeX()-1,
-                            random.Next((int)roomInitialValue.Y+1, (int)roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1));
+                        randPosDoor = new Vector2(
+                            roomInitialValue.X + _RoomToDraw.GetSizeX()-1,
+                            random.Next(
+                                (int)roomInitialValue.Y + minDistanceFromCorner, 
+                                (int)roomInitialValue.Y + _RoomToDraw.GetSizeY()-1)
+                            );
                         break;
                     case ROOM_SIDE.UP:
-                        randPosDoor = new Vector2(random.Next((int)roomInitialValue.X + 1, (int)roomInitialValue.X + _RoomToDraw.GetSizeX() - 1),
-                            roomInitialValue.Y);
+                        randPosDoor = new Vector2(
+                            random.Next(
+                                (int)roomInitialValue.X+minDistanceFromCorner,
+                                (int)roomInitialValue.X + _RoomToDraw.GetSizeX()-1),
+                            roomInitialValue.Y
+                            );
                         break;
                     case ROOM_SIDE.DOWN :
-                        randPosDoor = new Vector2(random.Next((int)roomInitialValue.X + 1, (int)roomInitialValue.X + _RoomToDraw.GetSizeX() - 1),
-                            roomInitialValue.Y + _RoomToDraw.GetSizeY() - 1);
+                        randPosDoor = new Vector2(
+                            random.Next(
+                                (int)roomInitialValue.X + minDistanceFromCorner,
+                                (int)roomInitialValue.X + _RoomToDraw.GetSizeX() - 1),
+                            roomInitialValue.Y + _RoomToDraw.GetSizeY()-1);
                         break;
                 }
                 listOfDoors.Add(randPosDoor);
@@ -442,7 +460,6 @@ namespace RogueProject
                         rotation = 90;
 
                         curr_Side = ROOM_SIDE.DOWN;
-
                     }
                     else {
                         // Si la case en cours de parcours n'a pas été changé en mur, elle devient un sol
@@ -462,28 +479,37 @@ namespace RogueProject
 
                     //m_ListFreeSpace.Remove(new Vector2(i, j));
 
+                    //Verifie que la liste n'est pas vide et que la case en cours n'est pas un coin
                     if (listOfDoors.Count() > 0 && !isCorner)
                     {
+                        //Parcourt la liste des portes
                         for (int index = listOfDoors.Count - 1; index >= 0; index--)
                         {
+                            //Verifie que la case courrante est sur la même position que la porte en cours de lecture
                             if (listOfDoors[index] == new Vector2(i, j)) {
-                                hasDoor = true;
+                                hasDoor = true; //Confirme qu'une porte a ete trouve
                                 curr_type = CASE_TYPE.DOOR;
-                                 if (curr_Side == ROOM_SIDE.RIGHT) {
-                                    index = index;
-                                }
+                                listOfDoors.Remove(new Vector2(i, j));
                             }
-                            listOfDoors.Remove(new Vector2(i, j));
                         }
                     }
-
                     this.ConvertCaseType(new Vector2(i, j), curr_type, MathHelper.ToRadians(rotation), isCorner);
                 }
             }
 
             if (!hasDoor)
             {
-                this.ConvertCaseType(new Vector2(roomInitialValue.X + 1, roomInitialValue.Y), CASE_TYPE.DOOR);
+                //this.ConvertCaseType(new Vector2(roomInitialValue.X + 1, roomInitialValue.Y), CASE_TYPE.DOOR);
+                
+                //Parcourt la liste des portes
+                foreach (Vector2 curr_Door in listOfDoors) {
+                    this.ConvertCaseType(curr_Door, CASE_TYPE.DOOR);
+                }
+                /*for (int index = listOfDoors.Count - 1; index >= 0; index--)
+                {
+                    this.ConvertCaseType(listOfDoors[index], CASE_TYPE.DOOR);
+                }*/
+                Debug.WriteLine("PAS DE PORTE");
             }
         }
 
