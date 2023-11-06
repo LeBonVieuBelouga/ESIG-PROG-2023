@@ -24,9 +24,9 @@ namespace RogueProject
         }
         // Constante de Stage
         const int MAX_WIDTH_ROOM = 15;
-        const int MIN_WIDTH_ROOM = 4;
+        const int MIN_WIDTH_ROOM = 6;
         const int MAX_HEIGHT_ROOM = 15;
-        const int MIN_HEIGHT_ROOM = 4;
+        const int MIN_HEIGHT_ROOM = 6;
         const int MAX_SIDE_ROOM = 4;
 
         // Variable membre de Stage
@@ -134,7 +134,7 @@ namespace RogueProject
                 // Va vérifier toutes les futurs cases de la Room pour savoir si elle sont vides (qu'il n'y est pas déjà une Room)
                 for (int i = (int)initialIndex.X; i < initialIndex.X + sizeX; i++)
                 {
-                    for (int j = (int)initialIndex.Y; j < initialIndex.Y + sizeY; j++)
+                    for (int j = (int)initialIndex.Y+1; j < initialIndex.Y + sizeY; j++)
                     {
                         // Si la case est d'un autre type que Void, alors la place n'est pas libre
                         if (this.m_GridOfCase[i][j].GetType().Name != "Void")
@@ -149,9 +149,9 @@ namespace RogueProject
                 {
                     // Crée la Room et l'ajoute à la liste de salle du Stage
                     m_ListRoom.Add(new Room(
-                        initialIndex,
-                        sizeX,
-                        sizeY,
+                        new Vector2(initialIndex.X+1, initialIndex.Y+1),
+                        sizeX-2,
+                        sizeY-2,
                         ROOM_TYPE.EMPTY
                     ));
 
