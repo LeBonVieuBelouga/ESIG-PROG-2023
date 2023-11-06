@@ -134,7 +134,7 @@ namespace RogueProject
                 // Va vérifier toutes les futurs cases de la Room pour savoir si elle sont vides (qu'il n'y est pas déjà une Room)
                 for (int i = (int)initialIndex.X; i < initialIndex.X + sizeX; i++)
                 {
-                    for (int j = (int)initialIndex.Y+1; j < initialIndex.Y + sizeY; j++)
+                    for (int j = (int)initialIndex.Y; j < initialIndex.Y + sizeY; j++)
                     {
                         // Si la case est d'un autre type que Void, alors la place n'est pas libre
                         if (this.m_GridOfCase[i][j].GetType().Name != "Void")
