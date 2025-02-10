@@ -55,6 +55,7 @@ namespace RogueProject
         Texture2D m_TextureRoomStraight;
         Texture2D m_TextureRoomDoor;
         Texture2D m_TextureVoid;
+        Texture2D m_TexturePlayer;
 
         Sprite m_TombOfPlayer;
 
@@ -82,7 +83,30 @@ namespace RogueProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Window.Title = "Abyssal Enigma: Rogue Requiem";        
+            Window.Title = "Abyssal Enigma: Rogue Requiem";
+
+
+
+
+
+            //m_Room = new Room(
+            //    new Vector2(10, 10),
+            //    10,
+            //    12,
+            //    ROOM_TYPE.EMPTY
+            //);
+
+
+
+
+
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Texture2D CaseTex = Content.Load<Texture2D>("groundCaseV1");
 
@@ -92,33 +116,34 @@ namespace RogueProject
             m_TextureVoid = Content.Load<Texture2D>("VoidCaseV1");
 
             m_Stage = new Stage(
-                COL_GRID, ROW_GRID, 
-                7, 
-                m_TextureRoomCorner, 
-                m_TextureRoomStraight, 
-                CaseTex, 
-                m_TextureVoid, 
-                m_TextureRoomDoor, 
+                COL_GRID, ROW_GRID,
+                7,
+                m_TextureRoomCorner,
+                m_TextureRoomStraight,
+                CaseTex,
+                m_TextureVoid,
+                m_TextureRoomDoor,
                 _graphics
                 );
 
-            Texture2D Player_Tex2D = Content.Load<Texture2D>("playerV5");
+            m_TexturePlayer = Content.Load<Texture2D>("playerV5");
+
 
             // Calcule la position du joueur pour le centrer dans les cases
-            float centerPosX = m_Stage.GetGridOfCase()[0][0].GetPosition().X - Player_Tex2D.Width / 2;
-            float centerPosY = m_Stage.GetGridOfCase()[0][0].GetPosition().Y - Player_Tex2D.Height / 2;
+            float centerPosX = m_Stage.GetGridOfCase()[0][0].GetPosition().X - m_TexturePlayer.Width / 2;
+            float centerPosY = m_Stage.GetGridOfCase()[0][0].GetPosition().Y - m_TexturePlayer.Height / 2;
 
             // Création du joueur
             m_Player = new Player(
                 new Vector2(0, 0),
                 m_Stage.GetGridOfCase(),
-                Player_Tex2D,
+                m_TexturePlayer,
                 1000000,
                 1,
                 1
             );
 
-            m_Player.SetPosition(new Vector2 (centerPosX, centerPosY));
+            m_Player.SetPosition(new Vector2(centerPosX, centerPosY));
 
             //Création de l'enemy
             Texture2D Enemy_Tex2D = Content.Load<Texture2D>("enemyV1");
@@ -129,35 +154,18 @@ namespace RogueProject
                 1,
                 12,
                 1
-                
+
             );
-
-
-            //m_Room = new Room(
-            //    new Vector2(10, 10),
-            //    10,
-            //    12,
-            //    ROOM_TYPE.EMPTY
-            //);
-
-            m_TombOfPlayer = new Sprite(
-                Content.Load<Texture2D>("MorbiusV1"),
-                m_Player.GetPosition()
-                ) ;
 
             // Calcule la position de l'enemy pour le centrer dans les cases
             centerPosX = m_Stage.GetGridOfCase()[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().X - Enemy_Tex2D.Width / 2;
             centerPosY = m_Stage.GetGridOfCase()[(int)m_Enemy.GetIndex().X][(int)m_Enemy.GetIndex().Y].GetPosition().Y - Enemy_Tex2D.Height / 2;
             m_Enemy.SetPosition(new Vector2(centerPosX, centerPosY));
 
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-  
+            m_TombOfPlayer = new Sprite(
+            Content.Load<Texture2D>("MorbiusV1"),
+            m_Player.GetPosition()
+            );
         }
 
         protected override void Update(GameTime gameTime)
