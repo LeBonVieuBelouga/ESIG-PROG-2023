@@ -115,19 +115,25 @@ namespace RogueProject
             m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
             m_TextureVoid = Content.Load<Texture2D>("VoidCaseV1");
 
+            var stageTextures = new Dictionary<string, Texture2D>
+            {
+                { "Void", m_TextureVoid },
+                { "Ground", CaseTex }, 
+                { "Corner", m_TextureRoomCorner },
+                { "Wall", m_TextureRoomStraight },
+                { "OpenDoor", m_TextureRoomDoor },
+                { "LockDoor", Content.Load<Texture2D>("LockDoorV1")}
+            };
+
+
             m_Stage = new Stage(
                 COL_GRID, ROW_GRID,
                 7,
-                m_TextureRoomCorner,
-                m_TextureRoomStraight,
-                CaseTex,
-                m_TextureVoid,
-                m_TextureRoomDoor,
+                stageTextures,
                 _graphics
                 );
 
             m_TexturePlayer = Content.Load<Texture2D>("playerV5");
-
 
             // Calcule la position du joueur pour le centrer dans les cases
             float centerPosX = m_Stage.GetGridOfCase()[0][0].GetPosition().X - m_TexturePlayer.Width / 2;

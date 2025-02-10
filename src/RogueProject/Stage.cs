@@ -39,13 +39,8 @@ namespace RogueProject
         int m_GridRow;
         int m_NumberOfRoom;
 
-        Texture2D m_TextureRoomCorner;
-        Texture2D m_TextureRoomStraight;
-        Texture2D m_TextureRoomGround;
-        Texture2D m_TextureRoomDoor;
-        Texture2D m_TextureVoid;
 
-        
+        Dictionary<string, Texture2D> stageTextures;
 
         /// <summary>
         /// Constructeur du Stage, instancie les variables et crée le quadrillage, les salles,...
@@ -59,20 +54,18 @@ namespace RogueProject
         /// <param name="_TextureVoid">Texture du Void</param>
         /// <param name="_TextureRoomDoor">Texture des portes des Rooms</param>
         /// <param name="_graphics">Permet d'avoir des informations graphique (taille de l'écran,...)</param>
-        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Texture2D _TextureRoomCorner, Texture2D _TextureRoomStraight, Texture2D _TextureGround, Texture2D _TextureVoid, Texture2D _TextureRoomDoor, GraphicsDeviceManager _graphics) 
+        public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Dictionary<string, Texture2D> _stageTextures, GraphicsDeviceManager _graphics) 
         {
             this.SetGridCol(_GridCol);
             this.SetGridRow(_GridRow);
             this.SetNumberOfRoom(_NumberOfRoom);
-            this.SetTextureCorner(_TextureRoomCorner);
-            this.SetTextureStraight(_TextureRoomStraight);
-            this.SetTextureGround(_TextureGround);
-            this.SetTextureVoid(_TextureVoid);
-            this.SetTextureDoor(_TextureRoomDoor);
+            stageTextures = _stageTextures;
 
             ResetStage(_graphics);
             GenerateStage();
         }
+
+
 
         /// <summary>
         /// Génère l'étage (crée les salles, les chemins,...)
@@ -177,8 +170,8 @@ namespace RogueProject
             m_GridOfCase = new Case[m_GridCol][];
             
             // Selon la taille de l'écran, calcule pour centrer le quadrillage
-            int GridSizeWidth = m_GridCol * this.m_TextureRoomGround.Width;
-            int GridSizeHeight = this.m_GridRow * this.m_TextureRoomGround.Height;
+            int GridSizeWidth = m_GridCol * this.stageTextures["Ground"].Width;
+            int GridSizeHeight = this.m_GridRow * this.stageTextures["Ground"].Height;
 
             int startX = (_graphics.PreferredBackBufferWidth - GridSizeWidth) / 2;
             int startY = (_graphics.PreferredBackBufferHeight - GridSizeHeight) / 2;
@@ -197,8 +190,8 @@ namespace RogueProject
                             1,
                             null,
                             true,
-                            this.m_TextureVoid,
-                            new Vector2(startX + this.m_TextureRoomGround.Width * i, startY + this.m_TextureRoomGround.Height * j)
+                            this.stageTextures["Void"],
+                            new Vector2(startX + this.stageTextures["Ground"].Width * i, startY + this.stageTextures["Ground"].Height * j)
                         );
                     // Met un filtre de couleur sur les cases
                     m_GridOfCase[i][j].DefaultValue();
@@ -248,7 +241,7 @@ namespace RogueProject
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
                                     true,
-                                    this.m_TextureRoomGround,
+                                    this.stageTextures["Ground"],
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetPosition(),
                                     0,
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetSourceRectangle(),
@@ -266,7 +259,7 @@ namespace RogueProject
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetIsWalkable(),
-                                    this.m_TextureVoid,
+                                    this.stageTextures["Void"],
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetPosition(),
                                     0,
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetSourceRectangle(),
@@ -285,11 +278,11 @@ namespace RogueProject
 
                     if (isCorner)
                     {
-                        textureWall = m_TextureRoomCorner;
+                        textureWall = stageTextures["Corner"];
                     } 
                     else
                     {
-                        textureWall = m_TextureRoomStraight;
+                        textureWall = stageTextures["Wall"];
                     }
                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y] = new Wall(
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
@@ -314,7 +307,7 @@ namespace RogueProject
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetVisibilityLevel(),
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetContent(),
                                     true,
-                                    this.m_TextureRoomDoor,
+                                    this.stageTextures["OpenDoor"],
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetPosition(),
                                     0,
                                     m_GridOfCase[(int)_IndexCase.X][(int)_IndexCase.Y].GetSourceRectangle(),
@@ -536,96 +529,6 @@ namespace RogueProject
         public int getGridRow()
         {
             return this.m_GridRow;
-        }
-
-        /// <summary>
-        /// Change la valeur de m_TextureRoomCorner
-        /// </summary>
-        /// <param name="_TextureCorner">Texture2D étant la nouvelle valeur de m_TextureRoomCorner</param>
-        public void SetTextureCorner(Texture2D _TextureCorner)
-        {
-            this.m_TextureRoomCorner = _TextureCorner;
-        }
-
-        /// <summary>
-        /// Renvoie la valeur de m_TextureRoomCorner
-        /// </summary>
-        /// <returns>un Texture2D représentant la valeur de m_TextureRoomCorner</returns>
-        public Texture2D GetTextureCorner()
-        {
-            return this.m_TextureRoomCorner;
-        }
-
-        /// <summary>
-        /// Change la valeur de m_TextureRoomStraight
-        /// </summary>
-        /// <param name="_TextureStraight">Texture2D étant la nouvelle valeur de m_TextureRoomStraight</param>
-        public void SetTextureStraight(Texture2D _TextureStraight)
-        {
-            this.m_TextureRoomStraight = _TextureStraight;
-        }
-
-        /// <summary>
-        /// Renvoie la valeur de m_TextureRoomStraight
-        /// </summary>
-        /// <returns>un Texture2D représentant la valeur de m_TextureRoomStraight</returns>
-        public Texture2D GetTextureStraight()
-        {
-            return this.m_TextureRoomStraight;
-        }
-
-        /// <summary>
-        /// Change la valeur de m_TextureRoomGround
-        /// </summary>
-        /// <param name="_TextureGround">Texture2D étant la nouvelle valeur de m_TextureRoomGround</param>
-        public void SetTextureGround(Texture2D _TextureGround)
-        {
-            this.m_TextureRoomGround = _TextureGround;
-        }
-
-        /// <summary>
-        /// Renvoie la valeur de m_TextureRoomGround
-        /// </summary>
-        /// <returns>un Texture2D représentant la valeur de m_TextureRoomGround</returns>
-        public Texture2D GetTextureGround()
-        {
-            return this.m_TextureRoomGround;
-        }
-
-        /// <summary>
-        /// Change la valeur de m_TextureVoid
-        /// </summary>
-        /// <param name="_TextureVoid">Texture2D étant la nouvelle valeur de m_TextureVoid</param>
-        public void SetTextureVoid(Texture2D _TextureVoid)
-        {
-            this.m_TextureVoid = _TextureVoid;
-        }
-
-        /// <summary>
-        /// Renvoie la valeur de m_TextureVoid
-        /// </summary>
-        /// <returns>un Texture2D représentant la valeur de m_TextureVoid</returns>
-        public Texture2D GetTextureVoid()
-        {
-            return this.m_TextureVoid;
-        }
-
-        /// <summary>
-        /// Change la valeur de m_TextureRoomDoor
-        /// </summary>
-        /// <param name="_TextureRoomDoor">Texture2D étant la nouvelle valeur de m_TextureRoomDoor</param>
-        public void SetTextureDoor(Texture2D _TextureRoomDoor)
-        {
-            this.m_TextureRoomDoor = _TextureRoomDoor;
-        }
-
-        /// <summary>
-        /// Renvoie la valeur de m_TextureRoomDoor
-        /// </summary>
-        /// <returns>un Texture2D représentant la valeur de m_TextureRoomDoor</returns>
-        public Texture2D GetTextureDoor()
-        {
-            return this.m_TextureRoomDoor;
         }
 
         /// <summary>
