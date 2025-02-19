@@ -48,11 +48,7 @@ namespace RogueProject
         /// <param name="_GridCol">Nombre de colonne du quadrillage</param>
         /// <param name="_GridRow">Nombre de ligne du quadrillage</param>
         /// <param name="_NumberOfRoom">Nombre de Room à générer dans le quadrillage</param>
-        /// <param name="_TextureRoomCorner">Texture des coins de Room</param>
-        /// <param name="_TextureRoomStraight">Texture des murs de Room</param>
-        /// <param name="_TextureGround">Texture des sols des Room</param>
-        /// <param name="_TextureVoid">Texture du Void</param>
-        /// <param name="_TextureRoomDoor">Texture des portes des Rooms</param>
+        /// <param name="_stageTextures">Dictionnaire contenant les textures des différentes cases</param>
         /// <param name="_graphics">Permet d'avoir des informations graphique (taille de l'écran,...)</param>
         public Stage(int _GridCol, int _GridRow, int _NumberOfRoom, Dictionary<string, Texture2D> _stageTextures, GraphicsDeviceManager _graphics) 
         {
@@ -64,8 +60,6 @@ namespace RogueProject
             ResetStage(_graphics);
             GenerateStage();
         }
-
-
 
         /// <summary>
         /// Génère l'étage (crée les salles, les chemins,...)

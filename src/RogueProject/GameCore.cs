@@ -51,10 +51,6 @@ namespace RogueProject
         Room m_Room;
         Stage m_Stage;
 
-        Texture2D m_TextureRoomCorner;
-        Texture2D m_TextureRoomStraight;
-        Texture2D m_TextureRoomDoor;
-        Texture2D m_TextureVoid;
         Texture2D m_TexturePlayer;
 
         Sprite m_TombOfPlayer;
@@ -84,22 +80,6 @@ namespace RogueProject
         {
             // TODO: Add your initialization logic here
             Window.Title = "Abyssal Enigma: Rogue Requiem";
-
-
-
-
-
-            //m_Room = new Room(
-            //    new Vector2(10, 10),
-            //    10,
-            //    12,
-            //    ROOM_TYPE.EMPTY
-            //);
-
-
-
-
-
             base.Initialize();
         }
 
@@ -108,23 +88,15 @@ namespace RogueProject
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Texture2D CaseTex = Content.Load<Texture2D>("groundCaseV1");
-
-            m_TextureRoomCorner = Content.Load<Texture2D>("CornerWallV2");
-            m_TextureRoomStraight = Content.Load<Texture2D>("StraightWallV2");
-            m_TextureRoomDoor = Content.Load<Texture2D>("OpenDoorV1");
-            m_TextureVoid = Content.Load<Texture2D>("VoidCaseV1");
-
             var stageTextures = new Dictionary<string, Texture2D>
             {
-                { "Void", m_TextureVoid },
-                { "Ground", CaseTex }, 
-                { "Corner", m_TextureRoomCorner },
-                { "Wall", m_TextureRoomStraight },
-                { "OpenDoor", m_TextureRoomDoor },
-                { "LockDoor", Content.Load<Texture2D>("LockDoorV1")}
+                { "Void",       Content.Load<Texture2D>("VoidCaseV1")},
+                { "Ground",     Content.Load<Texture2D>("groundCaseV1")}, 
+                { "Corner",     Content.Load<Texture2D>("CornerWallV2")},
+                { "Wall",       Content.Load<Texture2D>("StraightWallV2")},
+                { "OpenDoor",   Content.Load<Texture2D>("OpenDoorV1")},
+                { "LockDoor",   Content.Load<Texture2D>("LockDoorV1")}
             };
-
 
             m_Stage = new Stage(
                 COL_GRID, ROW_GRID,
@@ -160,7 +132,6 @@ namespace RogueProject
                 1,
                 12,
                 1
-
             );
 
             // Calcule la position de l'enemy pour le centrer dans les cases
@@ -176,10 +147,8 @@ namespace RogueProject
 
         protected override void Update(GameTime gameTime)
         {
-
             // Récupère les inputs clavier
             var kstate = Keyboard.GetState();
-
 
             if (kstate.IsKeyDown(Keys.G) && !EnterKeyHold) {
                 Texture2D CaseTex = Content.Load<Texture2D>("groundCase");
@@ -200,7 +169,6 @@ namespace RogueProject
 
                     m_Enemy.Update(gameTime, m_Stage.GetGridOfCase());
                 }
-
 
                 // Permet de récupérer tous les entité sur une case et d'avoir leur position
                 if (kstate.IsKeyDown(Keys.Enter) && !EnterKeyHold)
@@ -226,9 +194,6 @@ namespace RogueProject
                 {
                     for (int i = 0; i <= m_Stage.GetGridOfCase().Length - 1; i++)
                     {
-
-
-
                         for (int j = 0; j <= m_Stage.GetGridOfCase()[i].Length - 1; j++)
                         {
                             Color RandBow = new Color(random.Next(255), random.Next(255), random.Next(255));
@@ -271,7 +236,6 @@ namespace RogueProject
             }
             base.Update(gameTime);
         }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);// Couleur de la fenetre
